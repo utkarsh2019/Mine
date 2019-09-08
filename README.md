@@ -1,6 +1,6 @@
-# Mine
-
 ![Mine Logo](MineLogo.png)
+
+# Mine
 
 ## A central media aggregator for the things _you_ love
 
