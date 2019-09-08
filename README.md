@@ -1,10 +1,8 @@
 ![Mine Logo](MineLogo.png)
 
-# Mine
+# Mine - Media Is Never Easier
 
 ## A central media aggregator for the things _you_ love
-
-## Media Is Never Easier
 
 With the rapid proliferation of online content through an ever-increasing number of online streaming services as well as social networks, it can be hard to find something which one might want to devote their time and attention to. With shorter attention spans and ever tighter schedules, there is a huge trove of online content which vies for our attention at any given time. This ever burgeoning store of online content paradoxically leads to indecisiveness in the minds of users, with an additional tedium of logging in and searching every single online providers’ portals for something which one would want to potentially consume. This is where Mine comes in, acting as a central hub for searching and discovering content which a user might like.
 
