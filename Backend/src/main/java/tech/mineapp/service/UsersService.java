@@ -17,4 +17,11 @@ public class UsersService {
 	public UserDTO createUser(UserDTO newUser) {
 		return newUser;
 	}
+	
+	public UserDTO getUser(long userId) {
+		UserDTO user = new UserDTO();
+		user.setUserId(userId);
+		
+		return user;
+	}
 }

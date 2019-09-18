@@ -6,13 +6,11 @@ import java.net.URL;
 import java.util.List;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=true)
-public class UserResponseModel extends GenericResponseModel {
-	private String UserID;
-	private String emailID;
+public class UserResponseModel implements ResponseModel {
+	private long UserId;
+	private String emailId;
 	private String firstName;
 	private String lastName;
 	private List<String> categoryPreferences;

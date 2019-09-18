@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class UserRequestModel {
-	private String emailID;
+	private String emailId;
 	private String firstName;
 	private String lastName;
 	private String password;
