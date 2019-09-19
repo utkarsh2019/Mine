@@ -16,4 +16,44 @@ public class ContainerResponseModel {
 	private String errorMessage;
 	
 	private ResponseModel responseObject;
+
+	public String getVerb() {
+		return verb;
+	}
+
+	public void setVerb(String verb) {
+		this.verb = verb;
+	}
+
+	public String getEndpoint() {
+		return endpoint;
+	}
+
+	public void setEndpoint(String endpoint) {
+		this.endpoint = endpoint;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public ResponseModel getResponseObject() {
+		return responseObject;
+	}
+
+	public void setResponseObject(ResponseModel responseObject) {
+		this.responseObject = responseObject;
+	}
 }
