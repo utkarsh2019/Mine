@@ -9,5 +9,5 @@ import lombok.Data;
 
 @Data
 public class LoginResponseModel implements ResponseModel {
-	String isLoggedIn;
+	Boolean isLoggedIn;
 }
