@@ -11,7 +11,6 @@ import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.LoginResponseModel;
 import tech.mineapp.model.service.LoginDTO;
 import tech.mineapp.service.LoginService;
-import tech.mineapp.service.UsersService;
 
 /**
  * @author utkarsh
