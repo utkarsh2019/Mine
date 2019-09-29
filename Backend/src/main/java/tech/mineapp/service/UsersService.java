@@ -2,6 +2,10 @@ package tech.mineapp.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +15,8 @@ import tech.mineapp.model.service.UserDTO;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.util.RandomAlphanumericStringGenerator;
 
+import static java.util.Collections.emptyList;
+
 /**
  * Service layer implementation for dealing with all actions
  * related to Users
@@ -18,7 +24,7 @@ import tech.mineapp.util.RandomAlphanumericStringGenerator;
  * @author amolmoses
  */
 @Service
-public class UsersService {
+public class UsersService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -77,5 +83,16 @@ public class UsersService {
 		user.setUserId(userId);
 		
 		return user;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		UserEntity userEntity = userRepository.findUserByEmailId(email);
+		
+		if (userEntity == null) {
+			throw new UsernameNotFoundException(email);
+		} else {
+			return new User(userEntity.getEmailId(), userEntity.getPassword(), emptyList());
+		}
 	}
 }
