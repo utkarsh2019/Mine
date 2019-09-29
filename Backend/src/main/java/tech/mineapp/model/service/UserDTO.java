@@ -14,11 +14,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserDTO {
-	private long UserId;
+	private long userId;
 	private String emailId;
 	private String firstName;
 	private String lastName;
 	private List<String> categoryPreferences;
 	private int numberOfPreviousSearches;
-	private URL profilePicture;
+	private String profilePicture;
+	private Boolean isVerified = false;
 }
