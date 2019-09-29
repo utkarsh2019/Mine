@@ -2,6 +2,7 @@ package tech.mineapp.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tech.mineapp.entity.UserEntity;
@@ -22,6 +23,9 @@ public class UsersService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public UserDTO createUser(UserDTO newUserDTO) {
 
 		validateUserInputForCreation(newUserDTO);
@@ -29,7 +33,7 @@ public class UsersService {
 		UserEntity newUserEntity = new UserEntity();
 		BeanUtils.copyProperties(newUserDTO, newUserEntity);
 
-		newUserEntity.setUserId(generateIdForUser());
+		setEntityProperties(newUserEntity);
 
 		UserEntity savedEntity = userRepository.save(newUserEntity);
 
@@ -39,7 +43,12 @@ public class UsersService {
 		return createdUserDTO;
 	}
 
-	private String generateIdForUser() {
+	public void setEntityProperties(UserEntity newUserEntity) {
+		newUserEntity.setUserId(generateIdForUser());
+		newUserEntity.setPassword(passwordEncoder.encode(newUserEntity.getPassword()));
+	}
+
+	public String generateIdForUser() {
 		String potentialUserId;
 
 		do {
@@ -49,17 +58,17 @@ public class UsersService {
 		return potentialUserId;
 	}
 
-	private void validateUserInputForCreation(UserDTO newUserDTO) {
+	public void validateUserInputForCreation(UserDTO newUserDTO) {
 		if (userAlreadyExists(newUserDTO.getEmailId())) {
 			throw new UserAlreadyExistsException();
 		}
 	}
 
-	private boolean userAlreadyExists(String email) {
+	public boolean userAlreadyExists(String email) {
 		return userRepository.findUserByEmailId(email) != null;
 	}
 
-	private boolean userIdAlreadyExists(String userId) {
+	public boolean userIdAlreadyExists(String userId) {
 		return userRepository.findUserByUserId(userId) != null;
 	}
 	
