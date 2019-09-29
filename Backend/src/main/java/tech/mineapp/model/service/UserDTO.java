@@ -18,6 +18,7 @@ public class UserDTO {
 	private String emailId;
 	private String firstName;
 	private String lastName;
+	private String password;
 	private List<String> categoryPreferences;
 	private int numberOfPreviousSearches;
 	private String profilePicture;

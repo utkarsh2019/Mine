@@ -17,17 +17,16 @@ import java.io.Serializable;
 public class UserEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(nullable = false, unique = true, length = 10)
     private String userId;
-
-    @Column(nullable = false)
-    private String name;
 
     @Column(nullable = false, unique = true)
     private String emailId;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    private String lastName;
 
     @Column(nullable = false)
     private String password;

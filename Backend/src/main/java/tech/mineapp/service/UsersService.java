@@ -8,6 +8,7 @@ import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.UserAlreadyExistsException;
 import tech.mineapp.model.service.UserDTO;
 import tech.mineapp.repository.UserRepository;
+import tech.mineapp.util.RandomAlphanumericStringGenerator;
 
 /**
  * Service layer implementation for dealing with all actions
@@ -20,13 +21,15 @@ public class UsersService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	public UserDTO createUser(UserDTO newUserDTO) {
 
 		validateUserInputForCreation(newUserDTO);
 
 		UserEntity newUserEntity = new UserEntity();
 		BeanUtils.copyProperties(newUserDTO, newUserEntity);
+
+		newUserEntity.setUserId(generateIdForUser());
 
 		UserEntity savedEntity = userRepository.save(newUserEntity);
 
@@ -36,15 +39,28 @@ public class UsersService {
 		return createdUserDTO;
 	}
 
-	private void validateUserInputForCreation(UserDTO newUserDTO) {
+	private String generateIdForUser() {
+		String potentialUserId;
 
+		do {
+			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(10);
+		}while(userIdAlreadyExists(potentialUserId));
+
+		return potentialUserId;
+	}
+
+	private void validateUserInputForCreation(UserDTO newUserDTO) {
 		if (userAlreadyExists(newUserDTO.getEmailId())) {
 			throw new UserAlreadyExistsException();
 		}
 	}
 
-	public boolean userAlreadyExists(String email) {
+	private boolean userAlreadyExists(String email) {
 		return userRepository.findUserByEmailId(email) != null;
+	}
+
+	private boolean userIdAlreadyExists(String userId) {
+		return userRepository.findUserByUserId(userId) != null;
 	}
 	
 	public UserDTO getUser(long userId) {

@@ -9,6 +9,7 @@ import tech.mineapp.entity.UserEntity;
  * for UserEntities
  */
 @Repository
-public interface UserRepository extends CrudRepository<UserEntity, Long> {
+public interface UserRepository extends CrudRepository<UserEntity, String> {
     UserEntity findUserByEmailId(String email);
+    UserEntity findUserByUserId(String userId);
 }
