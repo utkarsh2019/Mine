@@ -6,8 +6,9 @@ package tech.mineapp.model.request;
 import lombok.Data;
 
 /**
- * @author utkarsh
+ * Request model for Login Requests
  *
+ * @author utkarsh
  */
 @Data
 public class LoginRequestModel {

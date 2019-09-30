@@ -16,6 +16,7 @@ import tech.mineapp.repository.UserRepository;
 import tech.mineapp.util.RandomAlphanumericStringGenerator;
 
 import static java.util.Collections.emptyList;
+import static tech.mineapp.constants.Constants.ApplicationConstants.userIdLength;
 
 /**
  * Service layer implementation for dealing with all actions
@@ -58,7 +59,7 @@ public class UsersService implements UserDetailsService {
 		String potentialUserId;
 
 		do {
-			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(10);
+			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(userIdLength);
 		}while(userIdAlreadyExists(potentialUserId));
 
 		return potentialUserId;

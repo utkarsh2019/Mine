@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+import static tech.mineapp.constants.Constants.ApplicationConstants.userIdLength;
+
 /**
  * Entity representing persistent storage
  * of user information
@@ -17,7 +19,7 @@ import java.io.Serializable;
 public class UserEntity implements Serializable {
 
     @Id
-    @Column(nullable = false, unique = true, length = 10)
+    @Column(nullable = false, unique = true, length = userIdLength)
     private String userId;
 
     @Column(nullable = false, unique = true)
