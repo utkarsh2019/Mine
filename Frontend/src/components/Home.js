@@ -1,12 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import './bootstrap.css';
-function App() {
+import logo from '../img/logo.svg';
+import '../css/App.css';
+import '../css/bootstrap.css';
+
+
+const Home = () =>{
   return (
-    <div className="App">
-      
-      
+    <div className="App">  
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <a class="navbar-brand" href="#">Mine</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ function App() {
     </nav>
 
     <div class="main parallax">
-        <img class = "center-block" src={require("./img/minelogo.png")}></img>
+        <img class = "center-block" src={require("../img/minelogo.png")}></img>
     </div>
 
      <div class="about text-center" id="aboutnav">
@@ -44,7 +44,7 @@ function App() {
           <div class="row">
             <div class="col-6">
                 <div class="card" >
-                  <img src={require("./img/pooja.jpg")} class="card-img-top" alt="..."></img>
+                  <img src={require("../img/pooja.jpg")} class="card-img-top" alt="..."></img>
                   <div class="card-body">
                     <h5 class="card-title">Pooja Tewari</h5>
                     <p class="card-text">Front-end developer</p>
@@ -53,7 +53,7 @@ function App() {
             </div>
             <div class="col-6">
                 <div class="card" >
-                  <img src={require("./img/shivangi.jpg")} class="card-img-top" alt="..."></img>
+                  <img src={require("../img/shivangi.jpg")} class="card-img-top" alt="..."></img>
                   <div class="card-body">
                     <h5 class="card-title">Shivangi Chand</h5>
                     <p class="card-text">Front-end developer</p>
@@ -64,7 +64,7 @@ function App() {
           <div class="row">
             <div class="col-6">
                 <div class="card" >
-                  <img src={require("./img/amol.jpg")} class="card-img-top" alt="..."></img>
+                  <img src={require("../img/amol.jpg")} class="card-img-top" alt="..."></img>
                   <div class="card-body">
                     <h5 class="card-title">Amol Jha</h5>
                     <p class="card-text">Back-end developer</p>
@@ -73,7 +73,7 @@ function App() {
             </div>
             <div class="col-6">
                 <div class="card" >
-                  <img src={require("./img/utkarsh.jpg")} class="card-img-top" alt="..."></img>
+                  <img src={require("../img/utkarsh.jpg")} class="card-img-top" alt="..."></img>
                   <div class="card-body">
                     <h5 class="card-title">Utkarsh Agarwal</h5>
                     <p class="card-text">Back-end developer</p>
@@ -119,6 +119,7 @@ function App() {
 
     </div>
   );
-}
 
-export default App;
+} 
+    
+export default Home
