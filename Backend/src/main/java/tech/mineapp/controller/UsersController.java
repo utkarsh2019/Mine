@@ -24,15 +24,15 @@ public class UsersController {
 	@PostMapping("/users")
 	public ContainerResponseModel createUser(@RequestBody UserRequestModel userRequest) {
 		
-		UserDTO userDTO = new UserDTO();
-		BeanUtils.copyProperties(userRequest,userDTO);
-		
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("POST");
 		response.setEndpoint("/api/users/");
 		
 		try {
+			UserDTO userDTO = new UserDTO();
+			BeanUtils.copyProperties(userRequest,userDTO);
+
 			UserDTO createdUser = usersServiceImpl.createUser(userDTO);
 			
 			UserResponseModel userResponse = new UserResponseModel();
@@ -76,6 +76,37 @@ public class UsersController {
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 			
+			return response;
+		}
+	}
+
+	@PutMapping("/users/{userId}")
+	public ContainerResponseModel updateUser(@RequestBody UserRequestModel userRequest,
+											 @PathVariable("userId") String userId) {
+
+		ContainerResponseModel response = new ContainerResponseModel();
+
+		response.setVerb("PUT");
+		response.setEndpoint("/api/users" + userId);
+
+		try {
+			UserDTO userDTO = new UserDTO();
+			BeanUtils.copyProperties(userRequest,userDTO);
+
+			UserDTO updatedUser = usersServiceImpl.updateUser(userId, userDTO);
+
+			UserResponseModel userResponse = new UserResponseModel();
+			BeanUtils.copyProperties(updatedUser, userResponse);
+
+			response.setStatus("SUCCESS");
+			response.setResponseObject(userResponse);
+
+			return response;
+		} catch (Exception e) {
+
+			response.setStatus("FAIL");
+			response.setErrorMessage(e.getMessage());
+
 			return response;
 		}
 	}

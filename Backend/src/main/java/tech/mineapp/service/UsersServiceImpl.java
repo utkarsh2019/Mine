@@ -16,6 +16,8 @@ import tech.mineapp.model.service.UserDTO;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.util.RandomAlphanumericStringGenerator;
 
+import java.util.Arrays;
+
 import static java.util.Collections.emptyList;
 import static tech.mineapp.constants.Constants.ApplicationConstants.userIdLength;
 
@@ -99,8 +101,20 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public UserDTO updateUser(UserDTO updatedUserDTO) {
-		return null;
+	public UserDTO updateUser(String userId, UserDTO updatedUserDTO) {
+		if (!userIdAlreadyExists(userId)) {
+			throw new UserDoesNotExistException();
+		}
+
+		UserEntity existingUserEntity = userRepository.findUserByUserId(userId);
+		BeanUtils.copyProperties(
+				updatedUserDTO,
+				existingUserEntity,
+				"userId");
+		// Ignoring the userId property from the DTO because it will most likely be null
+		userRepository.save(existingUserEntity);
+
+		return updatedUserDTO;
 	}
 
 	@Override
