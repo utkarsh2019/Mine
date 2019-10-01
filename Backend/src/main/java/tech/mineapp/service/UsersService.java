@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.UserAlreadyExistsException;
+import tech.mineapp.exception.UserDoesNotExistException;
 import tech.mineapp.model.service.UserDTO;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.util.RandomAlphanumericStringGenerator;
@@ -79,11 +80,14 @@ public class UsersService implements UserDetailsService {
 		return userRepository.findUserByUserId(userId) != null;
 	}
 	
-	public UserDTO getUser(long userId) {
-		UserDTO user = new UserDTO();
-		user.setUserId(userId);
-		
-		return user;
+	public UserDTO getUser(String userId) {
+		UserDTO userDTO = new UserDTO();
+		UserEntity userEntity = userRepository.findUserByUserId(userId);
+		if (userEntity == null) {
+			throw new UserDoesNotExistException();
+		}
+		BeanUtils.copyProperties(userEntity, userDTO);
+		return userDTO;
 	}
 
 	@Override

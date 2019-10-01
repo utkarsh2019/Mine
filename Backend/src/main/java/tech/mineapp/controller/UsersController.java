@@ -34,7 +34,7 @@ public class UsersController {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("POST");
-		response.setEndpoint("/users/");
+		response.setEndpoint("/api/users/");
 		
 		try {
 			UserDTO createdUser = usersService.createUser(userDTO);
@@ -57,12 +57,12 @@ public class UsersController {
 	}
 	
 	@GetMapping("/users/{userId}")
-	public ContainerResponseModel getUser(@PathVariable("userId") long userId) {
+	public ContainerResponseModel getUser(@PathVariable("userId") String userId) {
 		
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("GET");
-		response.setEndpoint("/users/" + userId);
+		response.setEndpoint("/api/users/" + userId);
 		
 		try {
 			UserDTO user = usersService.getUser(userId);
