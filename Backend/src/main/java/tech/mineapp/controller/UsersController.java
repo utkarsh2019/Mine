@@ -2,17 +2,13 @@ package tech.mineapp.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.UserResponseModel;
 import tech.mineapp.model.service.UserDTO;
-import tech.mineapp.service.UsersService;
+import tech.mineapp.service.UsersServiceImpl;
 
 /**
  * The main controller for the /users endpoint
@@ -23,7 +19,7 @@ import tech.mineapp.service.UsersService;
 public class UsersController { 
 	
 	@Autowired
-	private UsersService usersService;
+	private UsersServiceImpl usersServiceImpl;
 		
 	@PostMapping("/users")
 	public ContainerResponseModel createUser(@RequestBody UserRequestModel userRequest) {
@@ -37,7 +33,7 @@ public class UsersController {
 		response.setEndpoint("/api/users/");
 		
 		try {
-			UserDTO createdUser = usersService.createUser(userDTO);
+			UserDTO createdUser = usersServiceImpl.createUser(userDTO);
 			
 			UserResponseModel userResponse = new UserResponseModel();
 			BeanUtils.copyProperties(createdUser, userResponse);
@@ -65,7 +61,7 @@ public class UsersController {
 		response.setEndpoint("/api/users/" + userId);
 		
 		try {
-			UserDTO user = usersService.getUser(userId);
+			UserDTO user = usersServiceImpl.getUser(userId);
 			
 			UserResponseModel userResponse = new UserResponseModel();
 			BeanUtils.copyProperties(user, userResponse);
@@ -80,6 +76,29 @@ public class UsersController {
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 			
+			return response;
+		}
+	}
+
+	@DeleteMapping("/users/{userId}")
+	public ContainerResponseModel removeUser(@PathVariable("userId") String userId) {
+
+		ContainerResponseModel response = new ContainerResponseModel();
+
+		response.setVerb("DELETE");
+		response.setEndpoint("/api/users/" + userId);
+
+		try {
+			usersServiceImpl.removeUser(userId);
+
+			response.setStatus("SUCCESS");
+
+			return response;
+		} catch (Exception e) {
+
+			response.setStatus("FAIL");
+			response.setErrorMessage(e.getMessage());
+
 			return response;
 		}
 	}
