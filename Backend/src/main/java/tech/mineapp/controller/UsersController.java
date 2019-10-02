@@ -2,17 +2,13 @@ package tech.mineapp.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.UserResponseModel;
 import tech.mineapp.model.service.UserDTO;
-import tech.mineapp.service.UsersService;
+import tech.mineapp.service.UsersServiceImplementation;
 
 /**
  * The main controller for the /users endpoint
@@ -23,13 +19,10 @@ import tech.mineapp.service.UsersService;
 public class UsersController { 
 	
 	@Autowired
-	private UsersService usersService;
+	private UsersServiceImplementation usersService;
 		
 	@PostMapping("/users")
 	public ContainerResponseModel createUser(@RequestBody UserRequestModel userRequest) {
-		
-		UserDTO userDTO = new UserDTO();
-		BeanUtils.copyProperties(userRequest,userDTO);
 		
 		ContainerResponseModel response = new ContainerResponseModel();
 		
@@ -37,6 +30,9 @@ public class UsersController {
 		response.setEndpoint("/api/users/");
 		
 		try {
+			UserDTO userDTO = new UserDTO();
+			BeanUtils.copyProperties(userRequest,userDTO);
+
 			UserDTO createdUser = usersService.createUser(userDTO);
 			
 			UserResponseModel userResponse = new UserResponseModel();
@@ -80,6 +76,60 @@ public class UsersController {
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 			
+			return response;
+		}
+	}
+
+	@PutMapping("/users/{userId}")
+	public ContainerResponseModel updateUser(@RequestBody UserRequestModel userRequest,
+											 @PathVariable("userId") String userId) {
+
+		ContainerResponseModel response = new ContainerResponseModel();
+
+		response.setVerb("PUT");
+		response.setEndpoint("/api/users" + userId);
+
+		try {
+			UserDTO userDTO = new UserDTO();
+			BeanUtils.copyProperties(userRequest,userDTO);
+
+			UserDTO updatedUser = usersService.updateUser(userId, userDTO);
+
+			UserResponseModel userResponse = new UserResponseModel();
+			BeanUtils.copyProperties(updatedUser, userResponse);
+
+			response.setStatus("SUCCESS");
+			response.setResponseObject(userResponse);
+
+			return response;
+		} catch (Exception e) {
+
+			response.setStatus("FAIL");
+			response.setErrorMessage(e.getMessage());
+
+			return response;
+		}
+	}
+
+	@DeleteMapping("/users/{userId}")
+	public ContainerResponseModel removeUser(@PathVariable("userId") String userId) {
+
+		ContainerResponseModel response = new ContainerResponseModel();
+
+		response.setVerb("DELETE");
+		response.setEndpoint("/api/users/" + userId);
+
+		try {
+			usersService.removeUser(userId);
+
+			response.setStatus("SUCCESS");
+
+			return response;
+		} catch (Exception e) {
+
+			response.setStatus("FAIL");
+			response.setErrorMessage(e.getMessage());
+
 			return response;
 		}
 	}

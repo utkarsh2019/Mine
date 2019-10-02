@@ -45,10 +45,17 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String token = req.getHeader(HEADER_STRING);
 
         if (token != null) {
-            String parsedToken = JWT.require(Algorithm.HMAC512(SECRET.getBytes())).build().verify(token.replace(TOKEN_PREFIX, "")).getSubject();
+            String parsedToken = JWT.require(
+                    Algorithm.HMAC512(SECRET.getBytes()))
+                    .build()
+                    .verify(token.replace(TOKEN_PREFIX, ""))
+                    .getSubject();
 
             if (parsedToken != null) {
-                return new UsernamePasswordAuthenticationToken(parsedToken, null, Collections.emptyList());
+                return new UsernamePasswordAuthenticationToken(
+                        parsedToken,
+                        null,
+                        Collections.emptyList());
             }
         }
 
