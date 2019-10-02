@@ -25,23 +25,21 @@ import static tech.mineapp.constants.Constants.ApplicationConstants.userIdLength
 public class UserEntity implements Serializable {
 
     @Id
-    @Column(nullable = false, unique = true, length = userIdLength)
-    private String userId;
+    @Column(nullable = false, unique = true)
+    private Long userId;
 
     @Email
     @Column(nullable = false, unique = true)
-    private String emailId;
+    private String email;
 
     @Column(nullable = false)
-    private String firstName;
-
-    private String lastName;
+    private String name;
 
     @JsonIgnore
     @Column
     private String password;
 
-    private String profilePicURL;
+    private String profilePicUrl;
 
     @Column(nullable = false)
     private Boolean isVerified = false;

@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class RandomAlphanumericStringGenerator {
 
-    private final static String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    private final static String ALPHANUMERIC = "1234567890";
     private final static Random random = new Random();
 
     /**

@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package tech.mineapp.model.request;
 
 import javax.validation.constraints.Email;
@@ -6,17 +9,15 @@ import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
- * Represents an input request for a user
- * 
- * @author amolmoses, utkarsh
+ * Request model for Auth Requests
+ *
+ * @author utkarsh
  */
 @Data
-public class UserRequestModel {
+public class AuthRequestModel {
 	@NotBlank
 	@Email
 	private String email;
-	@NotBlank
-	private String name;
 	@NotBlank
 	private String password;
 }
