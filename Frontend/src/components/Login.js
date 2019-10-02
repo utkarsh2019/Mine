@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import logo from '../img/logo.svg';
-import '../css/home.css';
+import '../css/login.css';
 import '../css/bootstrap.css';
 
 
-export default class Home extends Component{
+export default class Login extends Component{
 
   render () {
     return (
