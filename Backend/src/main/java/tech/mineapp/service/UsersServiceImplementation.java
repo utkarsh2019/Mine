@@ -28,7 +28,7 @@ import static tech.mineapp.constants.Constants.ApplicationConstants.userIdLength
  * @author amolmoses
  */
 @Service
-public class UsersServiceImpl implements UsersService {
+public class UsersServiceImplementation implements UsersService {
 
 	@Autowired
 	private UserRepository userRepository;

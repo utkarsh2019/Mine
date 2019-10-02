@@ -8,7 +8,7 @@ import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.UserResponseModel;
 import tech.mineapp.model.service.UserDTO;
-import tech.mineapp.service.UsersServiceImpl;
+import tech.mineapp.service.UsersServiceImplementation;
 
 /**
  * The main controller for the /users endpoint
@@ -19,7 +19,7 @@ import tech.mineapp.service.UsersServiceImpl;
 public class UsersController { 
 	
 	@Autowired
-	private UsersServiceImpl usersServiceImpl;
+	private UsersServiceImplementation usersService;
 		
 	@PostMapping("/users")
 	public ContainerResponseModel createUser(@RequestBody UserRequestModel userRequest) {
@@ -33,7 +33,7 @@ public class UsersController {
 			UserDTO userDTO = new UserDTO();
 			BeanUtils.copyProperties(userRequest,userDTO);
 
-			UserDTO createdUser = usersServiceImpl.createUser(userDTO);
+			UserDTO createdUser = usersService.createUser(userDTO);
 			
 			UserResponseModel userResponse = new UserResponseModel();
 			BeanUtils.copyProperties(createdUser, userResponse);
@@ -61,7 +61,7 @@ public class UsersController {
 		response.setEndpoint("/api/users/" + userId);
 		
 		try {
-			UserDTO user = usersServiceImpl.getUser(userId);
+			UserDTO user = usersService.getUser(userId);
 			
 			UserResponseModel userResponse = new UserResponseModel();
 			BeanUtils.copyProperties(user, userResponse);
@@ -93,7 +93,7 @@ public class UsersController {
 			UserDTO userDTO = new UserDTO();
 			BeanUtils.copyProperties(userRequest,userDTO);
 
-			UserDTO updatedUser = usersServiceImpl.updateUser(userId, userDTO);
+			UserDTO updatedUser = usersService.updateUser(userId, userDTO);
 
 			UserResponseModel userResponse = new UserResponseModel();
 			BeanUtils.copyProperties(updatedUser, userResponse);
@@ -120,7 +120,7 @@ public class UsersController {
 		response.setEndpoint("/api/users/" + userId);
 
 		try {
-			usersServiceImpl.removeUser(userId);
+			usersService.removeUser(userId);
 
 			response.setStatus("SUCCESS");
 
