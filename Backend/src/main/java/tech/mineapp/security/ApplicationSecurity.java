@@ -8,15 +8,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import tech.mineapp.service.UsersService;
+import tech.mineapp.service.UsersServiceImplementation;
 
 @EnableWebSecurity
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	
-	private final UsersService userService;
+	private final UsersServiceImplementation userService;
 	private final PasswordEncoder passwordEncoder;
 	
-	public ApplicationSecurity(UsersService userService, PasswordEncoder passwordEncoder) {
+	public ApplicationSecurity(UsersServiceImplementation userService, PasswordEncoder passwordEncoder) {
 		this.userService = userService;
 		this.passwordEncoder = passwordEncoder;
 	}
