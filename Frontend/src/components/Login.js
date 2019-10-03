@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import logo from '../img/minelogo.png';
 import '../css/login.css';
 import '../css/bootstrap.css';
-
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL} from './../constants';
 
 export default class Login extends Component{
 
   render () {
     return (
-      <div className="App">  
+      <div>  
         <div class="container-fluid" >
 
             <div class="row regcontain" id="regid">
@@ -35,6 +35,15 @@ export default class Login extends Component{
                         <button type="button" class="btn btn-primary">Login</button>
 
                     </form>
+
+
+                    <div className="social-login">
+                <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                    <img src={'./../img/google-logo.png'} alt="Google" /> Log in with Google</a>
+                <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+                    <img src={'./../img/fb-logo.png'} alt="Facebook" /> Log in with Facebook</a>
+                
+            </div>
                     </div>
                 </div>
             </div>
@@ -46,5 +55,9 @@ export default class Login extends Component{
       </footer>
     </div>
     );
+  }
+
+  componentDidMount(){
+    document.body.className = 'bodyLogin'
   }
 } 
