@@ -22,6 +22,7 @@ import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.security.oauth2.user.OAuth2UserInfo;
 import tech.mineapp.security.oauth2.user.OAuth2UserInfoFactory;
+import tech.mineapp.service.UserService;
 
 /**
  * @author utkarsh
@@ -32,6 +33,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private UserService userService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -72,7 +76,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private UserEntity registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         UserEntity user = new UserEntity();
-
+        
+        user.setUserId(userService.generateIdForUser());
         user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
         user.setProviderId(oAuth2UserInfo.getId());
         user.setName(oAuth2UserInfo.getName());
