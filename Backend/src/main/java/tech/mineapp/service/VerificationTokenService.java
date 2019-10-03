@@ -1,8 +1,13 @@
 package tech.mineapp.service;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static tech.mineapp.constants.Constants.VerificationConstants.URL_EXPIRATION_TIME;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.entity.VerificationTokenEntity;
 import tech.mineapp.exception.UserDoesNotExistException;
@@ -21,6 +26,13 @@ public class VerificationTokenService {
 	@Autowired
 	private VerificationTokenRepository tokenRepository;
 	
+	private Date calculateExpiryDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Timestamp(cal.getTime().getTime()));
+        cal.add(Calendar.MINUTE, URL_EXPIRATION_TIME);
+        return new Date(cal.getTime().getTime());
+    }
+	
 	public void createVerificationToken(UserEntity user, String token) {
     	if (!userService.userIdAlreadyExists(user.getUserId())) {
     		throw new UserDoesNotExistException();
@@ -29,6 +41,7 @@ public class VerificationTokenService {
     	VerificationTokenEntity myToken = new VerificationTokenEntity();
     	myToken.setToken(token);
     	myToken.setUser(user);
+    	myToken.setExpiryDate(calculateExpiryDate());
         tokenRepository.save(myToken);
     }
 	
