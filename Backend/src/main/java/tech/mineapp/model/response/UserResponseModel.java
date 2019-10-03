@@ -3,19 +3,21 @@ package tech.mineapp.model.response;
 import java.util.List;
 
 import lombok.Data;
+import tech.mineapp.constants.AuthProvider;
 
 /**
  * Response Model representing User Details
  *
- * @author amolmoses
+ * @author amolmoses, utkarsh
  */
 @Data
 public class UserResponseModel implements ResponseModel {
-	private long UserId;
-	private String emailId;
-	private String firstName;
-	private String lastName;
-	private List<String> categoryPreferences;
-	private int numberOfPreviousSearches;
-	private String profilePicture;
+//	private long userId;
+	private String email;
+	private String name;
+	private Boolean isVerified;
+//	private List<String> categoryPreferences;
+//	private int numberOfPreviousSearches;
+	private String profilePicURL;
+//	private AuthProvider provider;
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static tech.mineapp.constants.Constants.ApplicationConstants.*;
+
+import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.repository.UserRepository;
@@ -47,9 +49,9 @@ public class UserService implements UserDetailsService {
     public Long generateIdForUser() {
 		String potentialUserId;
 
-//		do {
+		do {
 			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(userIdLength);
-//		}while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
+		} while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
 
 		return Long.parseLong(potentialUserId);
 	}
@@ -57,4 +59,8 @@ public class UserService implements UserDetailsService {
     public boolean userIdAlreadyExists(Long userId) {
 		return userRepository.findUserByUserId(userId) != null;
 	}
+    
+    public boolean isLocalUser(UserEntity user) {
+    	return user.getProvider() == AuthProvider.local;
+    }
 }

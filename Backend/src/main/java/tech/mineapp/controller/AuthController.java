@@ -21,7 +21,7 @@ import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.BadRequestException;
 import tech.mineapp.model.request.AuthRequestModel;
-import tech.mineapp.model.request.UserRequestModel;
+import tech.mineapp.model.request.SignupRequestModel;
 import tech.mineapp.model.response.ApiResponse;
 import tech.mineapp.model.response.AuthResponseModel;
 import tech.mineapp.repository.UserRepository;
@@ -68,17 +68,17 @@ public class AuthController {
     }
     
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRequestModel userRequest) {
-        if(userRepository.existsByEmail(userRequest.getEmail())) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestModel signupRequest) {
+        if(userRepository.existsByEmail(signupRequest.getEmail())) {
             throw new BadRequestException("Email address already in use.");
         }
 
         // Creating user's account
         UserEntity user = new UserEntity();
         user.setUserId(userService.generateIdForUser());
-        user.setName(userRequest.getName());
-        user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword());
+        user.setName(signupRequest.getName());
+        user.setEmail(signupRequest.getEmail());
+        user.setPassword(signupRequest.getPassword());
         user.setProvider(AuthProvider.local);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

@@ -4,27 +4,19 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
-import tech.mineapp.constants.AuthProvider;
 
 /**
- * @author utkarsh
- *
+ * Represents an input request for a user
+ * 
+ * @author amolmoses, utkarsh
  */
 @Data
-public class UserRequestModel {
+public class SignupRequestModel {
 	@NotBlank
 	@Email
 	private String email;
-	
 	@NotBlank
 	private String name;
-	
-	private String profilePicUrl;
-	
-//	@NotBlank
-//	private AuthProvider provider;
-	
 	@NotBlank
-	private Boolean isVerified;
-
+	private String password;
 }

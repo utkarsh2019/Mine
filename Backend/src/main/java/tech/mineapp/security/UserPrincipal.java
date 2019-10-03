@@ -51,6 +51,16 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     }
 
     @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
@@ -80,17 +90,8 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         return attributes;
     }
 
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
-    }
-
     @Override
     public String getName() {
-    	return String.valueOf(userId);
+        return String.valueOf(userId);
     }
-
-	@Override
-	public String getUsername() {
-		return null;
-	}
 }
