@@ -11,7 +11,7 @@ import { ACCESS_TOKEN } from './constants/index';
 import PrivateRoute from './common/PrivateRoute';
 import AppHeader from './common/AppHeader';
 import NotFound from './common/NotFound';
-
+import Edit from './components/Edit'
 
 
 export default class App extends Component {
@@ -63,19 +63,18 @@ export default class App extends Component {
   render () {
   return (
     <div className="app">
-      <div className="app-top-box">
-        <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout} />
-      </div>
-      <div className="app-body">
+      <div>
         <Switch>
           <Route exact path="/" component={Home}></Route>           
-          <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
-            component={Profile}></PrivateRoute>
           <Route path="/login"
             render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/register"
             render={(props) => <Register authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
+          <Route path="/profile"
+            render={(props) => <Profile authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/edit"
+            render={(props) => <Edit authenticated={this.state.authenticated} {...props} />}></Route>
           <Route component={NotFound}></Route>
         </Switch>
       </div>

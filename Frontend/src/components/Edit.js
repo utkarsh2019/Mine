@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import '../css/bootstrap.css';
-import '../css/Profile.css';
+import '../css/Edit.css';
 
-export default class Profile extends Component {
+export default class Edit extends Component {
  render (){
   return (
-    <div className="Profile">  
+    <div className="Edit">  
       <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><img src={require("./../img/minelogo.png")} width="50" height="50" class="d-inline-block" alt=""></img>Mine</a>
@@ -39,14 +39,14 @@ export default class Profile extends Component {
       <div className="row">
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
-          <h2>Account</h2>
+          <h2>Edit Profile</h2>
           <hr></hr>
           <div className="row">
             <div className="col-sm-4">
-              <h5>MY PROFILE</h5>
+              <h5>PROFILE</h5>
             </div>
             <div className="col-sm-8">
-              <p><b>Name:Name of the User</b></p>
+              <p><b>Names</b></p>
               <p>Email:Email Address of the User</p>
               <hr></hr>
               <img src={require("./../img/profile.png")} height="75" width="75"></img>

@@ -1,0 +1,25 @@
+.Edit{
+    text-align: center;
+    background-color: whitesmoke;
+    }
+    
+    .bodyProfile{
+        background-color: whitesmoke;
+    }
+    
+    nav{
+        margin: 2px 4px;
+        background-color: black;
+    }
+    
+    footer {
+        padding:3% 2%;
+        color:black;
+    }
+    
+    .imgsize{
+        display: inline-block;
+        max-width: 20%;
+        height: auto;
+    }
+    
