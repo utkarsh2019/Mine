@@ -12,22 +12,22 @@ class AppHeader extends Component {
                     </div>
                     <div className="app-options">
                         <nav className="app-nav">
-                                { this.props.authenticated ? (
+                            {this.props.authenticated ? (
+                                <ul>
+                                    <li>
+                                        <NavLink to="/profile">Profile</NavLink>
+                                    </li>
+                                    <li>
+                                        <a onClick={this.props.onLogout}>Logout</a>
+                                    </li>
+                                </ul>
+                            ) : (
                                     <ul>
                                         <li>
-                                            <NavLink to="/profile">Profile</NavLink>
+                                            <NavLink to="/login">Login</NavLink>
                                         </li>
                                         <li>
-                                            <a onClick={this.props.onLogout}>Logout</a>
-                                        </li>
-                                    </ul>
-                                ): (
-                                    <ul>
-                                        <li>
-                                            <NavLink to="/login">Login</NavLink>        
-                                        </li>
-                                        <li>
-                                            <NavLink to="/register">Signup</NavLink>        
+                                            <NavLink to="/register">Signup</NavLink>
                                         </li>
                                     </ul>
                                 )}

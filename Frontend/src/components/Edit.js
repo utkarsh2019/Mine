@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import '../css/bootstrap.css';
-import '../css/Profile.css';
+import '../css/Edit.css';
 
-export default class Profile extends Component {
+export default class Edit extends Component {
  render (){
   return (
-    <div className="Profile">  
+    <div className="Edit">  
       <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><img src={require("./../img/minelogo.png")} width="50" height="50" class="d-inline-block" alt=""></img>Mine</a>
@@ -36,20 +36,33 @@ export default class Profile extends Component {
         <br></br>
         <br></br>
       </div>
-      <div className="row">
+      <div className="row"> 
         <div className="col-sm-2"></div>
         <div className="col-sm-8">
-          <h2>Account</h2>
+          <h2>Edit Profile</h2>
           <hr></hr>
           <div className="row">
             <div className="col-sm-4">
-              <h5>MY PROFILE</h5>
+              <h5>PROFILE</h5>
             </div>
             <div className="col-sm-8">
-              <p><b>Name:Name of the User</b></p>
-              <p>Email:Email Address of the User</p>
+                <div class="form-group">
+                    <label for="nameinput">Name</label>
+                    <input type="text" class="form-control" id="nameinput"></input>
+                </div>              
+                <div class="form-group">
+                        <label for="emailinput">Email address</label>
+                        <input type="email" class="form-control" id="emailinput"></input>
+                </div>
+                <div class="form-group">
+                        <label for="passwordinput" align="right">Password</label>
+                        <a class="align-right" href="#">Change Password</a>
+                </div>
               <hr></hr>
+              <div class="form-group">
               <img src={require("./../img/profile.png")} height="75" width="75"></img>
+              <span class="align-right"><input type="file" class= "form-control-file" id="exampleFormControlFile1"></input></span>
+              </div>
             </div>
           </div>
           <hr></hr>
@@ -67,20 +80,36 @@ export default class Profile extends Component {
                 <li class="list-group-item">Audio</li>
               </ul>
               <hr></hr>
-              <p><b>Number of Searches Displayed:3</b></p>
+              <div class = "row">
+              <p><b>Number of Searches Displayed</b></p>
+              <br></br>
+              <br></br>
+              <br></br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"></input>
+                <label class="form-check-label" for="inlineRadio1">1</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"></input>
+                <label class="form-check-label" for="inlineRadio2">3</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"></input>
+                <label class="form-check-label" for="inlineRadio3">5</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"></input>
+                <label class="form-check-label" for="inlineRadio3">7</label>
+              </div>
+              </div>
             </div>
           </div>
           <hr></hr>
           <br></br>
           <br></br>
           <div className="row">
-          <div className="col-sm-6 text-center  ">
-          <button type="button" class="btn btn-primary">Edit</button>
+          <button type="button" class="btn btn-primary">Update</button>
           </div>
-          <div className="col-sm-6 text-center">
-          <button type="button" class="btn btn-danger">Delete</button>
-          </div>
-        </div>
         <br></br>
         <br></br>
         </div>

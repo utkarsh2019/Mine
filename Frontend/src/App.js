@@ -12,7 +12,7 @@ import { ACCESS_TOKEN } from './constants/index';
 import PrivateRoute from './common/PrivateRoute';
 import AppHeader from './common/AppHeader';
 import NotFound from './common/NotFound';
-
+import Edit from './components/Edit'
 
 
 export default class App extends Component {
@@ -63,12 +63,10 @@ export default class App extends Component {
 
   render () {
   return (
-    <div className="app">
-      
+    <div className="app">    
       <div className="app-body">
         <Switch>
           <Route exact path="/" component={Home}></Route>           
-        
           <Route path="/login"
             render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/signup"
@@ -76,6 +74,10 @@ export default class App extends Component {
           <Route path="/forgotpassword"
             render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
+          <Route path="/profile"
+            render={(props) => <Profile authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/edit"
+            render={(props) => <Edit authenticated={this.state.authenticated} {...props} />}></Route>
           <Route component={NotFound}></Route>
         </Switch>
       </div>
