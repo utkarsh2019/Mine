@@ -16,10 +16,9 @@ export default class Login extends Component{
         userdata.email = document.getElementById("emailinput").value;
         userdata.password = document.getElementById("passwordinput").value;
 
-        let url='http://localhost:8080/auth/login';
-
         axios({
             method:'post',
+            url:'http://localhost:8080/auth/login',
             data:{
                 email:userdata.email,
                 password:userdata.password,
