@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from './components/Home';
 import Profile from './components/Profile';
-import Register from './components/Register';
+import Signup from './components/Signup';
 import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword';
 import OAuth2RedirectHandler from './oauth2/OAuth2RedirectHandler';
 import { getCurrentUser } from './util/APIUtils';
 import Alert from 'react-s-alert';
@@ -62,14 +63,16 @@ export default class App extends Component {
 
   render () {
   return (
-    <div className="app">
-      <div>
+    <div className="app">    
+      <div className="app-body">
         <Switch>
           <Route exact path="/" component={Home}></Route>           
           <Route path="/login"
             render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
-          <Route path="/register"
-            render={(props) => <Register authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/signup"
+            render={(props) => <Signup authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/forgotpassword"
+            render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
           <Route path="/profile"
             render={(props) => <Profile authenticated={this.state.authenticated} {...props} />}></Route>
