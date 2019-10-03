@@ -3,14 +3,11 @@ package tech.mineapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import tech.mineapp.config.AppProperties;
+import tech.mineapp.config.AppPropertiesConfig;
 
 @SpringBootApplication
-@EnableConfigurationProperties(AppProperties.class)
+@EnableConfigurationProperties(AppPropertiesConfig.class)
 public class BackendApplication {
 
 	public static void main(String[] args) {

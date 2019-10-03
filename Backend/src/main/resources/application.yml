@@ -14,6 +14,21 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    mail:
+        host: smtp.gmail.com
+        port: 465
+        protocol: smtps
+        username: mineapp.tech@gmail.com
+        password: mineapp123
+        properties:
+            mail:
+                transport:
+                    protocol: smtps
+                smtps:
+                    auth: true
+                    starttls:
+                        enable: true
+                    timeout: 8000
     security:
       oauth2:
         client:

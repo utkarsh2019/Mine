@@ -11,7 +11,9 @@ import static tech.mineapp.constants.Constants.ApplicationConstants.*;
 
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
+import tech.mineapp.entity.VerificationTokenEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
+import tech.mineapp.exception.UserDoesNotExistException;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.util.RandomAlphanumericStringGenerator;
@@ -24,7 +26,7 @@ import tech.mineapp.util.RandomAlphanumericStringGenerator;
 public class UserService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     @Transactional
@@ -49,9 +51,9 @@ public class UserService implements UserDetailsService {
     public Long generateIdForUser() {
 		String potentialUserId;
 
-		do {
+//		do {
 			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(userIdLength);
-		} while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
+//		} while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
 
 		return Long.parseLong(potentialUserId);
 	}

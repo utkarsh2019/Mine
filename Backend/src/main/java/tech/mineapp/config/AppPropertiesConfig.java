@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @ConfigurationProperties(prefix = "app")
 @Data
-public class AppProperties {
+public class AppPropertiesConfig {
 	private final Auth auth = new Auth();
     private final OAuth2 oauth2 = new OAuth2();
 

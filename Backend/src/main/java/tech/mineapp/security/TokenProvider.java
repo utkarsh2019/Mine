@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.*;
-import tech.mineapp.config.AppProperties;
+import tech.mineapp.config.AppPropertiesConfig;
 
 /**
  * @author utkarsh
@@ -20,9 +20,9 @@ public class TokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
-    private AppProperties appProperties;
+    private AppPropertiesConfig appProperties;
 
-    public TokenProvider(AppProperties appProperties) {
+    public TokenProvider(AppPropertiesConfig appProperties) {
         this.appProperties = appProperties;
     }
 

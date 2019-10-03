@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import tech.mineapp.config.AppProperties;
+import tech.mineapp.config.AppPropertiesConfig;
 import tech.mineapp.exception.BadRequestException;
 
 import static tech.mineapp.constants.Constants.HttpCookieOAuth2AuthConstants.REDIRECT_URI_PARAM_COOKIE_NAME;
@@ -31,13 +31,13 @@ public class OAuth2AuthenticationSuccessHandler  extends SimpleUrlAuthentication
 
     private TokenProvider tokenProvider;
 
-    private AppProperties appProperties;
+    private AppPropertiesConfig appProperties;
 
     private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
 
     @Autowired
-    OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider, AppProperties appProperties,
+    OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider, AppPropertiesConfig appProperties,
                                        HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
         this.tokenProvider = tokenProvider;
         this.appProperties = appProperties;
