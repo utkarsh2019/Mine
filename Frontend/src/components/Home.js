@@ -18,6 +18,7 @@ export default class Home extends Component{
           <div class="navbar-nav">
             <a class="nav-item nav-link" href="#aboutnav">About</a>
             <a class="nav-item nav-link" href="#teamnav">Team</a>
+            <a class="nav-item nav-link" href="#">Contact</a>
           </div>
         </div>
         <ul class="nav justify-content-end">

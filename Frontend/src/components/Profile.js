@@ -14,9 +14,9 @@ export default class Profile extends Component {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-item nav-link" href="#aboutnav">Home</a>
-            <a class="nav-item nav-link" href="#teamnav">Trending</a>
-            <a class="nav-item nav-link" href="#teamnav">Search</a>
+            <a class="nav-item nav-link">Home</a>
+            <a class="nav-item nav-link">Trending</a>
+            <a class="nav-item nav-link">Search</a>
 
           </div>
         </div>
