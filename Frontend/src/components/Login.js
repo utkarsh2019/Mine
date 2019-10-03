@@ -3,8 +3,37 @@ import logo from '../img/minelogo.png';
 import '../css/login.css';
 import '../css/bootstrap.css';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL} from './../constants';
+import axios from 'axios';
 
 export default class Login extends Component{
+
+    constructor(props) {
+        super(props);
+      }
+
+    login = () =>{
+        let userdata = {};
+        userdata.email = document.getElementById("emailinput").value;
+        userdata.password = document.getElementById("passwordinput").value;
+
+        let url='http://localhost:8080/auth/login';
+
+        axios({
+            method:'post',
+            data:{
+                email:userdata.email,
+                password:userdata.password,
+            }
+        })
+        .then(function (response) {
+            alert(response.data);
+
+        })
+        .catch(function (error) {
+            alert(error);
+        });
+
+    }
 
   render () {
     return (
@@ -23,8 +52,8 @@ export default class Login extends Component{
                         <hr></hr>
                        
                         <div class="form-group">
-                        <label for="usernameinput">Username</label>
-                        <input type="text" class="form-control" id="usernameinput" placeholder="Enter username"></input>
+                        <label for="usernameinput">Email</label>
+                        <input type="email" class="form-control" id="emailinput" placeholder="name@example.com"></input>
                         </div>
                         
                         <div class="form-group">
@@ -35,7 +64,7 @@ export default class Login extends Component{
                         <br></br>
                         <br></br>
                         <div class="text-center">
-                            <button type="button" class="btn btn-primary">Login</button>
+                            <button type="button" class="btn btn-primary" onClick={this.login}>Login</button>
                         </div>
                     </form>
 
