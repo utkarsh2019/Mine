@@ -33,7 +33,7 @@ export default class Signup extends Component{
     
             })
             .catch(function (error) {
-                alert(error + '1');
+                alert(error);
             });
       };
 
@@ -100,3 +100,5 @@ export default class Signup extends Component{
     document.body.className = 'bodySignup'
   }
 } 
+
+//Regex and checking if the passwords remain along with error handling for this part
