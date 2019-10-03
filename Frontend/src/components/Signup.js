@@ -14,7 +14,7 @@ export default class Signup extends Component{
     
       register = ()=> {
         let userdata = {};
-        userdata.emailId = document.getElementById("emailinput").value;
+        userdata.email = document.getElementById("emailinput").value;
         userdata.name = document.getElementById("nameinput").value;
         userdata.password = document.getElementById("passwordinput").value;
     
@@ -22,7 +22,7 @@ export default class Signup extends Component{
             method:'post',
             url:'http://localhost:8080/auth/signup',
             data:{
-                emailId:userdata.emailId,
+                email:userdata.email,
                 name:userdata.name,
                 password:userdata.password,
             }
