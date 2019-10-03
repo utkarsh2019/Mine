@@ -1,5 +1,5 @@
 
-.register{
+.signup{
 	color: black;
 	width: 500px;
 	height: auto;
@@ -23,7 +23,7 @@
     opacity: 100%;
 }
 
-.bodyRegister{
+.bodySignup{
 	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),url("https://images.pexels.com/photos/953214/pexels-photo-953214.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&fbclid=IwAR0R_YxnylxRa0tsBU3uSkZ85NPKdjozVbzi5ne7gvycNdHsl-_KDgw6mHk");
 	background-attachment: fixed;
   	background-position: center;

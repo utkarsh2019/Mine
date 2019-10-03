@@ -18,7 +18,7 @@ footer {
 }
 
 .imgsize{
-    align-items: left;
-    height: 3%;
-    width: 3%;
+    display: inline-block;
+    max-width: 20%;
+    height: auto;
 }

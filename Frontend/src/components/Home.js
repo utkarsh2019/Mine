@@ -2,36 +2,53 @@ import React, {Component} from 'react';
 import logo from '../img/logo.svg';
 import '../css/home.css';
 import '../css/bootstrap.css';
+import Loader from 'react-loader-spinner';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 
 export default class Home extends Component{
 
   render () {
     return (
+      
       <div className="App">  
-      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="#">Mine</a>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top container-fluid">
+        <a class="navbar-brand" href="#"><img src={require("./../img/minelogo.png")} width="50" height="50" class="d-inline-block" alt=""></img>Mine</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class=" navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <a class="nav-item nav-link" href="#aboutnav">About</a>
             <a class="nav-item nav-link" href="#teamnav">Team</a>
+            <a class="nav-item nav-link" href="#contactnav">Contact Us</a>
           </div>
+          <div className= "ml-auto">
+            <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <a href={'/login'}><button type="button" class="btn btn-info navsignlog">Login</button></a>
+              </li>
+              <li class="nav-item">
+                <a href={'/signup'}><button type="button" class="btn btn-info navsignlog">Signup</button></a>
+              </li>
+            </ul>
+          </div>
+            
         </div>
-        <ul class="nav justify-content-end">
-          <li class="nav-item">
-              <button type="button" class="btn btn-info navsignlog">Signup</button>
-          </li>
-          <li class="nav-item">
-              <button type="button" class="btn btn-info navsignlog">Login</button>
-          </li>
-        </ul>
+        
       </nav>
 
       <div class="main parallax">
-          <img class = "center-block" src={require("../img/minelogo.png")}></img>
+        <Loader
+          type="Rings"
+          color="#00BFFF"
+          height={700}
+          width={700}
+          margin-top={100}
+          timeout={1000} //3 secs
+        >
+        </Loader>
+          <img id="logoimg" class = "center-block" src={require("../img/minelogo.png")}></img>
       </div>
 
       <div class="about text-center" id="aboutnav">
@@ -82,6 +99,29 @@ export default class Home extends Component{
                   </div>
               </div>
             </div>
+          </div>
+      </div>
+      <div class="contact text-center" id="contactnav">
+          <h1 >Contact Us</h1>
+          <div class="card-group">
+          <div class="card">
+            <img src={require("../img/phone.png")} class="card-img-top" alt="..."></img>
+            <div class="card-body">
+              <h5 class="card-title">+1 765-432-3345</h5>
+            </div>
+          </div>
+          <div class="card">
+            <img src={require("../img/mail.png")} class="card-img-top" alt="..."></img>
+            <div class="card-body">
+              <h5 class="card-title">admin@mine.com</h5>
+            </div>
+          </div>
+          <div class="card">
+            <img src={require("../img/location.png")} class="card-img-top" alt="..."></img>
+            <div class="card-body">
+              <h5 class="card-title">340 Centennial Dr, West Lafayette, IN 94506</h5>
+            </div>
+          </div>
           </div>
       </div>
       <footer>

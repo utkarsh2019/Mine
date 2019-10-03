@@ -46,13 +46,12 @@
 nav .navsignlog{
 	margin: 2px 4px;
 }
-.main {
 
-	height: 500px;
+#logoimg{
+  margin-bottom: 25%;
 }
-
 .center-block{
-	display: block;
+	  display: block;
     margin-left: auto;
     margin-right: auto;
     margin-top: 25%;
@@ -84,20 +83,31 @@ h1 {
 	color:black;
 }
 .card {
-        margin: 0 auto; /* Added */
-        float: none; /* Added */
-        margin-bottom: 10px; /* Added */
-        width: 18rem;
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+  margin-bottom: 10px; /* Added */
+  width: 18rem;
 }
 
 .contact{
 	height: auto;
-	background-color: #BAEFED;
+  background-color: rgb(33, 161, 170);
+  color: white;
 	padding:10% 10%;
 }
 
+#contactnav .card{
+  background-color: rgba(0, 0, 0, 0.0) !important;
+  border-color: rgba(0,0,0,0.0) !important;
+}
 
 footer {
 	padding:3% 2%;
 	color:white;
+}
+
+#loaderid{
+  background-color: #000000;
+  height: 800px;
+  width: 100%;
 }
