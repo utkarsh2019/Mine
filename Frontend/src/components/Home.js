@@ -18,7 +18,6 @@ export default class Home extends Component{
           <div class="navbar-nav">
             <a class="nav-item nav-link" href="#aboutnav">About</a>
             <a class="nav-item nav-link" href="#teamnav">Team</a>
-            <a class="nav-item nav-link" href="#contactnav">Contact Us</a>
           </div>
         </div>
         <ul class="nav justify-content-end">
@@ -84,34 +83,6 @@ export default class Home extends Component{
               </div>
             </div>
           </div>
-      </div>
-
-      <div class="contact text-center" id="contactnav">
-          <h1 >Contact Us</h1>
-          <form>
-              <div class="form row">
-                  <div class="col">
-                  <input type="text" class="form-control" placeholder="First name"></input>
-                  </div>
-                  <div class="col">
-                  <input type="text" class="form-control" placeholder="Last name"></input>
-                  </div>
-              </div>
-              <hr></hr>
-              <div class="form row">
-                  <div class="col">
-                  <input type="email" class="form-control" id="inputEmail3" placeholder="Email"></input>
-                  </div>
-              </div>
-              <hr></hr>
-              <div class="form row">
-                  
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="8" placeholder="Message"></textarea>
-                  
-              </div>
-              <hr></hr>
-              <button type="submit" class="btn btn-info">Submit</button>
-          </form>
       </div>
       <footer>
           <div class = "footer text-center">

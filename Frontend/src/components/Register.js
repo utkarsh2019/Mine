@@ -8,7 +8,7 @@ export default class Register extends Component{
 
   render () {
     return (
-      <div className="App">  
+      <div>  
         <div class="container-fluid" >
 
             <div class="row regcontain" id="regid">
@@ -26,10 +26,6 @@ export default class Register extends Component{
                         <input type="text" class="form-control" id="nameinput" placeholder="Enter name"></input>
                         </div>
                         <div class="form-group">
-                        <label for="usernameinput">Username</label>
-                        <input type="text" class="form-control" id="usernameinput" placeholder="Enter username"></input>
-                        </div>
-                        <div class="form-group">
                         <label for="emailinput">Email address</label>
                         <input type="email" class="form-control" id="emailinput" placeholder="name@example.com"></input>
                         </div>
@@ -42,7 +38,6 @@ export default class Register extends Component{
                         <input type="password" class="form-control" id="confirmpasswordinput" placeholder="Re-enter Password"></input>
                         </div>
                         <button type="button" class="btn btn-primary">Sign up</button>
-
                     </form>
                     </div>
                 </div>
@@ -55,5 +50,9 @@ export default class Register extends Component{
       </footer>
     </div>
     );
+  }
+
+  componentDidMount(){
+    document.body.className = 'bodyRegister'
   }
 } 
