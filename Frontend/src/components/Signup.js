@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import logo from '../img/minelogo.png';
-import '../css/login.css';
+import '../css/signup.css';
 import '../css/bootstrap.css';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL} from './../constants';
 
-export default class Login extends Component{
+
+export default class Signup extends Component{
 
   render () {
     return (
@@ -19,36 +20,38 @@ export default class Login extends Component{
                 <div class="col">
                     <div class = "signup" >
                     <form>
-                        <h2>Login</h2>
+                        <h2>Sign up</h2>
                         <hr></hr>
-                       
                         <div class="form-group">
-                        <label for="usernameinput">Username</label>
-                        <input type="text" class="form-control" id="usernameinput" placeholder="Enter username"></input>
+                        <label for="nameinput">Name</label>
+                        <input type="text" class="form-control" id="nameinput" placeholder="Enter name"></input>
                         </div>
-                        
+                        <div class="form-group">
+                        <label for="emailinput">Email address</label>
+                        <input type="email" class="form-control" id="emailinput" placeholder="name@example.com"></input>
+                        </div>
                         <div class="form-group">
                         <label for="passwordinput">Password</label>
                         <input type="password" class="form-control" id="passwordinput" placeholder="Enter Password"></input>
                         </div>
-                        <a href={'/forgotpassword'}>Forgot password?</a>
-                        <br></br>
-                        <br></br>
+                        <div class="form-group">
+                        <label for="confirmpasswordinput">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmpasswordinput" placeholder="Re-enter Password"></input>
+                        </div>
                         <div class="text-center">
-                            <button type="button" class="btn btn-primary">Login</button>
+                            <button type="button" class="btn btn-primary">Sign up</button>
                         </div>
                     </form>
-
                     <hr></hr>
                     <h5 class="text-center">OR</h5>
                         <div className="social-login">
                             <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
-                                <img src={require("../img/google-logo.png")} width="25px" height="25px" alt="Google" /> Log in with Google</a>
+                                <img src={require("../img/google-logo.png")} width="25px" height="25px" alt="Google" /> Sign up with Google</a>
                             <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
-                                <img src={require("../img/fb-logo.png")} width="25px" height="25px" alt="Facebook" /> Log in with Facebook</a>
+                                <img src={require("../img/fb-logo.png")} width="25px" height="25px" alt="Facebook" /> Sign up with Facebook</a>
                         </div>
                         <br></br>
-                        <h6 class="text-center">Don't have an account? <a href={'/signup'}>Signup here</a></h6>
+                        <h6 class="text-center">Already have an account? <a href={'/login'}>Login here</a></h6>
 
                     </div>
                 </div>
@@ -64,6 +67,6 @@ export default class Login extends Component{
   }
 
   componentDidMount(){
-    document.body.className = 'bodyLogin'
+    document.body.className = 'bodySignup'
   }
 } 
