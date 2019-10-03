@@ -2,10 +2,40 @@ import React, {Component} from 'react';
 import logo from '../img/minelogo.png';
 import '../css/signup.css';
 import '../css/bootstrap.css';
+import axios from 'axios';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL} from './../constants';
 
 
 export default class Signup extends Component{
+
+    constructor(props) {
+        super(props);
+      }
+    
+      register = ()=> {
+        let userdata = {};
+        userdata.emailId = document.getElementById("emailinput").value;
+        userdata.name = document.getElementById("nameinput").value;
+        userdata.password = document.getElementById("passwordinput").value;
+    
+        axios({
+            method:'post',
+            url:'http://localhost:8080/auth/signup',
+            data:{
+                emailId:userdata.emailId,
+                name:userdata.name,
+                password:userdata.password,
+            }
+        })
+            .then(function (response) {
+                alert(response.data);
+                window.location.replace("/login");
+    
+            })
+            .catch(function (error) {
+                alert(error + '1');
+            });
+      };
 
   render () {
     return (
@@ -39,7 +69,7 @@ export default class Signup extends Component{
                         <input type="password" class="form-control" id="confirmpasswordinput" placeholder="Re-enter Password"></input>
                         </div>
                         <div class="text-center">
-                            <button type="button" class="btn btn-primary">Sign up</button>
+                            <button type="button" class="btn btn-primary" onClick={this.register}>Sign up</button>
                         </div>
                     </form>
                     <hr></hr>
