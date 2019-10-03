@@ -13,6 +13,9 @@ import PrivateRoute from './common/PrivateRoute';
 import AppHeader from './common/AppHeader';
 import NotFound from './common/NotFound';
 import Edit from './components/Edit'
+import Dashboard from './components/Dashboard';
+import Trending from './components/Trending';
+import Search from './components/Search';
 
 
 export default class App extends Component {
@@ -74,10 +77,17 @@ export default class App extends Component {
           <Route path="/forgotpassword"
             render={(props) => <ForgotPassword authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
+          <Route path="/dashboard"
+            render={(props) => <Dashboard authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/profile"
             render={(props) => <Profile authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/edit"
             render={(props) => <Edit authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/trending"
+            render={(props) => <Trending authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/search"
+            render={(props) => <Search authenticated={this.state.authenticated} {...props} />}></Route>
+          
           <Route component={NotFound}></Route>
         </Switch>
       </div>
