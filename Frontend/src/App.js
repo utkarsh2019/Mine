@@ -13,6 +13,8 @@ import PrivateRoute from './common/PrivateRoute';
 import AppHeader from './common/AppHeader';
 import NotFound from './common/NotFound';
 import Edit from './components/Edit'
+import ForgotPasswordUpdate from './components/ForgotPasswordUpdate';
+import VerifyAccount from './components/VerifyAccount';
 
 
 export default class App extends Component {
@@ -78,6 +80,11 @@ export default class App extends Component {
             render={(props) => <Profile authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/edit"
             render={(props) => <Edit authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/forgotPasswordUpdate"
+            render={(props) => <ForgotPasswordUpdate authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/verifyaccount"
+            render={(props) => <VerifyAccount authenticated={this.state.authenticated} {...props} />}></Route>
+          
           <Route component={NotFound}></Route>
         </Switch>
       </div>
