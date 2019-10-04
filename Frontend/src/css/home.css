@@ -1,0 +1,113 @@
+.App {
+  text-align: center;
+  }
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.appBody {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  font-family: sans-serif;
+  background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),url("https://images.pexels.com/photos/953214/pexels-photo-953214.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&fbclid=IwAR0R_YxnylxRa0tsBU3uSkZ85NPKdjozVbzi5ne7gvycNdHsl-_KDgw6mHk");  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+nav .navsignlog{
+	margin: 2px 4px;
+}
+
+#logoimg{
+  margin-bottom: 25%;
+}
+.center-block{
+	  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25%;
+    height: 250px;
+    width: 250px;
+    opacity: 100%;
+}
+.about {
+	height: auto;
+	background-color: white;
+	padding: 10% 10%;
+}
+
+h1 {
+	padding: 2% 2%;
+}
+.team {
+	height: auto;
+	background-color: black;
+	color: white;
+	padding: 10% 10%;
+}
+
+.team img{
+	height: 300px;
+	width:285px;
+}
+.card-body{
+	color:black;
+}
+.card {
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+  margin-bottom: 10px; /* Added */
+  width: 18rem;
+}
+
+.contact{
+	height: auto;
+  background-color: rgb(33, 161, 170);
+  color: white;
+	padding:10% 10%;
+}
+
+#contactnav .card{
+  background-color: rgba(0, 0, 0, 0.0) !important;
+  border-color: rgba(0,0,0,0.0) !important;
+}
+
+footer {
+	padding:3% 2%;
+	color:white;
+}
+
+#loaderid{
+  background-color: #000000;
+  height: 800px;
+  width: 100%;
+}
