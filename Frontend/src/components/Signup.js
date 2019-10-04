@@ -14,6 +14,23 @@ export default class Signup extends Component {
     userdata.email = document.getElementById("emailinput").value;
     userdata.name = document.getElementById("nameinput").value;
     userdata.password = document.getElementById("passwordinput").value;
+    userdata.confirmpassword = document.getElementById("confirmpasswordinput").value;
+
+    if(userdata.email == ""){
+      alert("Please Enter your Email");
+    }
+    if(userdata.name == ""){
+      alert("Please Enter your Name");
+    }
+    if(userdata.password == ""){
+      alert("Please Enter a Password");
+    }
+    if(userdata.confirmpassword == ""){
+      alert("Please Confirm your Password");
+    }
+    if(userdata.password !== userdata.confirmpassword){
+      alert("Password and Confirm Password don't match");
+    }
 
     axios({
       method: "post",

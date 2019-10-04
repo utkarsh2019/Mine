@@ -7,7 +7,7 @@ export default class Profile extends Component {
   logout = () => {
     document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
     document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    window.location.replace("login");
+    window.location.replace("/");
   };
 
   load = () => {

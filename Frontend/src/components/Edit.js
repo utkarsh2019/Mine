@@ -7,7 +7,7 @@ export default class Edit extends Component {
   logout = () => {
     document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
     document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    window.location.replace("login");
+    window.location.replace("/");
   };
 
   load = () => {
@@ -186,7 +186,7 @@ export default class Edit extends Component {
                     <label for="passwordinput" align="right">
                       Password
                     </label>
-                    <a class="align-right" href="#">
+                    <a class="align-right" href="/editpassword">
                       Change Password
                     </a>
                   </div>

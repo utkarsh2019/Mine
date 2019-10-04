@@ -18,6 +18,7 @@ import Trending from './components/Trending';
 import Search from './components/Search';
 import ForgotPasswordUpdate from './components/ForgotPasswordUpdate';
 import VerifyAccount from './components/VerifyAccount';
+import EditPassword from './components/changePassword';
 
 
 export default class App extends Component {
@@ -93,7 +94,8 @@ export default class App extends Component {
             render={(props) => <ForgotPasswordUpdate authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/verifyaccount"
             render={(props) => <VerifyAccount authenticated={this.state.authenticated} {...props} />}></Route>
-          
+           <Route path="/editpassword"
+            render={(props) => <EditPassword authenticated={this.state.authenticated} {...props} />}></Route>
           <Route component={NotFound}></Route>
         </Switch>
       </div>
