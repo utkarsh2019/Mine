@@ -18,7 +18,7 @@ export default class EditPassword extends Component {
     }
 
     let pass = document.getElementById('passwordinput').innerHTML;
-
+    console.log(pass);
     axios({
         method:'put',
         url:'http://localhost:8080/user/me/password',
