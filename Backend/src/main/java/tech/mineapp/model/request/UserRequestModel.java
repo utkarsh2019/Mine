@@ -22,10 +22,7 @@ public class UserRequestModel {
 	private String profilePicUrl;
 
 	private String categoryPreferences;
-//	@NotBlank
-//	private AuthProvider provider;
 	
-//	@NotBlank
-//	private Boolean isVerified;
+	private int noOfPreviousSearches;
 
 }

@@ -47,6 +47,9 @@ public class UserEntity implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
+    
+    @NotNull
+    private int noOfPreviousSearches = 3;
 
     @NotNull
     private String categoryPreferences; // TODO: Re-think storing of user preferences
