@@ -4,6 +4,66 @@ import '../css/Edit.css';
 import axios from 'axios';
 
 export default class Edit extends Component {
+
+  logout = () => {
+    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.replace('\login');
+  }
+
+
+  load = () => {
+    let cookie = document.cookie.split(';');
+    let cookie1 = cookie[0].split('=');
+    let cookie2 = cookie[1].split('=');
+    let type, token;
+    if(cookie1[0] === 'tokenType'){
+      type=cookie1[1];
+      token=cookie2[1];
+    }
+    else{
+      type=cookie2[1];
+      token=cookie1[1];
+    }
+
+    axios({
+      method:'get',
+      url:'http://localhost:8080/user/me',
+      headers:{
+          Authorization: (type + ' ' + token),
+      }
+  })
+  .then(function (response) {
+    console.log(response);
+    document.getElementById('name').innerHTML="Name: "+response.data.responseObject.name;
+    document.getElementById('email').innerHTML="Email: "+response.data.responseObject.email;
+
+    if(response.data.responseObject.noOfPreviousSearches == 1){
+      document.getElementById('inlineRadio1').checked = true;
+    }
+    else if(response.data.responseObject.noOfPreviousSearches == 3){
+      document.getElementById('inlineRadio2').checked = true;
+    }
+    else if(response.data.responseObject.noOfPreviousSearches == 5){
+      document.getElementById('inlineRadio3').checked = true;
+    }
+    else if(response.data.responseObject.noOfPreviousSearches == 7){
+      document.getElementById('inlineRadio3').checked = true;
+    }
+  
+    let pref = (response.data.responseObject.categoryPreferences).split(',');
+    document.getElementById('preferenceInput1').innerHTML=pref[0];
+    document.getElementById('preferenceInput2').innerHTML=pref[1];
+    document.getElementById('preferenceInput3').innerHTML=pref[2];
+    document.getElementById('preferenceInput4').innerHTML=pref[3];
+    document.getElementById('preferenceInput5').innerHTML=pref[4];
+  })
+  .catch(function (error) {
+      alert(error);
+  });
+  };
+
+
  render (){
   return (
     <div className="Edit">  
@@ -26,7 +86,7 @@ export default class Edit extends Component {
               <button type="button" class="btn btn-info navsignlog">Account</button>
           </li>
           <li class="nav-item">
-              <button type="button" class="btn btn-info navsignlog">Logout</button>
+              <button type="button" class="btn btn-info navsignlog" onClick={this.logout}>Logout</button>
           </li>
         </ul>
       </nav>
@@ -49,11 +109,11 @@ export default class Edit extends Component {
             <div className="col-sm-8">
                 <div class="form-group">
                     <label for="nameinput">Name</label>
-                    <input type="text" class="form-control" id="nameinput"></input>
+                    <input type="text" class="form-control" id="name"></input>
                 </div>              
                 <div class="form-group">
                         <label for="emailinput">Email address</label>
-                        <input type="email" class="form-control" id="emailinput"></input>
+                        <input type="email" class="form-control" id="email"></input>
                 </div>
                 <div class="form-group">
                         <label for="passwordinput" align="right">Password</label>
@@ -116,7 +176,7 @@ export default class Edit extends Component {
                 <label class="form-check-label" for="inlineRadio3">5</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"></input>
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option3"></input>
                 <label class="form-check-label" for="inlineRadio3">7</label>
               </div>
               </div>
