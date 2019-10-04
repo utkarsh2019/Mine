@@ -186,7 +186,7 @@ export default class Edit extends Component {
                     <label for="passwordinput" align="right">
                       Password
                     </label>
-                    <a class="align-right" href="#">
+                    <a class="align-right" href="/editpassword">
                       Change Password
                     </a>
                   </div>

@@ -27,7 +27,7 @@ export default class Login extends Component {
           "accessToken=" + response.data.responseObject.accessToken + ";path=/";
         document.cookie =
           "tokenType=" + response.data.responseObject.tokenType + ";path=/";
-        window.location.replace("/profile");
+        window.location.replace("/dashboard");
       })
       .catch(function(error) {
         alert(error);
