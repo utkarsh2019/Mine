@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static tech.mineapp.constants.Constants.VerificationConstants.URL_EXPIRATION_TIME;
 import tech.mineapp.entity.UserEntity;
@@ -18,6 +19,7 @@ import tech.mineapp.repository.VerificationTokenRepository;
  *
  */
 @Service
+@Transactional
 public class VerificationTokenService {
 	
 	@Autowired
