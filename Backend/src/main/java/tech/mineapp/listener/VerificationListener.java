@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tech.mineapp.listener;
 
 import java.util.UUID;
@@ -13,7 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import tech.mineapp.entity.UserEntity;
-import tech.mineapp.event.OnRegistrationCompleteEvent;
+import tech.mineapp.event.OnVerificationCompleteEvent;
 import tech.mineapp.service.VerificationTokenService;
 
 /**
@@ -21,8 +18,8 @@ import tech.mineapp.service.VerificationTokenService;
  *
  */
 @Component
-public class RegistrationListener implements
-	ApplicationListener<OnRegistrationCompleteEvent> {
+public class VerificationListener implements
+	ApplicationListener<OnVerificationCompleteEvent> {
   
     @Autowired
     private VerificationTokenService tokenService;
@@ -34,11 +31,11 @@ public class RegistrationListener implements
     private JavaMailSender mailSender;
  
     @Override
-    public void onApplicationEvent(OnRegistrationCompleteEvent event) {
+    public void onApplicationEvent(OnVerificationCompleteEvent event) {
         this.confirmRegistration(event);
     }
  
-    private void confirmRegistration(OnRegistrationCompleteEvent event) {
+    private void confirmRegistration(OnVerificationCompleteEvent event) {
         UserEntity user = event.getUser();
         String token = UUID.randomUUID().toString();
         tokenService.createVerificationToken(user, token);

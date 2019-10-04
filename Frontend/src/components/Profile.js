@@ -13,22 +13,47 @@ export default class Profile extends Component {
   }
 
   load = () => {
+    let cookie = document.cookie.split(';');
+    let cookie1 = cookie[0].split('=');
+    let cookie2 = cookie[1].split('=');
+    let type, token;
+    if(cookie1[0] === 'tokenType'){
+      type=cookie1[1];
+      token=cookie2[1];
+    }
+    else{
+      type=cookie2[1];
+      token=cookie1[1];
+    }
 
+    axios({
+      method:'put',
+      url:'http://localhost:8080/user/me',
+      headers:{
+          Authorization: (type + ' ' + token),
+      }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+      alert(error);
+  });
   }
 
   
   deleteAccount = () => {
     let cookie = document.cookie.split(';');
-    let t1 = cookie[0].split('=')[1];
-    let t2 = cookie[1].split('=')[1];
+    let cookie1 = cookie[0].split('=');
+    let cookie2 = cookie[1].split('=');
     let type, token;
-    if(t1 === 'bearer'){
-      type=t1;
-      token=t2;
+    if(cookie1[0] === 'tokenType'){
+      type=cookie1[1];
+      token=cookie2[1];
     }
     else{
-      type=t2;
-      token=t1;
+      type=cookie2[1];
+      token=cookie1[1];
     }
    
 
@@ -41,9 +66,16 @@ export default class Profile extends Component {
   })
   .then(function (response) {
     console.log(response);
-    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    window.location.replace('\login');
+    document.getElementById('name').value="Name: "+response.responseObject.name;
+    document.getElementById('email').value="Email: "+response.responseObject.email;
+    document.getElementById('num').value="Number of Searches Displayed: "+response.responseObject.noOfPreviousSearches;
+    
+    let pref = response.responseObject.userPreferences.split(',');
+    document.getElementById('item1').value=pref[0];
+    document.getElementById('item2').value=pref[1];
+    document.getElementById('item3').value=pref[2];
+    document.getElementById('item4').value=pref[3];
+    document.getElementById('item5').value=pref[4];
   })
   .catch(function (error) {
       alert(error);
@@ -54,7 +86,7 @@ export default class Profile extends Component {
 
  render (){
   return (
-    <div className="Profile">  
+    <div className="Profile" onLoad={this.load}>  
       <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><img src={require("./../img/minelogo.png")} width="50" height="50" class="d-inline-block" alt=""></img>Mine</a>
@@ -95,8 +127,8 @@ export default class Profile extends Component {
               <h5>MY PROFILE</h5>
             </div>
             <div className="col-sm-8">
-              <p><b>Name:Name of the User</b></p>
-              <p>Email:Email Address of the User</p>
+              <p id="name"><b>Name:Name of the User</b></p>
+              <p id="email">Email:Email Address of the User</p>
               <hr></hr>
               <img src={require("./../img/profile.png")} height="75" width="75"></img>
             </div>
@@ -109,14 +141,14 @@ export default class Profile extends Component {
             <div className="col-sm-8">
               <p><b>Order of Categories</b></p>
               <ul class="list-group">
-                <li class="list-group-item">Movies</li>
-                <li class="list-group-item">Music</li>
-                <li class="list-group-item">Social</li>
-                <li class="list-group-item">Text</li>
-                <li class="list-group-item">Audio</li>
+                <li class="list-group-item" id="item1">Movies</li>
+                <li class="list-group-item" id="item2">Music</li>
+                <li class="list-group-item" id="item3">Social</li>
+                <li class="list-group-item" id="item4">Text</li>
+                <li class="list-group-item" id="item5">Audio</li>
               </ul>
               <hr></hr>
-              <p><b>Number of Searches Displayed:3</b></p>
+              <p id="num"><b>Number of Searches Displayed:3</b></p>
             </div>
           </div>
           <hr></hr>
@@ -127,7 +159,7 @@ export default class Profile extends Component {
           <a href="\edit"><button type="button" class="btn btn-primary">Edit</button></a>
           </div>
           <div className="col-sm-6 text-center">
-          <button type="button" class="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.onCancel(this.deleteAccount) } }>Delete</button>
+          <button type="button" class="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteAccount() } }>Delete</button>
           </div>
         </div>
         <br></br>

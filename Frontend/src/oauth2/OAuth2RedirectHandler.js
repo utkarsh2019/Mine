@@ -11,7 +11,7 @@ class OAuth2RedirectHandler extends Component {
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
-    /*render() {        
+    render() {        
         const token = this.getUrlParameter('token');
         const error = this.getUrlParameter('error');
 
@@ -30,7 +30,7 @@ class OAuth2RedirectHandler extends Component {
                 }
             }}/>; 
         }
-    }*/
+    }
 }
 
 export default OAuth2RedirectHandler;
