@@ -18,7 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
-import tech.mineapp.event.OnRegistrationCompleteEvent;
+import tech.mineapp.event.OnVerificationCompleteEvent;
 import tech.mineapp.model.request.AuthRequestModel;
 import tech.mineapp.model.request.SignupRequestModel;
 import tech.mineapp.model.response.AuthResponseModel;
@@ -110,7 +110,7 @@ public class AuthController {
 
 	        UserEntity savedUser = userRepository.save(user);
 			
-	        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(savedUser, request.getLocale(), request.getContextPath()));
+	        eventPublisher.publishEvent(new OnVerificationCompleteEvent(savedUser, request.getLocale(), request.getContextPath()));
 	        
 			response.setStatus("SUCCESS");
 			
