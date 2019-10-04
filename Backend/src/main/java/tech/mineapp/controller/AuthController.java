@@ -19,7 +19,6 @@ import org.springframework.web.context.request.WebRequest;
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.event.OnRegistrationCompleteEvent;
-import tech.mineapp.exception.BadRequestException;
 import tech.mineapp.model.request.AuthRequestModel;
 import tech.mineapp.model.request.SignupRequestModel;
 import tech.mineapp.model.response.AuthResponseModel;
@@ -62,11 +61,11 @@ public class AuthController {
     	response.setVerb("POST");
     	response.setEndpoint("/auth/login");
     	
-// 		if (!userService.checkVerificationByEmail(loginRequest.getEmail()) ) {
-//     		response.setStatus("FAIL");
-//     		response.setErrorMessage("Unverified user.");
-//     		return ResponseEntity.badRequest().body(response);
-//     	}
+ 		if (!userService.checkVerificationByEmail(loginRequest.getEmail()) ) {
+     		response.setStatus("FAIL");
+     		response.setErrorMessage("Unverified user.");
+     		return ResponseEntity.badRequest().body(response);
+     	}
     	
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

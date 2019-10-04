@@ -21,14 +21,15 @@ export default class Profile extends Component {
     alert('yes!');
 
     let cookie = document.cookie.split(';');
+    let type = cookie[0].split('=')[1];
+    let token = cookie[1].split('=')[1];
 
     axios({
       method:'delete',
       url:'http://localhost:8080/user/me',
-      header:{
-          Authorization: (cookie[1] + ' ' + cookie[0]),
-      },
-      data:{},
+      headers:{
+          Authorization: (type + ' ' + token),
+      }
   })
   .then(function (response) {
     alert(response);
@@ -37,7 +38,7 @@ export default class Profile extends Component {
       alert(error);
   });
 
-  }
+  };
 
 
  render (){
@@ -115,7 +116,7 @@ export default class Profile extends Component {
           <a href="\edit"><button type="button" class="btn btn-primary">Edit</button></a>
           </div>
           <div className="col-sm-6 text-center">
-          <button type="button" class="btn btn-danger" onclick={this.deleteAccount}>Delete</button>
+          <button type="button" class="btn btn-danger" onClick={this.deleteAccount}>Delete</button>
           </div>
         </div>
         <br></br>

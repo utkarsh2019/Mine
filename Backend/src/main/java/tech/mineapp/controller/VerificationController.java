@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +14,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.entity.VerificationTokenEntity;
-import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.service.VerificationTokenService;
 
@@ -31,17 +32,21 @@ public class VerificationController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private MessageSource messages;
+	
 	@GetMapping("/confirm")
-	public String verify(@RequestParam("token") String token,
-						 WebRequest request) {
+	public String verify(@RequestParam(name = "token") String token,
+						 WebRequest request,
+						 Model model) {
 		
 	    Locale locale = request.getLocale();
 	     
 	    VerificationTokenEntity verificationToken = tokenService.getVerificationToken(token);
 	    if (verificationToken == null) {
-//	        String message = messages.getMessage("auth.message.invalidToken", null, locale);
-//	        model.addAttribute("message", message);
-	        return "Unsuccessful";//"redirect:/verificationUnsuccessful.html?lang=" + locale.getLanguage();
+	        String message = messages.getMessage("regSucc", null, locale);
+	        model.addAttribute("message", message);
+	        return "VerificationUnsuccessful";//"redirect:/verificationUnsuccessful.html?lang=" + locale.getLanguage();
 	    }
 	     
 	    UserEntity user = verificationToken.getUser();
@@ -49,11 +54,11 @@ public class VerificationController {
 	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 //	        String messageValue = messages.getMessage("auth.message.expired", null, locale)
 //	        model.addAttribute("message", messageValue);
-	        return "Unsuccessful";//"redirect:/verificationUnsuccessful.html?lang=" + locale.getLanguage();
+	        return "VerificationUnsuccessful";//"redirect:/verificationUnsuccessful.html?lang=" + locale.getLanguage();
 	    } 
 	     
 	    user.setIsVerified(true); 
-	    userRepository.save(user); 
-	    return "Successful";//"redirect:/verificationSuccessful.html?lang=" + request.getLocale().getLanguage(); 
+	    userRepository.save(user);
+	    return "VerificationSuccessful"; 
 	}	
 }
