@@ -71,14 +71,31 @@ export default class Edit extends Component {
               <h5>PREFERENCES</h5>
             </div>
             <div className="col-sm-8">
-              <p><b>Order of Categories</b></p>
-              <ul class="list-group">
-                <li class="list-group-item">Movies</li>
-                <li class="list-group-item">Music</li>
-                <li class="list-group-item">Social</li>
-                <li class="list-group-item">Text</li>
-                <li class="list-group-item">Audio</li>
-              </ul>
+            <p><b>Option of the following categories:</b> Movies, Music, Social, Text, Audio</p>
+            <p>Please input each category as a preference only once.</p>
+              <form>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="preferenceInput1" placeholder="First Preference">
+                  </input>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="preferenceInput2" placeholder="Second Preference">
+                  </input>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="preferenceInput3" placeholder="Third Preference">
+                  </input>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="preferenceInput4" placeholder="Fourth Preference">
+                  </input>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="preferenceInput5" placeholder="Fifth Preference">
+                  </input>
+                </div>
+              </form>
+              
               <hr></hr>
               <div class = "row">
               <p><b>Number of Searches Displayed</b></p>
@@ -107,8 +124,10 @@ export default class Edit extends Component {
           <hr></hr>
           <br></br>
           <br></br>
+          
           <div className="row">
-          <button type="button" class="btn btn-primary">Update</button>
+          
+          <button type="button" class="btn btn-primary" onClick={this.updateInfo}>Update</button>
           </div>
         <br></br>
         <br></br>
@@ -127,4 +146,50 @@ export default class Edit extends Component {
     </div>
   );
  }
+  updateInfo(){
+    /*let name = document.getElementById("nameinput").value;
+    console.log(name);
+    if(name.value=="")
+    {
+
+    }
+    let email = document.getElementById("emailinput").value;
+    console.log(email);*/
+    const prefcategories = ["movies", "music", "social", "text", "audio"];
+
+    let firstPref = document.getElementById("preferenceInput1").value;
+    firstPref = firstPref.toLowerCase();
+    let secondPref = document.getElementById("preferenceInput2").value;
+    secondPref = secondPref.toLowerCase();
+    let thirdPref = document.getElementById("preferenceInput3").value;
+    thirdPref = thirdPref.toLowerCase();
+    let fourthPref = document.getElementById("preferenceInput4").value;
+    fourthPref = fourthPref.toLowerCase();
+    let fifthPref = document.getElementById("preferenceInput5").value;
+    fifthPref = fifthPref.toLowerCase();
+
+    let prefinputs = [firstPref, secondPref, thirdPref, fourthPref, fifthPref];
+    let prefset = new Set(prefinputs);
+    let flag=0;
+      prefinputs.forEach(input => {
+        if(!prefcategories.includes(input)){
+          flag=1;
+        }
+      })
+      if(flag==1)
+      {
+        alert("Not a valid category, please input valid category inputs");
+      }
+      if(prefset.size != prefinputs.length)
+      {
+        flag=2;
+      }
+      if(flag==2)
+      {
+        alert("Error! Only one category per preference please!");
+      }
+
+  }
+
 }
+
