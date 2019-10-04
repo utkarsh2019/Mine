@@ -19,16 +19,16 @@ export default class Profile extends Component {
   
   deleteAccount = () => {
     let cookie = document.cookie.split(';');
-    let t1 = cookie[0].split('=')[1];
-    let t2 = cookie[1].split('=')[1];
+    let cookie1 = cookie[0].split('=');
+    let cookie2 = cookie[1].split('=');
     let type, token;
-    if(t1 === 'bearer'){
-      type=t1;
-      token=t2;
+    if(cookie1[0] === 'tokenType'){
+      type=cookie1[1];
+      token=cookie2[1];
     }
     else{
-      type=t2;
-      token=t1;
+      type=cookie2[1];
+      token=cookie1[1];
     }
    
 
@@ -127,7 +127,7 @@ export default class Profile extends Component {
           <a href="\edit"><button type="button" class="btn btn-primary">Edit</button></a>
           </div>
           <div className="col-sm-6 text-center">
-          <button type="button" class="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.onCancel(this.deleteAccount) } }>Delete</button>
+          <button type="button" class="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteAccount() } }>Delete</button>
           </div>
         </div>
         <br></br>
