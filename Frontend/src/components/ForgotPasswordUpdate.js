@@ -20,7 +20,7 @@ export default class ForgotPasswordUpdate extends Component {
 
   update(){
     let token = this.getUrlParameter('token');
-    let pass = document.getElementById('passwordInput').innerHTML;
+    let pass = document.getElementById('passwordinput').innerHTML;
     axios({
         method:'post',
         url:'http://localhost:8080/verify/password?token='+token,

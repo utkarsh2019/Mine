@@ -19,7 +19,7 @@ import tech.mineapp.event.OnForgotPasswordEvent;
 import tech.mineapp.event.OnVerificationCompleteEvent;
 import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.ForgotPasswordRequestModel;
-import tech.mineapp.model.request.ForgotPasswordUpdateRequestModel;
+import tech.mineapp.model.request.PasswordUpdateRequestModel;
 import tech.mineapp.model.request.SignupRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.repository.UserRepository;
@@ -81,7 +81,7 @@ public class ForgotPasswordController {
 	
 	@PostMapping("/verify/password")
 	public ResponseEntity<?> verify(@RequestParam(name = "token") String token,
-						 @RequestBody ForgotPasswordUpdateRequestModel forgotPasswordUpdateRequest) {
+						 @RequestBody PasswordUpdateRequestModel passwordUpdateRequest) {
 	    
 		ContainerResponseModel response = new ContainerResponseModel();
 		
@@ -105,7 +105,7 @@ public class ForgotPasswordController {
 		    } 
 		    
 		    fpService.deleteForgotPasswordToken(user);
-		    user.setPassword(passwordEncoder.encode(forgotPasswordUpdateRequest.getPassword())); 
+		    user.setPassword(passwordEncoder.encode(passwordUpdateRequest.getPassword())); 
 		    userRepository.save(user);
 		    response.setStatus("SUCCESS");
 	

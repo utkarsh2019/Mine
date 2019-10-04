@@ -30,6 +30,7 @@ export default class EditPassword extends Component {
         }
     })
     .then(function (response) {
+      console.log(response);
       window.location.replace('/edit');
     })
     .catch(function (error) {
@@ -52,7 +53,7 @@ export default class EditPassword extends Component {
             <div class="col">
               <div class="forgotpassword">
                 <form>
-                  <h2>Forgot Password</h2>
+                  <h2>Update Password</h2>
                   <hr></hr>
 
                   <div class="form-group">
