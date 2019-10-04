@@ -4,39 +4,40 @@ import "../css/bootstrap.css";
 import axios from "axios";
 
 export default class ForgotPasswordUpdate extends Component {
-
   constructor(props) {
     super(props);
 
     this.update = this.update.bind(this);
   }
   getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 
     var results = regex.exec(this.props.location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  };
+    return results === null
+      ? ""
+      : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
 
-  update(){
-    let token = this.getUrlParameter('token');
-    let pass = document.getElementById('passwordinput').innerHTML;
+  update() {
+    let token = this.getUrlParameter("token");
+    let pass = document.getElementById("passwordinput").value;
     axios({
-        method:'post',
-        url:'http://localhost:8080/verify/password?token='+token,
-        data:{
-            password:pass,
-        }
+      method: "post",
+      url: "http://localhost:8080/verify/password?token=" + token,
+      data: {
+        password: pass
+      }
     })
-    .then(function (response) {
-      window.location.replace('/login');
-    })
-    .catch(function (error) {
-      alert(error);
-    });
-  };
+      .then(function(response) {
+        window.location.replace("/login");
+      })
+      .catch(function(error) {
+        alert(error);
+      });
+  }
 
-  render () {
+  render() {
     return (
       <div>
         <div class="container-fluid">
