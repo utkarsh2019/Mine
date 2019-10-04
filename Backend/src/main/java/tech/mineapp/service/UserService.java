@@ -23,15 +23,14 @@ import tech.mineapp.util.RandomAlphanumericStringGenerator;
  *
  */
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String email)
-            throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
         UserEntity user = userRepository.findUserByEmail(email)
         		.orElseThrow(() ->
         			new UsernameNotFoundException("User not found with email : " + email));
@@ -39,7 +38,6 @@ public class UserService implements UserDetailsService {
         return UserPrincipal.create(user);
     }
 
-    @Transactional
     public UserDetails loadUserById(String userId) {
         UserEntity user = userRepository.findUserByUserId(Long.parseLong(userId))
         		.orElseThrow(() -> 
@@ -64,5 +62,12 @@ public class UserService implements UserDetailsService {
     
     public boolean isLocalUser(UserEntity user) {
     	return user.getProvider() == AuthProvider.local;
+    }
+    
+    public boolean checkVerificationByEmail(String email) {
+    	UserEntity user = userRepository.findUserByEmail(email)
+        		.orElseThrow(() ->
+        			new UsernameNotFoundException("User not found with email : " + email));
+    	return user.getIsVerified();
     }
 }

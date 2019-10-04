@@ -1,10 +1,7 @@
 package tech.mineapp.controller;
 
-import java.net.URI;
-
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
@@ -13,25 +10,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.event.OnRegistrationCompleteEvent;
 import tech.mineapp.exception.BadRequestException;
-import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.AuthRequestModel;
 import tech.mineapp.model.request.SignupRequestModel;
-import tech.mineapp.model.response.ApiResponse;
 import tech.mineapp.model.response.AuthResponseModel;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.model.response.UserResponseModel;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.TokenProvider;
 import tech.mineapp.service.UserService;
@@ -64,7 +56,18 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthRequestModel loginRequest) {
-
+    	
+    	ContainerResponseModel response = new ContainerResponseModel();
+    	
+    	response.setVerb("POST");
+    	response.setEndpoint("/auth/login");
+    	
+ 		if (!userService.checkVerificationByEmail(loginRequest.getEmail()) ) {
+     		response.setStatus("FAIL");
+     		response.setErrorMessage("Unverified user.");
+     		return ResponseEntity.badRequest().body(response);
+     	}
+    	
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
@@ -73,13 +76,16 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        
         String token = tokenProvider.createToken(authentication);
-        return ResponseEntity.ok(new AuthResponseModel(token));
+        
+        response.setStatus("SUCCESS");
+        response.setResponseObject(new AuthResponseModel(token));
+        return ResponseEntity.ok(response);
     }
     
     @PostMapping("/signup")
-    public ContainerResponseModel registerUser(@Valid @RequestBody SignupRequestModel signupRequest, 
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestModel signupRequest, 
     										   WebRequest request ) {
         ContainerResponseModel response = new ContainerResponseModel();
         
@@ -88,7 +94,10 @@ public class AuthController {
 		
 		try {
 			if(userRepository.existsByEmail(signupRequest.getEmail())) {
-	            throw new BadRequestException("Email address already in use.");
+				response.setStatus("FAIL");
+				response.setErrorMessage("Email address already in use.");
+				
+				return ResponseEntity.badRequest().body(response);
 	        }
 
 	        UserEntity user = new UserEntity();
@@ -106,22 +115,15 @@ public class AuthController {
 	        
 			response.setStatus("SUCCESS");
 			
-			return response;
+			return ResponseEntity.ok(response);
 			
 		} catch (Exception e) {
 			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 			
-			return response;
+			return ResponseEntity.badRequest().body(response);
 		}
-    	
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentContextPath().path("/user/me")
-//                .buildAndExpand(result.getUserId()).toUri();
-//
-//        return ResponseEntity.created(location)
-//                .body(new ApiResponse(true, "User registered successfully@"));
     }
 
 }

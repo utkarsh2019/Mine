@@ -2,6 +2,7 @@ package tech.mineapp.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class UserController {
 	
 	@GetMapping("/user/me")
 	@PreAuthorize("hasRole('USER')")
-	public ContainerResponseModel getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+	public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("GET");
@@ -46,21 +47,21 @@ public class UserController {
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
 			
-			return response;
+			return ResponseEntity.ok(response);
 			
 		} catch (Exception e) {
 			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 			
-			return response;
+			return ResponseEntity.badRequest().body(response);
 		}
 		        
     }
 
 	@PutMapping("/user/me")
 	@PreAuthorize("hasRole('USER')")
-	public ContainerResponseModel updateUser(@CurrentUser UserPrincipal userPrincipal,
+	public ResponseEntity<?> updateUser(@CurrentUser UserPrincipal userPrincipal,
 											 @RequestBody UserRequestModel userRequest) {
 
 		ContainerResponseModel response = new ContainerResponseModel();
@@ -87,17 +88,17 @@ public class UserController {
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
 
-			return response;
+			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 
-			return response;
+			return ResponseEntity.badRequest().body(response);
 		}
 	}
 
 	@DeleteMapping("/user/me")
-	public ContainerResponseModel removeUser(@CurrentUser UserPrincipal userPrincipal) {
+	public ResponseEntity<?> removeUser(@CurrentUser UserPrincipal userPrincipal) {
 
 		ContainerResponseModel response = new ContainerResponseModel();
 
@@ -109,13 +110,13 @@ public class UserController {
 
 			response.setStatus("SUCCESS");
 
-			return response;
+			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 
-			return response;
+			return ResponseEntity.badRequest().body(response);
 		}
 	}
 
