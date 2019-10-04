@@ -63,6 +63,57 @@ export default class Edit extends Component {
   });
   };
 
+  updateInfo = () => {
+    let cookie = document.cookie.split(';');
+    let cookie1 = cookie[0].split('=');
+    let cookie2 = cookie[1].split('=');
+    let type, token;
+    if(cookie1[0] === 'tokenType'){
+      type=cookie1[1];
+      token=cookie2[1];
+    }
+    else{
+      type=cookie2[1];
+      token=cookie1[1];
+    }
+
+    let categoryPref = (document.getElementById('preferenceInput1').value+","+document.getElementById('preferenceInput2').value+","+document.getElementById('preferenceInput3').value+","+document.getElementById('preferenceInput4').value+","+document.getElementById('preferenceInput5').value);
+
+    let num;
+    if(document.getElementById('inlineRadio1').checked == true{
+      num=1;
+    }
+    else if(document.getElementById('inlineRadio2').checked == true{
+      num=3;
+    }
+    else if(document.getElementById('inlineRadio3').checked == true{
+      num=5;
+    }
+    else if(document.getElementById('inlineRadio4').checked == true{
+      num=7;
+    }    
+
+    axios({
+      method:'put',
+      url:'http://localhost:8080/user/me',
+      headers:{
+          Authorization: (type + ' ' + token),
+      },
+      data:{
+        email: document.getElementById('email').value,
+        name:document.getElementById('name').value,
+        profilePicUrl:null,
+        categoryPreferences:categoryPref,
+        noOfPreviousSearches:num,
+      },
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+      alert(error);
+  });
+  };
 
  render (){
   return (
