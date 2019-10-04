@@ -31,7 +31,6 @@ export default class Profile extends Component {
       }
     })
       .then(function(response) {
-        console.log(response);
         document.getElementById("name").innerHTML =
           "Name: " + response.data.responseObject.name;
         document.getElementById("email").innerHTML =
@@ -73,7 +72,6 @@ export default class Profile extends Component {
       }
     })
       .then(function(response) {
-        console.log(response);
         document.cookie =
           "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
         document.cookie =

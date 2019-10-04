@@ -43,7 +43,7 @@ public class VerificationListener implements
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
         String confirmationUrl 
-          = event.getAppUrl() + "/forgotPassword?token=" + token;
+          = event.getAppUrl() + "/verifyaccount?token=" + token;
         String message = messages.getMessage("regSucc", null, event.getLocale());
          
         SimpleMailMessage email = new SimpleMailMessage();

@@ -3,33 +3,34 @@ import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
 
-export default class ForgotPasswordUpdate extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.update = this.update.bind(this);
-  }
-  getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-
-    var results = regex.exec(this.props.location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  };
-
+export default class EditPassword extends Component {
   update(){
-    let token = this.getUrlParameter('token');
-    let pass = document.getElementById('passwordInput').innerHTML;
+    let cookie = document.cookie.split(";");
+    let cookie1 = cookie[0].split("=");
+    let cookie2 = cookie[1].split("=");
+    let type, token;
+    if (cookie1[0] === "tokenType") {
+      type = cookie1[1];
+      token = cookie2[1];
+    } else {
+      type = cookie2[1];
+      token = cookie1[1];
+    }
+
+    let pass = document.getElementById('passwordinput').innerHTML;
+
     axios({
-        method:'post',
-        url:'http://localhost:8080/verify/password?token='+token,
+        method:'put',
+        url:'http://localhost:8080/user/me/password',
+        headers:{
+            Authorization: type + " " + token
+        },
         data:{
             password:pass,
         }
     })
     .then(function (response) {
-      window.location.replace('/login');
+      window.location.replace('/edit');
     })
     .catch(function (error) {
       alert(error);

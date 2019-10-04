@@ -4,9 +4,36 @@ import "../css/bootstrap.css";
 import axios from "axios";
 
 export default class VerifyAccount extends Component {
-  update() {}
+  
+  constructor(props) {
+    super(props);
 
-  render() {
+    this.verify = this.verify.bind(this);
+  }
+
+  getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+
+    var results = regex.exec(this.props.location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  };
+
+  verify(){
+    let token = this.getUrlParameter('token');
+    axios({
+        method:'get',
+        url:'http://localhost:8080/verify/confirm?token='+token
+    })
+    .then(function (response) {
+      window.location.replace('/login');
+    })
+    .catch(function (error) {
+      alert(error);
+    });
+  };
+
+  render () {
     return (
       <div>
         <div class="container-fluid">
@@ -27,7 +54,7 @@ export default class VerifyAccount extends Component {
                   <button
                     type="button"
                     class="btn btn-primary"
-                    onClick={this.update}
+                    onClick={this.verify}
                   >
                     Verify
                   </button>

@@ -4,11 +4,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
+import tech.mineapp.model.request.UpdatePasswordRequestModel;
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.UserResponseModel;
@@ -38,6 +40,9 @@ public class UserController {
 
 	@Autowired
 	ForgotPasswordRepository forgotPasswordRepository;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/user/me")
 	@PreAuthorize("hasRole('USER')")
@@ -129,6 +134,40 @@ public class UserController {
 			forgotPasswordRepository.deleteByUser(userEntityToDelete);
 
 			userRepository.deleteByUserId(userPrincipal.getUserId());
+
+			response.setStatus("SUCCESS");
+
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+
+			response.setStatus("FAIL");
+			response.setErrorMessage(e.getMessage());
+
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+
+	@PutMapping("/user/me/password")
+	public ResponseEntity<?> updatePassword(@CurrentUser UserPrincipal userPrincipal,
+											@RequestBody UpdatePasswordRequestModel newPasswordRequest){
+
+		ContainerResponseModel response = new ContainerResponseModel();
+
+		response.setVerb("PUT");
+		response.setEndpoint("/api/users/me/password");
+
+		if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+			response.setStatus("FAIL");
+			response.setErrorMessage("Unverified user.");
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		try {
+			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
+					.orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUserId()));
+
+			user.setPassword(passwordEncoder.encode(newPasswordRequest.getPassword()));
+			userRepository.save(user);
 
 			response.setStatus("SUCCESS");
 
