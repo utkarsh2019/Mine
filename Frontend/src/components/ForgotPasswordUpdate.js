@@ -29,7 +29,6 @@ export default class ForgotPasswordUpdate extends Component {
         }
     })
     .then(function (response) {
-      console.log(response);
       window.location.replace('/login');
     })
     .catch(function (error) {

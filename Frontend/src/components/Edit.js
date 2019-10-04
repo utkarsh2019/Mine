@@ -31,7 +31,6 @@ export default class Edit extends Component {
       }
     })
       .then(function(response) {
-        console.log(response);
         document.getElementById("name").value =
           response.data.responseObject.name;
         document.getElementById("email").value =
@@ -353,14 +352,6 @@ export default class Edit extends Component {
     );
   }
   updateInfoRender = () => {
-    /*let name = document.getElementById("nameinput").value;
-    console.log(name);
-    if(name.value=="")
-    {
-
-    }
-    let email = document.getElementById("emailinput").value;
-    console.log(email);*/
     const prefcategories = ["movies", "music", "social", "text", "audio"];
 
     let firstPref = document.getElementById("preferenceInput1").value;

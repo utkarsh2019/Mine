@@ -26,7 +26,6 @@ export default class VerifyAccount extends Component {
         url:'http://localhost:8080/verify/confirm?token='+token
     })
     .then(function (response) {
-      console.log(response);
       window.location.replace('/login');
     })
     .catch(function (error) {

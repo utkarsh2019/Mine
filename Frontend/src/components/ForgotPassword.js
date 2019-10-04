@@ -17,7 +17,7 @@ export default class ForgotPassword extends Component {
       }
     })
       .then(function(response) {
-        console.log(response);
+        window.location.replace('/');
       })
       .catch(function(error) {
         alert(error);
