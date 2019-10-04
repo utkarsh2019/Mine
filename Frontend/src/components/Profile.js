@@ -27,7 +27,7 @@ export default class Profile extends Component {
     }
 
     axios({
-      method:'put',
+      method:'get',
       url:'http://localhost:8080/user/me',
       headers:{
           Authorization: (type + ' ' + token),
@@ -35,6 +35,16 @@ export default class Profile extends Component {
   })
   .then(function (response) {
     console.log(response);
+    document.getElementById('name').innerHTML="Name: "+response.data.responseObject.name;
+    document.getElementById('email').innerHTML="Email: "+response.data.responseObject.email;
+    document.getElementById('num').innerHTML="Number of Searches Displayed: "+response.data.responseObject.noOfPreviousSearches;
+  
+    let pref = (response.data.responseObject.categoryPreferences).split(',');
+    document.getElementById('item1').innerHTML=pref[0];
+    document.getElementById('item2').innerHTML=pref[1];
+    document.getElementById('item3').innerHTML=pref[2];
+    document.getElementById('item4').innerHTML=pref[3];
+    document.getElementById('item5').innerHTML=pref[4];
   })
   .catch(function (error) {
       alert(error);
@@ -66,16 +76,9 @@ export default class Profile extends Component {
   })
   .then(function (response) {
     console.log(response);
-    document.getElementById('name').value="Name: "+response.responseObject.name;
-    document.getElementById('email').value="Email: "+response.responseObject.email;
-    document.getElementById('num').value="Number of Searches Displayed: "+response.responseObject.noOfPreviousSearches;
-    
-    let pref = response.responseObject.userPreferences.split(',');
-    document.getElementById('item1').value=pref[0];
-    document.getElementById('item2').value=pref[1];
-    document.getElementById('item3').value=pref[2];
-    document.getElementById('item4').value=pref[3];
-    document.getElementById('item5').value=pref[4];
+    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.replace('\login');
   })
   .catch(function (error) {
       alert(error);
@@ -127,7 +130,7 @@ export default class Profile extends Component {
               <h5>MY PROFILE</h5>
             </div>
             <div className="col-sm-8">
-              <p id="name"><b>Name:Name of the User</b></p>
+              <p id="name">Name:Name of the User</p>
               <p id="email">Email:Email Address of the User</p>
               <hr></hr>
               <img src={require("./../img/profile.png")} height="75" width="75"></img>
