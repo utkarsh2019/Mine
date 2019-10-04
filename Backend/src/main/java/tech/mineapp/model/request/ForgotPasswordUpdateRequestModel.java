@@ -12,7 +12,5 @@ import lombok.Data;
  *
  */
 @Data
-public class ForgotPasswordUpdateRequestModel {
-	@NotBlank
-	private String password;
+public class ForgotPasswordUpdateRequestModel extends PasswordUpdateRequestModel {
 }
