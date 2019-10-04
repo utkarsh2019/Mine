@@ -4,7 +4,7 @@ import "../css/bootstrap.css";
 import axios from "axios";
 
 export default class EditPassword extends Component {
-  update(){
+  update() {
     let cookie = document.cookie.split(";");
     let cookie1 = cookie[0].split("=");
     let cookie2 = cookie[1].split("=");
@@ -17,28 +17,28 @@ export default class EditPassword extends Component {
       token = cookie1[1];
     }
 
-    let pass = document.getElementById('passwordinput').innerHTML;
+    let pass = document.getElementById("passwordinput").value;
 
     axios({
-        method:'put',
-        url:'http://localhost:8080/user/me/password',
-        headers:{
-            Authorization: type + " " + token
-        },
-        data:{
-            password:pass,
-        }
+      method: "put",
+      url: "http://localhost:8080/user/me/password",
+      headers: {
+        Authorization: type + " " + token
+      },
+      data: {
+        password: pass
+      }
     })
-    .then(function (response) {
-      console.log(response);
-      window.location.replace('/edit');
-    })
-    .catch(function (error) {
-      alert(error);
-    });
-  };
+      .then(function(response) {
+        console.log(response);
+        window.location.replace("/edit");
+      })
+      .catch(function(error) {
+        alert(error);
+      });
+  }
 
-  render () {
+  render() {
     return (
       <div>
         <div class="container-fluid">
