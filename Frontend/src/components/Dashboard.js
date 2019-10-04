@@ -22,10 +22,7 @@ export default class Dashboard extends Component {
         </div>
         <ul class="nav justify-content-end">
           <li class="nav-item">
-              <button type="button" class="btn btn-info navsignlog">Account</button>
-          </li>
-          <li class="nav-item">
-              <button type="button" class="btn btn-info navsignlog">Logout</button>
+            <a href={'/profile'} ><button type="button" class="btn btn-info navsignlog">Account</button></a>
           </li>
         </ul>
       </nav>
