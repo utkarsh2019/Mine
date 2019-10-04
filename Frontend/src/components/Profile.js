@@ -39,7 +39,7 @@ export default class Profile extends Component {
   .catch(function (error) {
       alert(error);
   });
-  }
+  };
 
   
   deleteAccount = () => {

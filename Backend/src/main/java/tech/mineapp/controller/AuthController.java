@@ -108,6 +108,8 @@ public class AuthController {
 
 	        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+	        user.setCategoryPreferences("movies,music,social,text,audio");
+
 	        UserEntity savedUser = userRepository.save(user);
 			
 	        eventPublisher.publishEvent(new OnVerificationCompleteEvent(savedUser, request.getLocale(), request.getContextPath()));
