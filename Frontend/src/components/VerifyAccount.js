@@ -5,10 +5,17 @@ import axios from 'axios';
 
 
 export default class VerifyAccount extends Component{
+  
+  getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
 
+    var results = regex.exec(this.props.location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  };
 
   update(){
-    
+    console.log(this.getUrlParameter('token'));
   };
 
   render () {

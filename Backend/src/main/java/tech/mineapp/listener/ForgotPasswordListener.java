@@ -43,13 +43,13 @@ public class ForgotPasswordListener implements
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
         String confirmationUrl 
-          = event.getAppUrl() + "/verify/password?token=" + token;
+          = event.getAppUrl() + "/forgotpasswordupdate?token=" + token;
         String message = messages.getMessage("regSucc", null, event.getLocale());
          
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + " \r\n\r\n" + "http://localhost:8080" + confirmationUrl);
+        email.setText(message + " \r\n\r\n" + "http://localhost:3000" + confirmationUrl);
         mailSender.send(email);
     }
 }
