@@ -20,11 +20,12 @@ public class UserRequestModel {
 	private String name;
 	
 	private String profilePicUrl;
-	
+
+	private String categoryPreferences;
 //	@NotBlank
 //	private AuthProvider provider;
 	
-	@NotBlank
-	private Boolean isVerified;
+//	@NotBlank
+//	private Boolean isVerified;
 
 }

@@ -16,7 +16,7 @@ public class UserResponseModel implements ResponseModel {
 	private String email;
 	private String name;
 	private Boolean isVerified;
-//	private List<String> categoryPreferences;
+	private String categoryPreferences;
 //	private int numberOfPreviousSearches;
 	private String profilePicURL;
 //	private AuthProvider provider;
