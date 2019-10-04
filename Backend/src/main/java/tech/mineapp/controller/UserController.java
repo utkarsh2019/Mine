@@ -154,13 +154,7 @@ public class UserController {
 		ContainerResponseModel response = new ContainerResponseModel();
 
 		response.setVerb("PUT");
-		response.setEndpoint("/api/users/me/password");
-
-		if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
-			response.setStatus("FAIL");
-			response.setErrorMessage("Unverified user.");
-			return ResponseEntity.badRequest().body(response);
-		}
+		response.setEndpoint("/api/user/me/password");
 
 		try {
 			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
