@@ -344,8 +344,8 @@ export default class Edit extends Component {
         <footer>
           <div class="footer text-center">
             <p>
-              Mine Copyright &copy; 2019. Amol Jha, Shivangi Chand, Utkarsh
-              Agarwal, Pooja Tewari
+              Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
+              Tewari
             </p>
           </div>
         </footer>

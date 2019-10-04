@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import tech.mineapp.entity.UserEntity;
@@ -11,7 +12,9 @@ import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.UserResponseModel;
+import tech.mineapp.repository.ForgotPasswordRepository;
 import tech.mineapp.repository.UserRepository;
+import tech.mineapp.repository.VerificationTokenRepository;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.service.UserService;
@@ -27,7 +30,14 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	VerificationTokenRepository verificationTokenRepository;
+
+	@Autowired
+	ForgotPasswordRepository forgotPasswordRepository;
 	
 	@GetMapping("/user/me")
 	@PreAuthorize("hasRole('USER')")
@@ -98,6 +108,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/user/me")
+	@Transactional
 	public ResponseEntity<?> removeUser(@CurrentUser UserPrincipal userPrincipal) {
 
 		ContainerResponseModel response = new ContainerResponseModel();
@@ -112,6 +123,11 @@ public class UserController {
      	}
 
 		try {
+			UserEntity userEntityToDelete = userRepository.findUserByUserId(userPrincipal.getUserId()).get();
+
+			verificationTokenRepository.deleteByUser(userEntityToDelete);
+			forgotPasswordRepository.deleteByUser(userEntityToDelete);
+
 			userRepository.deleteByUserId(userPrincipal.getUserId());
 
 			response.setStatus("SUCCESS");
