@@ -27,41 +27,41 @@ export default class App extends Component {
       loading: false
     }
 
-    this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    // this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
+    // this.handleLogout = this.handleLogout.bind(this);
   }
 
-  loadCurrentlyLoggedInUser() {
-    this.setState({
-      loading: true
-    });
+  // loadCurrentlyLoggedInUser() {
+  //   this.setState({
+  //     loading: true
+  //   });
 
-    getCurrentUser()
-    .then(response => {
-      this.setState({
-        currentUser: response,
-        authenticated: true,
-        loading: false
-      });
-    }).catch(error => {
-      this.setState({
-        loading: false
-      });  
-    });    
-  }
+  //   getCurrentUser()
+  //   .then(response => {
+  //     this.setState({
+  //       currentUser: response,
+  //       authenticated: true,
+  //       loading: false
+  //     });
+  //   }).catch(error => {
+  //     this.setState({
+  //       loading: false
+  //     });  
+  //   });    
+  // }
 
-  handleLogout() {
-    localStorage.removeItem(ACCESS_TOKEN);
-    this.setState({
-      authenticated: false,
-      currentUser: null
-    });
-    Alert.success("You're safely logged out!");
-  }
+  // handleLogout() {
+  //   localStorage.removeItem(ACCESS_TOKEN);
+  //   this.setState({
+  //     authenticated: false,
+  //     currentUser: null
+  //   });
+  //   Alert.success("You're safely logged out!");
+  // }
 
-  componentDidMount() {
-    this.loadCurrentlyLoggedInUser();
-  }
+  // componentDidMount() {
+  //   this.loadCurrentlyLoggedInUser();
+  // }
 
   render () {
   return (
