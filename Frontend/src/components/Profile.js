@@ -3,6 +3,17 @@ import '../css/bootstrap.css';
 import '../css/Profile.css';
 
 export default class Profile extends Component {
+
+  logout = () => {
+    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.replace('\login');
+  }
+
+  load = () => {
+
+  }
+
  render (){
   return (
     <div className="Profile">  
@@ -25,7 +36,7 @@ export default class Profile extends Component {
               <button type="button" class="btn btn-info navsignlog">Account</button>
           </li>
           <li class="nav-item">
-              <button type="button" class="btn btn-info navsignlog">Logout</button>
+              <button type="button" class="btn btn-info navsignlog" onClick={this.logout}>Logout</button>
           </li>
         </ul>
       </nav>

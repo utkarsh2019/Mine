@@ -3,7 +3,6 @@ import '../css/login.css';
 import '../css/bootstrap.css';
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL} from './../constants';
 import axios from 'axios';
-import { withCookies, Cookies} from 'react-cookie';
 
 export default class Login extends Component{
 
@@ -25,13 +24,10 @@ export default class Login extends Component{
             }
         })
         .then(function (response) {
-            alert(response.data);
 
-            const { cookies } = this.props;
-
-
-            cookies.save('token', response.accessToken, {path:'/'});
-            cookies.save('bearer', response.tokenType ,{path:'/'});
+            document.cookie = 'accessToken=' + response.data.responseObject.accessToken + ';path=/';
+            document.cookie = 'tokenType=' + response.data.responseObject.tokenType + ';path=/';
+            window.location.replace('/profile');
 
         })
         .catch(function (error) {
