@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../css/bootstrap.css';
 import '../css/Edit.css';
+import axios from 'axios';
 
 export default class Edit extends Component {
  render (){

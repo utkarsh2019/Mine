@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../css/bootstrap.css';
 import '../css/Profile.css';
+import axios from 'axios';
 
 export default class Profile extends Component {
 
@@ -13,6 +14,31 @@ export default class Profile extends Component {
   load = () => {
 
   }
+
+  
+  deleteAccount = () => {
+
+    alert('yes!');
+
+    let cookie = document.cookie.split(';');
+
+    axios({
+      method:'delete',
+      url:'http://localhost:8080/user/me',
+      header:{
+          Authorization: (cookie[1] + ' ' + cookie[0]),
+      },
+      data:{},
+  })
+  .then(function (response) {
+    alert(response);
+  })
+  .catch(function (error) {
+      alert(error);
+  });
+
+  }
+
 
  render (){
   return (
@@ -86,10 +112,10 @@ export default class Profile extends Component {
           <br></br>
           <div className="row">
           <div className="col-sm-6 text-center  ">
-          <button type="button" class="btn btn-primary">Edit</button>
+          <a href="\edit"><button type="button" class="btn btn-primary">Edit</button></a>
           </div>
           <div className="col-sm-6 text-center">
-          <button type="button" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-danger" onclick={this.deleteAccount}>Delete</button>
           </div>
         </div>
         <br></br>
