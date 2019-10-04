@@ -1,0 +1,85 @@
+
+  #searchclass{
+      padding-left: 3%;
+      padding-top:2%;
+      margin-top:10px;
+  }
+  #searchbar{
+      width:100%;
+  }
+  #categoriesdrop{
+      width: 100%;
+  }
+  .results{
+      margin:2% auto;
+      height: 600px;
+      background-color: white;
+  }
+  
+  .results h5{
+      padding-top: 250px;
+      color: grey;
+  }
+  
+  /*TRENDING.HTML CODE*/
+  .trending{
+      height:600px;
+      background-color: white;
+  }
+  nav .navsignlog{
+      margin: 2px 4px;
+  }
+  .main {
+  
+      height: 500px;
+  }
+  
+  .center-block{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 25%;
+      height: 250px;
+      width: 250px;
+      opacity: 100%;
+  }
+  .about {
+      height: auto;
+      background-color: white;
+      padding: 10% 10%;
+  }
+  
+  h1 {
+      padding: 2% 2%;
+  }
+  .team {
+      height: auto;
+      background-color: black;
+      color: white;
+      padding: 10% 10%;
+  }
+  
+  .team img{
+      height: 300px;
+      width:285px;
+  }
+  .card-body{
+      color:black;
+  }
+  .card {
+          margin: 0 auto; /* Added */
+          float: none; /* Added */
+          margin-bottom: 10px; /* Added */
+  }
+  
+  .contact{
+      height: auto;
+      background-color: #BAEFED;
+      padding:10% 10%;
+  }
+  
+  
+  footer {
+      padding:3% 2%;
+      color:white;
+  }
