@@ -98,16 +98,13 @@ export default class Profile extends Component {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-item nav-link">Home</a>
-            <a class="nav-item nav-link">Trending</a>
-            <a class="nav-item nav-link">Search</a>
+            <a href={'/dashboard'} class="nav-item nav-link">Dashboard</a>
+            <a href={'/trending'} class="nav-item nav-link">Trending</a>
+            <a href={'/search'} class="nav-item nav-link">Search</a>
 
           </div>
         </div>
         <ul class="nav justify-content-end">
-          <li class="nav-item">
-              <button type="button" class="btn btn-info navsignlog">Account</button>
-          </li>
           <li class="nav-item">
               <button type="button" class="btn btn-info navsignlog" onClick={this.logout}>Logout</button>
           </li>
