@@ -41,7 +41,7 @@ public class ForgotPasswordListener implements
         fpService.createForgotPasswordToken(user, token);
          
         String recipientAddress = user.getEmail();
-        String subject = "Registration Confirmation";
+        String subject = "Forgot Password";
         String confirmationUrl 
           = event.getAppUrl() + "/forgotpasswordupdate?token=" + token;
         String message = messages.getMessage("regSucc", null, event.getLocale());

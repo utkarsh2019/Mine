@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
-import tech.mineapp.model.request.UpdatePasswordRequestModel;
+import tech.mineapp.model.request.PasswordUpdateRequestModel;
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.UserResponseModel;
@@ -149,7 +149,7 @@ public class UserController {
 
 	@PutMapping("/user/me/password")
 	public ResponseEntity<?> updatePassword(@CurrentUser UserPrincipal userPrincipal,
-											@RequestBody UpdatePasswordRequestModel newPasswordRequest){
+											@RequestBody PasswordUpdateRequestModel passwordUpdateRequest){
 
 		ContainerResponseModel response = new ContainerResponseModel();
 
@@ -160,7 +160,7 @@ public class UserController {
 			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
 					.orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUserId()));
 
-			user.setPassword(passwordEncoder.encode(newPasswordRequest.getPassword()));
+			user.setPassword(passwordEncoder.encode(passwordUpdateRequest.getPassword()));
 			userRepository.save(user);
 
 			response.setStatus("SUCCESS");
