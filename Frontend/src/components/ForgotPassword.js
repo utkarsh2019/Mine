@@ -2,9 +2,33 @@ import React, {Component} from 'react';
 import logo from '../img/minelogo.png';
 import '../css/forgotpassword.css';
 import '../css/bootstrap.css';
+import axios from 'axios';
 
 
 export default class ForgotPassword extends Component{
+
+
+  forgot(){
+    let userdata = {};
+        userdata.email = document.getElementById("emailinput").value;
+      
+
+        axios({
+            method:'post',
+            url:'http://localhost:8080/forgotPassword',
+            data:{
+                email:userdata.email,
+            }
+        })
+        .then(function (response) {
+          console.log(response);
+
+        })
+        .catch(function (error) {
+            alert(error);
+        });
+
+  };
 
   render () {
     return (
@@ -27,7 +51,7 @@ export default class ForgotPassword extends Component{
                         <input type="email" class="form-control" id="emailinput" placeholder="name@example.com"></input>
                         </div>
                        
-                        <button type="button" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-primary" onClick={this.forgot}>Submit</button>
                     </form>
                     </div>
                 </div>
