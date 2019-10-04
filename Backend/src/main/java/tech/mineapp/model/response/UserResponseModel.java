@@ -12,12 +12,10 @@ import tech.mineapp.constants.AuthProvider;
  */
 @Data
 public class UserResponseModel implements ResponseModel {
-//	private long userId;
 	private String email;
 	private String name;
 	private Boolean isVerified;
 	private String categoryPreferences;
-//	private int numberOfPreviousSearches;
+	private int noOfPreviousSearches;
 	private String profilePicURL;
-//	private AuthProvider provider;
 }

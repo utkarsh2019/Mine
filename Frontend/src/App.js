@@ -13,6 +13,8 @@ import PrivateRoute from './common/PrivateRoute';
 import AppHeader from './common/AppHeader';
 import NotFound from './common/NotFound';
 import Edit from './components/Edit'
+import ForgotPasswordUpdate from './components/ForgotPasswordUpdate';
+import VerifyAccount from './components/VerifyAccount';
 
 
 export default class App extends Component {
@@ -25,41 +27,41 @@ export default class App extends Component {
       loading: false
     }
 
-    this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
+    // this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
+    // this.handleLogout = this.handleLogout.bind(this);
   }
 
-  loadCurrentlyLoggedInUser() {
-    this.setState({
-      loading: true
-    });
+  // loadCurrentlyLoggedInUser() {
+  //   this.setState({
+  //     loading: true
+  //   });
 
-    getCurrentUser()
-    .then(response => {
-      this.setState({
-        currentUser: response,
-        authenticated: true,
-        loading: false
-      });
-    }).catch(error => {
-      this.setState({
-        loading: false
-      });  
-    });    
-  }
+  //   getCurrentUser()
+  //   .then(response => {
+  //     this.setState({
+  //       currentUser: response,
+  //       authenticated: true,
+  //       loading: false
+  //     });
+  //   }).catch(error => {
+  //     this.setState({
+  //       loading: false
+  //     });  
+  //   });    
+  // }
 
-  handleLogout() {
-    localStorage.removeItem(ACCESS_TOKEN);
-    this.setState({
-      authenticated: false,
-      currentUser: null
-    });
-    Alert.success("You're safely logged out!");
-  }
+  // handleLogout() {
+  //   localStorage.removeItem(ACCESS_TOKEN);
+  //   this.setState({
+  //     authenticated: false,
+  //     currentUser: null
+  //   });
+  //   Alert.success("You're safely logged out!");
+  // }
 
-  componentDidMount() {
-    this.loadCurrentlyLoggedInUser();
-  }
+  // componentDidMount() {
+  //   this.loadCurrentlyLoggedInUser();
+  // }
 
   render () {
   return (
@@ -78,6 +80,11 @@ export default class App extends Component {
             render={(props) => <Profile authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/edit"
             render={(props) => <Edit authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/forgotPasswordUpdate"
+            render={(props) => <ForgotPasswordUpdate authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/verifyaccount"
+            render={(props) => <VerifyAccount authenticated={this.state.authenticated} {...props} />}></Route>
+          
           <Route component={NotFound}></Route>
         </Switch>
       </div>

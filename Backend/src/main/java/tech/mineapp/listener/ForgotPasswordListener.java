@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.event.OnForgotPasswordEvent;
@@ -16,6 +17,7 @@ import tech.mineapp.service.ForgotPasswordService;
  * @author utkarsh
  *
  */
+@Component
 public class ForgotPasswordListener implements
 	ApplicationListener<OnForgotPasswordEvent> {
   
@@ -41,7 +43,7 @@ public class ForgotPasswordListener implements
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
         String confirmationUrl 
-          = event.getAppUrl() + "/verify/confirm?token=" + token;
+          = event.getAppUrl() + "/verify/password?token=" + token;
         String message = messages.getMessage("regSucc", null, event.getLocale());
          
         SimpleMailMessage email = new SimpleMailMessage();
