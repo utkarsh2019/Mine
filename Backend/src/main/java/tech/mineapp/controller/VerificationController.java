@@ -56,7 +56,8 @@ public class VerificationController {
 //	        model.addAttribute("message", messageValue);
 	        return "VerificationUnsuccessful";//"redirect:/verificationUnsuccessful.html?lang=" + locale.getLanguage();
 	    } 
-	     
+	    
+	    tokenService.deleteVerificationToken(user);
 	    user.setIsVerified(true); 
 	    userRepository.save(user);
 	    return "VerificationSuccessful"; 

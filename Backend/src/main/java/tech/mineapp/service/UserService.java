@@ -70,4 +70,11 @@ public class UserService implements UserDetailsService {
         			new UsernameNotFoundException("User not found with email : " + email));
     	return user.getIsVerified();
     }
+    
+    public boolean checkVerificationByUserId(Long userId) {
+    	UserEntity user = userRepository.findUserByUserId(userId)
+        		.orElseThrow(() ->
+        			new UsernameNotFoundException("User not found with user id : " + userId));
+    	return user.getIsVerified();
+    }
 }

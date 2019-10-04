@@ -104,6 +104,12 @@ public class UserController {
 
 		response.setVerb("DELETE");
 		response.setEndpoint("/api/users/me");
+		
+		if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+     		response.setStatus("FAIL");
+     		response.setErrorMessage("Unverified user.");
+     		return ResponseEntity.badRequest().body(response);
+     	}
 
 		try {
 			userRepository.deleteByUserId(userPrincipal.getUserId());
