@@ -16,12 +16,17 @@ class OAuth2RedirectHandler extends Component {
         const error = this.getUrlParameter('error');
 
         if(token) {
-            localStorage.setItem(ACCESS_TOKEN, token);
+            document.cookie = 'accessToken=' + token + ';path=/';
+            document.cookie = 'tokenType=Bearer;path=/';
+            // window.location.replace('/profile');
+
+            // localStorage.setItem(ACCESS_TOKEN, token);
             return <Redirect to={{
                 pathname: "/profile",
                 state: { from: this.props.location }
             }}/>; 
         } else {
+            // window.location.replace('/login');
             return <Redirect to={{
                 pathname: "/login",
                 state: { 
