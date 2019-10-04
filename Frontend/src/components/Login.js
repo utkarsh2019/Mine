@@ -11,9 +11,19 @@ export default class Login extends Component {
 
   login = () => {
     let userdata = {};
-    userdata.email = document.getElementById("emailinput").value;
-    userdata.password = document.getElementById("passwordinput").value;
-
+    if(document.getElementById("emailinput").value != ""){
+     userdata.email = document.getElementById("emailinput").value;
+    }
+    else{
+      alert("Please Enter your EmailId");
+    }
+    if(document.getElementById("passwordinput").value != ""){
+      userdata.password = document.getElementById("passwordinput").value;
+    }
+    else{
+      alert("Please Enter the your Password");
+    }
+  
     axios({
       method: "post",
       url: "http://localhost:8080/auth/login",
@@ -30,7 +40,9 @@ export default class Login extends Component {
         window.location.replace("/profile");
       })
       .catch(function(error) {
-        alert(error);
+        if(document.getElementById("passwordinput").value != "" && document.getElementById("emailinput").value != ""){
+          alert("Please Check your EmailId or Password");
+        }
       });
   };
 
