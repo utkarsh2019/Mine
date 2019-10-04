@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from '../img/logo.svg';
 import '../css/home.css';
 import '../css/bootstrap.css';
 import Loader from 'react-loader-spinner';

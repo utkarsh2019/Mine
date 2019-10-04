@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from '../img/minelogo.png';
 import '../css/signup.css';
 import '../css/bootstrap.css';
 import axios from 'axios';
