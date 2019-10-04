@@ -5,6 +5,12 @@ import axios from "axios";
 
 export default class VerifyAccount extends Component {
   
+  constructor(props) {
+    super(props);
+
+    this.verify = this.verify.bind(this);
+  }
+
   getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -13,8 +19,18 @@ export default class VerifyAccount extends Component {
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   };
 
-  update(){
-    console.log(this.getUrlParameter('token'));
+  verify(){
+    let token = this.getUrlParameter('token');
+    axios({
+        method:'get',
+        url:'http://localhost:8080/verify/confirm?token='+token
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      alert(error);
+    });
   };
 
   render () {
@@ -38,7 +54,7 @@ export default class VerifyAccount extends Component {
                   <button
                     type="button"
                     class="btn btn-primary"
-                    onClick={this.update}
+                    onClick={this.verify}
                   >
                     Verify
                   </button>
