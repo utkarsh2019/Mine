@@ -35,8 +35,8 @@ export default class Edit extends Component {
   })
   .then(function (response) {
     console.log(response);
-    document.getElementById('name').innerHTML="Name: "+response.data.responseObject.name;
-    document.getElementById('email').innerHTML="Email: "+response.data.responseObject.email;
+    document.getElementById('name').value=response.data.responseObject.name;
+    document.getElementById('email').value=response.data.responseObject.email;
 
     if(response.data.responseObject.noOfPreviousSearches == 1){
       document.getElementById('inlineRadio1').checked = true;
@@ -52,11 +52,11 @@ export default class Edit extends Component {
     }
   
     let pref = (response.data.responseObject.categoryPreferences).split(',');
-    document.getElementById('preferenceInput1').innerHTML=pref[0];
-    document.getElementById('preferenceInput2').innerHTML=pref[1];
-    document.getElementById('preferenceInput3').innerHTML=pref[2];
-    document.getElementById('preferenceInput4').innerHTML=pref[3];
-    document.getElementById('preferenceInput5').innerHTML=pref[4];
+    document.getElementById('preferenceInput1').value=pref[0];
+    document.getElementById('preferenceInput2').value=pref[1];
+    document.getElementById('preferenceInput3').value=pref[2];
+    document.getElementById('preferenceInput4').value=pref[3];
+    document.getElementById('preferenceInput5').value=pref[4];
   })
   .catch(function (error) {
       alert(error);
@@ -66,7 +66,7 @@ export default class Edit extends Component {
 
  render (){
   return (
-    <div className="Edit">  
+    <div className="Edit" onLoad={this.load}>  
       <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><img src={require("./../img/minelogo.png")} width="50" height="50" class="d-inline-block" alt=""></img>Mine</a>
