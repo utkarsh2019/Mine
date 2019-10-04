@@ -8,6 +8,8 @@ import java.util.Date;
 import javax.persistence.*;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * @author utkarsh
@@ -25,8 +27,9 @@ public class VerificationTokenEntity {
 	@Column(nullable = false)
     private String token;
    
-    @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = false, name = "userId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
     
     @Column(nullable = false)

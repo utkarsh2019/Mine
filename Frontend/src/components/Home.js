@@ -1,140 +1,215 @@
-import React, {Component} from 'react';
-import '../css/home.css';
-import '../css/bootstrap.css';
-import Loader from 'react-loader-spinner';
+import React, { Component } from "react";
+import "../css/home.css";
+import "../css/bootstrap.css";
+import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-
-export default class Home extends Component{
-
-  render () {
+export default class Home extends Component {
+  render() {
     return (
-      
-      <div className="App">  
-      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top container-fluid">
-        <a class="navbar-brand" href="#"><img src={require("./../img/minelogo.png")} width="50" height="50" class="d-inline-block" alt=""></img>Mine</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class=" navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link" href="#aboutnav">About</a>
-            <a class="nav-item nav-link" href="#teamnav">Team</a>
-            <a class="nav-item nav-link" href="#contactnav">Contact Us</a>
+      <div className="App">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top container-fluid">
+          <a class="navbar-brand" href="#">
+            <img
+              src={require("./../img/minelogo.png")}
+              width="50"
+              height="50"
+              class="d-inline-block"
+              alt=""
+            ></img>
+            Mine
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class=" navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" href="#aboutnav">
+                About
+              </a>
+              <a class="nav-item nav-link" href="#teamnav">
+                Team
+              </a>
+              <a class="nav-item nav-link" href="#contactnav">
+                Contact Us
+              </a>
+            </div>
+            <div className="ml-auto">
+              <ul class="nav justify-content-end">
+                <li class="nav-item">
+                  <a href={"/login"}>
+                    <button type="button" class="btn btn-info navsignlog">
+                      Login
+                    </button>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href={"/signup"}>
+                    <button type="button" class="btn btn-info navsignlog">
+                      Signup
+                    </button>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className= "ml-auto">
-            <ul class="nav justify-content-end">
-              <li class="nav-item">
-                <a href={'/login'}><button type="button" class="btn btn-info navsignlog">Login</button></a>
-              </li>
-              <li class="nav-item">
-                <a href={'/signup'}><button type="button" class="btn btn-info navsignlog">Signup</button></a>
-              </li>
-            </ul>
-          </div>
-            
+        </nav>
+
+        <div class="main parallax">
+          <Loader
+            type="Rings"
+            color="#00BFFF"
+            height={700}
+            width={700}
+            margin-top={100}
+            timeout={1000} //3 secs
+          ></Loader>
+          <img
+            id="logoimg"
+            class="center-block"
+            src={require("../img/minelogo.png")}
+          ></img>
         </div>
-        
-      </nav>
 
-      <div class="main parallax">
-        <Loader
-          type="Rings"
-          color="#00BFFF"
-          height={700}
-          width={700}
-          margin-top={100}
-          timeout={1000} //3 secs
-        >
-        </Loader>
-          <img id="logoimg" class = "center-block" src={require("../img/minelogo.png")}></img>
-      </div>
+        <div class="about text-center" id="aboutnav">
+          <h1>About</h1>
+          <p1>
+            Online content is easily accessible today by millions of people
+            worldwide. Streaming companies have made vast troves of media
+            available at your fingertips. This rapid proliferation of online
+            content has paradoxically created another problem for people -
+            indecisiveness. It can be hard to decide what content to consume in
+            a world with increasingly short attention spans and tighter
+            schedules. Furthermore, it can be a very tedious process to login
+            and search for various different platforms in order to find
+            something that fits. Mine aims to solve this problem by aggregating
+            popular online content stores in order to present the user with the
+            most relevant media available online - all in a single location. A
+            user can simply specify a search term and obtain relevant results -
+            aggregated neatly by category so that they can easily pick and
+            choose what they want.
+          </p1>
+        </div>
 
-      <div class="about text-center" id="aboutnav">
-          <h1 >About</h1>
-          <p1>Online content is easily accessible today by millions of people worldwide. Streaming companies have made vast troves of media available at your fingertips. This rapid proliferation of online content has paradoxically created another problem for people - indecisiveness. It can be hard to decide what content to consume in a world with increasingly short attention spans and tighter schedules. Furthermore, it can be a very tedious process to login and search for various different platforms in order to find something that fits. Mine aims to solve this problem by aggregating popular online content stores in order to present the user with the most relevant media available online - all in a single location. A user can simply specify a search term and obtain relevant results - aggregated neatly by category so that they can easily pick and choose what they want.</p1>
-      </div>
-
-      <div class="team text-center" id="teamnav">
-          <h1 >Team</h1>
+        <div class="team text-center" id="teamnav">
+          <h1>Team</h1>
           <div class="container">
             <div class="row">
               <div class="col-6">
-                  <div class="card" >
-                    <img src={require("../img/pooja.jpg")} class="card-img-top" alt="..."></img>
-                    <div class="card-body">
-                      <h5 class="card-title">Pooja Tewari</h5>
-                      <p class="card-text">Front-end developer</p>
-                    </div>
+                <div class="card">
+                  <img
+                    src={require("../img/pooja.jpg")}
+                    class="card-img-top"
+                    alt="..."
+                  ></img>
+                  <div class="card-body">
+                    <h5 class="card-title">Pooja Tewari</h5>
+                    <p class="card-text">Front-end developer</p>
                   </div>
+                </div>
               </div>
               <div class="col-6">
-                  <div class="card" >
-                    <img src={require("../img/shivangi.jpg")} class="card-img-top" alt="..."></img>
-                    <div class="card-body">
-                      <h5 class="card-title">Shivangi Chand</h5>
-                      <p class="card-text">Front-end developer</p>
-                    </div>
+                <div class="card">
+                  <img
+                    src={require("../img/shivangi.jpg")}
+                    class="card-img-top"
+                    alt="..."
+                  ></img>
+                  <div class="card-body">
+                    <h5 class="card-title">Shivangi Chand</h5>
+                    <p class="card-text">Front-end developer</p>
                   </div>
+                </div>
               </div>
             </div>
             <div class="row">
               <div class="col-6">
-                  <div class="card" >
-                    <img src={require("../img/amol.jpg")} class="card-img-top" alt="..."></img>
-                    <div class="card-body">
-                      <h5 class="card-title">Amol Jha</h5>
-                      <p class="card-text">Back-end developer</p>
-                    </div>
+                <div class="card">
+                  <img
+                    src={require("../img/amol.jpg")}
+                    class="card-img-top"
+                    alt="..."
+                  ></img>
+                  <div class="card-body">
+                    <h5 class="card-title">Amol Jha</h5>
+                    <p class="card-text">Back-end developer</p>
                   </div>
+                </div>
               </div>
               <div class="col-6">
-                  <div class="card" >
-                    <img src={require("../img/utkarsh.jpg")} class="card-img-top" alt="..."></img>
-                    <div class="card-body">
-                      <h5 class="card-title">Utkarsh Agarwal</h5>
-                      <p class="card-text">Back-end developer</p>
-                    </div>
+                <div class="card">
+                  <img
+                    src={require("../img/utkarsh.jpg")}
+                    class="card-img-top"
+                    alt="..."
+                  ></img>
+                  <div class="card-body">
+                    <h5 class="card-title">Utkarsh Agarwal</h5>
+                    <p class="card-text">Back-end developer</p>
                   </div>
+                </div>
               </div>
             </div>
           </div>
-      </div>
-      <div class="contact text-center" id="contactnav">
-          <h1 >Contact Us</h1>
+        </div>
+        <div class="contact text-center" id="contactnav">
+          <h1>Contact Us</h1>
           <div class="card-group">
-          <div class="card">
-            <img src={require("../img/phone.png")} class="card-img-top" alt="..."></img>
-            <div class="card-body">
-              <h5 class="card-title">+1 765-432-3345</h5>
+            <div class="card">
+              <img
+                src={require("../img/phone.png")}
+                class="card-img-top"
+                alt="..."
+              ></img>
+              <div class="card-body">
+                <h5 class="card-title">+1 765-432-3345</h5>
+              </div>
+            </div>
+            <div class="card">
+              <img
+                src={require("../img/mail.png")}
+                class="card-img-top"
+                alt="..."
+              ></img>
+              <div class="card-body">
+                <h5 class="card-title">admin@mine.com</h5>
+              </div>
+            </div>
+            <div class="card">
+              <img
+                src={require("../img/location.png")}
+                class="card-img-top"
+                alt="..."
+              ></img>
+              <div class="card-body">
+                <h5 class="card-title">
+                  340 Centennial Dr, West Lafayette, IN 94506
+                </h5>
+              </div>
             </div>
           </div>
-          <div class="card">
-            <img src={require("../img/mail.png")} class="card-img-top" alt="..."></img>
-            <div class="card-body">
-              <h5 class="card-title">admin@mine.com</h5>
-            </div>
+        </div>
+        <footer>
+          <div class="footer text-center">
+            <p>
+              Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
+              Tewari
+            </p>
           </div>
-          <div class="card">
-            <img src={require("../img/location.png")} class="card-img-top" alt="..."></img>
-            <div class="card-body">
-              <h5 class="card-title">340 Centennial Dr, West Lafayette, IN 94506</h5>
-            </div>
-          </div>
-          </div>
-      </div>
-      <footer>
-          <div class = "footer text-center">
-              <p>Mine Copyright &copy; 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja Tewari</p>
-          </div>
-      </footer>
-
+        </footer>
       </div>
     );
   }
 
-  componentDidMount(){
-    document.body.className = 'appBody'
+  componentDidMount() {
+    document.body.className = "appBody";
   }
-
-} 
+}

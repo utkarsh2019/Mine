@@ -1,6 +1,5 @@
 package tech.mineapp.service;
 
-import org.hamcrest.core.IsNot;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
