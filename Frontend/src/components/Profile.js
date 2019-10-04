@@ -3,6 +3,7 @@ import '../css/bootstrap.css';
 import '../css/Profile.css';
 import axios from 'axios';
 
+
 export default class Profile extends Component {
 
   logout = () => {
@@ -17,12 +18,19 @@ export default class Profile extends Component {
 
   
   deleteAccount = () => {
-
-    alert('yes!');
-
     let cookie = document.cookie.split(';');
-    let type = cookie[0].split('=')[1];
-    let token = cookie[1].split('=')[1];
+    let t1 = cookie[0].split('=')[1];
+    let t2 = cookie[1].split('=')[1];
+    let type, token;
+    if(t1 === 'bearer'){
+      type=t1;
+      token=t2;
+    }
+    else{
+      type=t2;
+      token=t1;
+    }
+   
 
     axios({
       method:'delete',
@@ -32,7 +40,10 @@ export default class Profile extends Component {
       }
   })
   .then(function (response) {
-    alert(response);
+    console.log(response);
+    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.replace('\login');
   })
   .catch(function (error) {
       alert(error);
@@ -116,7 +127,7 @@ export default class Profile extends Component {
           <a href="\edit"><button type="button" class="btn btn-primary">Edit</button></a>
           </div>
           <div className="col-sm-6 text-center">
-          <button type="button" class="btn btn-danger" onClick={this.deleteAccount}>Delete</button>
+          <button type="button" class="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.onCancel(this.deleteAccount) } }>Delete</button>
           </div>
         </div>
         <br></br>
