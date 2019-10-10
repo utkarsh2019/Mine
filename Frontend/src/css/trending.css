@@ -1,0 +1,16 @@
+    
+    .dashboard{
+        margin-top: 7%;
+        text-align: center;
+        background-color: black;
+        }
+        
+        .imgsize{
+            display: inline-block;
+            max-width: 20%;
+            height: auto;
+        }
+        .trending{
+            height:600px;
+            background-color: white;
+        }    

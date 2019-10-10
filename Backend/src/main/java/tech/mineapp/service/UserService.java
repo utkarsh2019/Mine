@@ -1,0 +1,78 @@
+package tech.mineapp.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static tech.mineapp.constants.Constants.ApplicationConstants.*;
+
+import tech.mineapp.constants.AuthProvider;
+import tech.mineapp.entity.UserEntity;
+import tech.mineapp.exception.ResourceNotFoundException;
+import tech.mineapp.repository.UserRepository;
+import tech.mineapp.security.UserPrincipal;
+import tech.mineapp.util.RandomAlphanumericStringGenerator;
+
+/**
+ * @author utkarsh
+ *
+ */
+@Service
+@Transactional
+public class UserService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) {
+        UserEntity user = userRepository.findUserByEmail(email)
+        		.orElseThrow(() ->
+        			new UsernameNotFoundException("User not found with email : " + email));
+
+        return UserPrincipal.create(user);
+    }
+
+    public UserDetails loadUserById(String userId) {
+        UserEntity user = userRepository.findUserByUserId(Long.parseLong(userId))
+        		.orElseThrow(() -> 
+        			new ResourceNotFoundException("User", "id", userId));
+
+        return UserPrincipal.create(user);
+    }
+    
+    public Long generateIdForUser() {
+		String potentialUserId;
+
+//		do {
+			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(userIdLength);
+//		} while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
+
+		return Long.parseLong(potentialUserId);
+	}
+    
+    public boolean userIdAlreadyExists(Long userId) {
+		return userRepository.findUserByUserId(userId) != null;
+	}
+    
+    public boolean isLocalUser(UserEntity user) {
+    	return user.getProvider() == AuthProvider.local;
+    }
+    
+    public boolean checkVerificationByEmail(String email) {
+    	UserEntity user = userRepository.findUserByEmail(email)
+        		.orElseThrow(() ->
+        			new UsernameNotFoundException("User not found with email : " + email));
+    	return user.getIsVerified();
+    }
+    
+    public boolean checkVerificationByUserId(Long userId) {
+    	UserEntity user = userRepository.findUserByUserId(userId)
+        		.orElseThrow(() ->
+        			new UsernameNotFoundException("User not found with user id : " + userId));
+    	return user.getIsVerified();
+    }
+}
