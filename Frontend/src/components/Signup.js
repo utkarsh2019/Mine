@@ -34,7 +34,7 @@ export default class Signup extends Component {
 
     axios({
       method: "post",
-      url: "http://localhost:8080/auth/signup",
+      url: "http://157.245.252.174:8080/auth/signup",
       data: {
         email: userdata.email,
         name: userdata.name,

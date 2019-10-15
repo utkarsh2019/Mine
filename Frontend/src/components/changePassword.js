@@ -21,7 +21,7 @@ export default class EditPassword extends Component {
 
     axios({
       method: "put",
-      url: "http://localhost:8080/user/me/password",
+      url: "http://157.245.252.174:8080/user/me/password",
       headers: {
         Authorization: type + " " + token
       },

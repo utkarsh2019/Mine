@@ -25,7 +25,7 @@ export default class Edit extends Component {
 
     axios({
       method: "get",
-      url: "http://localhost:8080/user/me",
+      url: "http://157.245.252.174:8080/user/me",
       headers: {
         Authorization: type + " " + token
       }
@@ -96,7 +96,7 @@ export default class Edit extends Component {
     if (this.updateInfoRender()) {
       axios({
         method: "put",
-        url: "http://localhost:8080/user/me",
+        url: "http://157.245.252.174:8080/user/me",
         headers: {
           Authorization: type + " " + token
         },

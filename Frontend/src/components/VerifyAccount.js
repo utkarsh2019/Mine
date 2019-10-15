@@ -23,7 +23,7 @@ export default class VerifyAccount extends Component {
     let token = this.getUrlParameter('token');
     axios({
         method:'get',
-        url:'http://localhost:8080/verify/confirm?token='+token
+        url:'http://157.245.252.174:8080/verify/confirm?token='+token
     })
     .then(function (response) {
       window.location.replace('/login');
