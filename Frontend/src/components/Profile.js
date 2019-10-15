@@ -25,7 +25,7 @@ export default class Profile extends Component {
 
     axios({
       method: "get",
-      url: "http://157.245.252.174:8080/user/me",
+      url: "http://api.mineapp.tech/user/me",
       headers: {
         Authorization: type + " " + token
       }
@@ -66,7 +66,7 @@ export default class Profile extends Component {
 
     axios({
       method: "delete",
-      url: "http://157.245.252.174:8080/user/me",
+      url: "http://api.mineapp.tech/user/me",
       headers: {
         Authorization: type + " " + token
       }

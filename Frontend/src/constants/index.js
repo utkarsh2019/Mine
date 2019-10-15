@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://157.245.252.174:8080';
+export const API_BASE_URL = 'http://api.mineapp.tech';
 export const ACCESS_TOKEN = 'accessToken';
 
 export const OAUTH2_REDIRECT_URI = 'http://157.245.252.174:3000/oauth2/redirect'
