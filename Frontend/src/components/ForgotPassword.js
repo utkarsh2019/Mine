@@ -11,7 +11,7 @@ export default class ForgotPassword extends Component {
 
     axios({
       method: "post",
-      url: "http://localhost:8080/forgotPassword",
+      url: "http://api.mineapp.tech/forgotPassword",
       data: {
         email: userdata.email
       }

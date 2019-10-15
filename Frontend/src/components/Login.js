@@ -26,7 +26,7 @@ export default class Login extends Component {
   
     axios({
       method: "post",
-      url: "http://localhost:8080/auth/login",
+      url: "http://api.mineapp.tech/auth/login",
       data: {
         email: userdata.email,
         password: userdata.password

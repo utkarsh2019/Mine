@@ -24,7 +24,7 @@ export default class ForgotPasswordUpdate extends Component {
     let pass = document.getElementById("passwordinput").value;
     axios({
       method: "post",
-      url: "http://localhost:8080/verify/password?token=" + token,
+      url: "http://api.mineapp.tech/verify/password?token=" + token,
       data: {
         password: pass
       }
