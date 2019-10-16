@@ -49,7 +49,7 @@ public class ForgotPasswordListener implements
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + " \r\n\r\n" + "http://localhost:3000" + confirmationUrl);
+        email.setText(message + " \r\n\r\n" + "http://mineapp.tech" + confirmationUrl);
         mailSender.send(email);
     }
 }
