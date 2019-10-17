@@ -11,6 +11,7 @@ import java.nio.file.StandardCopyOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import tech.mineapp.config.StorageProperties;
@@ -21,6 +22,7 @@ import tech.mineapp.exception.StorageFileNotFoundException;
  * @author utkarsh
  *
  */
+@Service
 public class FileUploadService {
 	
 	private final Path rootLocation;
