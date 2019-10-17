@@ -37,7 +37,7 @@ public class VerificationController {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("POST");
-		response.setEndpoint("/verify/password");
+		response.setEndpoint("/verify/confirm");
 		
 		try {
 		    VerificationTokenEntity verificationToken = tokenService.getVerificationToken(token);

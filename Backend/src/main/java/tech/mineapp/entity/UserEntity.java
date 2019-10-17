@@ -11,14 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
-import static tech.mineapp.constants.Constants.ApplicationConstants.userIdLength;
-
 /**
  * Entity representing persistent storage
  * of user information
  *
  * @author amolmoses, utkarsh
  */
+@SuppressWarnings("serial")
 @Data
 @Entity
 @Table(name = "Users")
