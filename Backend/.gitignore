@@ -35,3 +35,6 @@ build/
 
 ### Apple Finder ###
 **/.DS_STORE
+
+### Pictures Folder ###
+pictures/

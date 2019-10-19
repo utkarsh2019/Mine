@@ -1,9 +1,6 @@
 package tech.mineapp.model.response;
 
-import java.util.List;
-
 import lombok.Data;
-import tech.mineapp.constants.AuthProvider;
 
 /**
  * Response Model representing User Details

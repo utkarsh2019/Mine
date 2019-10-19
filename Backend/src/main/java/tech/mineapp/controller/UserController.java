@@ -50,7 +50,7 @@ public class UserController {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("GET");
-		response.setEndpoint("/api/users/me");
+		response.setEndpoint("/user/me");
 		
 		try {
 			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
@@ -82,7 +82,7 @@ public class UserController {
 		ContainerResponseModel response = new ContainerResponseModel();
 
 		response.setVerb("PUT");
-		response.setEndpoint("/api/users/me");
+		response.setEndpoint("/user/me");
 
 		try {
 			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
@@ -119,7 +119,7 @@ public class UserController {
 		ContainerResponseModel response = new ContainerResponseModel();
 
 		response.setVerb("DELETE");
-		response.setEndpoint("/api/users/me");
+		response.setEndpoint("/user/me");
 		
 		if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
      		response.setStatus("FAIL");
@@ -154,7 +154,7 @@ public class UserController {
 		ContainerResponseModel response = new ContainerResponseModel();
 
 		response.setVerb("PUT");
-		response.setEndpoint("/api/user/me/password");
+		response.setEndpoint("/user/me/password");
 
 		try {
 			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())

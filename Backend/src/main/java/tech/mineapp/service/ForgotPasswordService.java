@@ -15,10 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tech.mineapp.entity.ForgotPasswordEntity;
 import tech.mineapp.entity.UserEntity;
-import tech.mineapp.entity.VerificationTokenEntity;
 import tech.mineapp.exception.UserDoesNotExistException;
 import tech.mineapp.repository.ForgotPasswordRepository;
-import tech.mineapp.repository.VerificationTokenRepository;
 
 /**
  * @author utkarsh

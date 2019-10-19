@@ -12,3 +12,4 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 .vscode/
 **/.DS_STORE
+**/nohup.out
