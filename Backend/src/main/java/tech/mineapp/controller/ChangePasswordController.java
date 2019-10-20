@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.mineapp.entity.UserEntity;
 import tech.mineapp.model.request.PasswordUpdateRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.security.CurrentUser;
@@ -38,8 +39,19 @@ public class ChangePasswordController {
 		response.setEndpoint("/user/me/password");
 
 		try {
+			if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+	     		response.setStatus("FAIL");
+	     		response.setErrorMessage("Unverified user.");
+	     		return ResponseEntity.badRequest().body(response);
+	     	}
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			if (!userService.isLocalUser(user)) {
+				response.setStatus("FAIL");
+	     		response.setErrorMessage("Not a local user.");
+	     		return ResponseEntity.badRequest().body(response);
+			}
 			userService.updateUserPassword(
-					userService.findUserById(userPrincipal.getUserId()) ,
+					user,
 					passwordEncoder.encode(passwordUpdateRequest.getPassword()));
 
 			response.setStatus("SUCCESS");

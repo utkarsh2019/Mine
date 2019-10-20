@@ -54,6 +54,11 @@ public class ForgotPasswordController {
 	     		return ResponseEntity.badRequest().body(response);
 	     	}
 			UserEntity user = userService.findUserByEmail(forgotPasswordRequest.getEmail());
+			if (!userService.isLocalUser(user)) {
+				response.setStatus("FAIL");
+	     		response.setErrorMessage("Not a local user.");
+	     		return ResponseEntity.badRequest().body(response);
+			}
 			eventPublisher.publishEvent(new OnForgotPasswordEvent(user, request.getLocale(), request.getContextPath()));
 			response.setStatus("SUCCESS");
 
