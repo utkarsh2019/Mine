@@ -7,15 +7,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static tech.mineapp.constants.Constants.ApplicationConstants.*;
-
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.UserPrincipal;
-import tech.mineapp.util.RandomAlphanumericStringGenerator;
+import tech.mineapp.util.RandomLongGenerator;
 
 /**
  * @author utkarsh
@@ -50,13 +48,13 @@ public class UserService implements UserDetailsService {
     }
     
     public Long generateIdForUser() {
-		String potentialUserId;
+//		String potentialUserId;
 
 //		do {
-			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(userIdLength);
+//			potentialUserId = RandomLongGenerator.generateRandomLong();
 //		} while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
 
-		return Long.parseLong(potentialUserId);
+		return RandomLongGenerator.generateRandomLong();
 	}
     
     public boolean userIdAlreadyExists(Long userId) {
