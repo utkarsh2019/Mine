@@ -144,4 +144,9 @@ public class UserService implements UserDetailsService {
         user.setProfilePicUrl(profilePicUrl);
         return userRepository.save(user);
     }
+
+	public void updateUserProfilePic(UserEntity user, String profilePicUrl) {
+		user.setProfilePicUrl(profilePicUrl);
+		userRepository.save(user);
+	}
 }
