@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +33,7 @@ public class FileUploadController {
 	}
 	
 	@GetMapping("/user/me/pic")
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<Resource> serveFile(@CurrentUser UserPrincipal userPrincipal) {
 		Resource file = fileUploadService.loadAsResource(String.valueOf(userPrincipal.getUserId()));
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
@@ -39,6 +41,7 @@ public class FileUploadController {
 	}
 	
 	@PutMapping("/user/me/pic")
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<ContainerResponseModel> storeFile(@CurrentUser UserPrincipal userPrincipal,
 					@RequestParam("file") MultipartFile file) {
 		ContainerResponseModel response = new ContainerResponseModel();
@@ -61,6 +64,7 @@ public class FileUploadController {
 	}
 	
 	@DeleteMapping("/user/me/pic")
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<ContainerResponseModel> deleteFile(@CurrentUser UserPrincipal userPrincipal) {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
