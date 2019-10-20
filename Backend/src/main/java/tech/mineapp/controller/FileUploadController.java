@@ -32,12 +32,7 @@ public class FileUploadController {
 	
 	@Autowired
 	private UserService userService;
-	
-//	@Autowired
-//	public FileUploadController(FileUploadService fileUploadService) {
-//		this.fileUploadService = fileUploadService;
-//	}
-	
+		
 	@GetMapping("/user/me/pic")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<Resource> serveFile(@CurrentUser UserPrincipal userPrincipal) {
