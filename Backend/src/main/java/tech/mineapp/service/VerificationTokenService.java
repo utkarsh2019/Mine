@@ -26,7 +26,7 @@ public class VerificationTokenService {
 	private UserService userService;
 	
 	@Autowired
-	private VerificationTokenRepository tokenRepository;
+	private VerificationTokenRepository verificationTokenRepository;
 	
 	private Date calculateExpiryDate() {
         Calendar cal = Calendar.getInstance();
@@ -35,28 +35,40 @@ public class VerificationTokenService {
         return new Date(cal.getTime().getTime());
     }
 	
-	public void createVerificationToken(UserEntity user, String token) {
+	public void createToken(UserEntity user, String token) {
     	if (!userService.userIdAlreadyExists(user.getUserId())) {
     		throw new UserDoesNotExistException();
     	}
     	
-    	VerificationTokenEntity myToken = new VerificationTokenEntity();
-    	myToken.setToken(token);
-    	myToken.setUser(user);
-    	myToken.setExpiryDate(calculateExpiryDate());
-        tokenRepository.save(myToken);
+    	VerificationTokenEntity newToken = new VerificationTokenEntity();
+    	newToken.setToken(token);
+    	newToken.setUser(user);
+    	newToken.setExpiryDate(calculateExpiryDate());
+        verificationTokenRepository.save(newToken);
     }
 	
-	public UserEntity getUser(String verificationToken) {
-        UserEntity user = tokenRepository.findByToken(verificationToken).getUser();
-        return user;
+	public UserEntity getUserByToken(String token) {
+        return verificationTokenRepository.findByToken(token).getUser();
     }
     
-    public VerificationTokenEntity getVerificationToken(String verificationToken) {
-        return tokenRepository.findByToken(verificationToken);
+    public VerificationTokenEntity getToken(String token) {
+        return verificationTokenRepository.findByToken(token);
     }
     
-    public void deleteVerificationToken(UserEntity user) {
-    	tokenRepository.deleteByUser(user);
+    public void deleteTokensByUser(UserEntity user) {
+    	verificationTokenRepository.deleteByUser(user);
+    }
+    
+    public void deleteToken(String token) {
+    	verificationTokenRepository.deleteByToken(token);
+    }
+    
+    public Boolean isExpired(String token) {
+    	Calendar cal = Calendar.getInstance();
+    	return (getToken(token).getExpiryDate().getTime() - cal.getTime().getTime()) <= 0;
+    }
+    
+    public Boolean tokenExists(String token) {
+    	return verificationTokenRepository.existsByToken(token);
     }
 }

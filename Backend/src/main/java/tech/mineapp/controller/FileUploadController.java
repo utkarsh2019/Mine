@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import tech.mineapp.entity.UserEntity;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.service.FileUploadService;
+import tech.mineapp.service.UserService;
 
 /**
  * @author utkarsh
@@ -24,14 +27,14 @@ import tech.mineapp.service.FileUploadService;
 @RestController
 public class FileUploadController {
 	
-	private final FileUploadService fileUploadService;
+	@Autowired
+	private FileUploadService fileUploadService;
 	
 	@Autowired
-	public FileUploadController(FileUploadService fileUploadService) {
-		this.fileUploadService = fileUploadService;
-	}
-	
+	private UserService userService;
+		
 	@GetMapping("/user/me/pic")
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<Resource> serveFile(@CurrentUser UserPrincipal userPrincipal) {
 		Resource file = fileUploadService.loadAsResource(String.valueOf(userPrincipal.getUserId()));
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
@@ -39,6 +42,7 @@ public class FileUploadController {
 	}
 	
 	@PutMapping("/user/me/pic")
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<ContainerResponseModel> storeFile(@CurrentUser UserPrincipal userPrincipal,
 					@RequestParam("file") MultipartFile file) {
 		ContainerResponseModel response = new ContainerResponseModel();
@@ -47,8 +51,20 @@ public class FileUploadController {
 		response.setEndpoint("/user/me/password");
 		
 		try {
-			response.setStatus("SUCCESS");
+			if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+	     		response.setStatus("FAIL");
+	     		response.setErrorMessage("Unverified user.");
+	     		return ResponseEntity.badRequest().body(response);
+	     	}
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			if (!userService.isLocalUser(user)) {
+				response.setStatus("FAIL");
+	     		response.setErrorMessage("Not a local user.");
+	     		return ResponseEntity.badRequest().body(response);
+			}
 			fileUploadService.store(file, String.valueOf(userPrincipal.getUserId()));
+			userService.updateUserProfilePic(user, "http://api.mineapp.tech/user/me/pic");
+			response.setStatus("SUCCESS");
 			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
@@ -61,6 +77,7 @@ public class FileUploadController {
 	}
 	
 	@DeleteMapping("/user/me/pic")
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<ContainerResponseModel> deleteFile(@CurrentUser UserPrincipal userPrincipal) {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
@@ -68,8 +85,21 @@ public class FileUploadController {
 		response.setEndpoint("/user/me/password");
 		
 		try {
-			response.setStatus("SUCCESS");
+			if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+	     		response.setStatus("FAIL");
+	     		response.setErrorMessage("Unverified user.");
+	     		return ResponseEntity.badRequest().body(response);
+	     	}
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			if (!userService.isLocalUser(user)) {
+				response.setStatus("FAIL");
+	     		response.setErrorMessage("Not a local user.");
+	     		return ResponseEntity.badRequest().body(response);
+			}
 			fileUploadService.delete(String.valueOf(userPrincipal.getUserId()));
+			userService.updateUserProfilePic(user, null);
+			
+			response.setStatus("SUCCESS");
 			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {

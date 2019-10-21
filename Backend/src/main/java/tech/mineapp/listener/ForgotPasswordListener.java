@@ -38,7 +38,7 @@ public class ForgotPasswordListener implements
     private void confirmPassword(OnForgotPasswordEvent event) {
         UserEntity user = event.getUser();
         String token = UUID.randomUUID().toString();
-        fpService.createForgotPasswordToken(user, token);
+        fpService.createToken(user, token);
          
         String recipientAddress = user.getEmail();
         String subject = "Forgot Password";
