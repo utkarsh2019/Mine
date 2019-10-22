@@ -38,3 +38,6 @@ build/
 
 ### Pictures Folder ###
 pictures/
+
+### SSH Key ###
+src/main/resources/keystore.p12
