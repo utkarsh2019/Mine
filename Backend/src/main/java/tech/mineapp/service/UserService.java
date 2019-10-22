@@ -1,20 +1,19 @@
 package tech.mineapp.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static tech.mineapp.constants.Constants.ApplicationConstants.*;
 
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
+import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.UserPrincipal;
-import tech.mineapp.util.RandomAlphanumericStringGenerator;
+import tech.mineapp.util.RandomLongGenerator;
 
 /**
  * @author utkarsh
@@ -29,34 +28,42 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        UserEntity user = userRepository.findUserByEmail(email)
-        		.orElseThrow(() ->
-        			new UsernameNotFoundException("User not found with email : " + email));
-
-        return UserPrincipal.create(user);
+        return UserPrincipal.create(findUserByEmail(email));
     }
-
+    
+    public UserEntity findUserByEmail(String email) {
+    	return userRepository.findUserByEmail(email)
+        		.orElseThrow(() ->
+    				new ResourceNotFoundException("User", "email", email));
+    }
+    
     public UserDetails loadUserById(String userId) {
-        UserEntity user = userRepository.findUserByUserId(Long.parseLong(userId))
+        return UserPrincipal.create(findUserById(Long.parseLong(userId)));
+    }
+    
+    public UserEntity findUserById(Long userId) {
+    	return userRepository.findUserByUserId(userId)
         		.orElseThrow(() -> 
-        			new ResourceNotFoundException("User", "id", userId));
-
-        return UserPrincipal.create(user);
+    				new ResourceNotFoundException("User", "id", userId));
     }
     
     public Long generateIdForUser() {
-		String potentialUserId;
+//		String potentialUserId;
 
 //		do {
-			potentialUserId = RandomAlphanumericStringGenerator.generateAlphanumericString(userIdLength);
+//			potentialUserId = RandomLongGenerator.generateRandomLong();
 //		} while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
 
-		return Long.parseLong(potentialUserId);
+		return RandomLongGenerator.generateRandomLong();
 	}
     
     public boolean userIdAlreadyExists(Long userId) {
-		return userRepository.findUserByUserId(userId) != null;
+		return userRepository.existsByUserId(userId);
 	}
+    
+    public boolean userEmailAlreadyExists(String email) {
+    	return userRepository.existsByEmail(email);
+    }
     
     public boolean isLocalUser(UserEntity user) {
     	return user.getProvider() == AuthProvider.local;
@@ -65,14 +72,81 @@ public class UserService implements UserDetailsService {
     public boolean checkVerificationByEmail(String email) {
     	UserEntity user = userRepository.findUserByEmail(email)
         		.orElseThrow(() ->
-        			new UsernameNotFoundException("User not found with email : " + email));
+        			new ResourceNotFoundException("User", "email", email));
     	return user.getIsVerified();
     }
     
     public boolean checkVerificationByUserId(Long userId) {
     	UserEntity user = userRepository.findUserByUserId(userId)
         		.orElseThrow(() ->
-        			new UsernameNotFoundException("User not found with user id : " + userId));
+        			new ResourceNotFoundException("User", "id", userId));
     	return user.getIsVerified();
     }
+    
+    public UserEntity createLocalUser(String name, String email, String password) {
+    	 UserEntity user = new UserEntity();
+	     user.setUserId(generateIdForUser());
+	     user.setName(name);
+	     user.setEmail(email);
+	     user.setPassword(password);
+	     user.setProvider(AuthProvider.local);
+	     user.setNoOfPreviousSearches(3);	
+	     user.setCategoryPreferences("movies,music,social,text,audio");
+	     
+	     return userRepository.save(user);
+    }
+    
+    public UserEntity createOauthUser(String name, String email, AuthProvider provider, String providerId, String profilePicUrl) {
+    	UserEntity user = new UserEntity();
+	    user.setUserId(generateIdForUser());
+	    user.setName(name);
+	    user.setEmail(email);
+	    user.setProvider(provider);
+	    user.setProviderId(providerId);
+	    user.setProfilePicUrl(profilePicUrl);
+	    user.setNoOfPreviousSearches(3);	
+	    user.setCategoryPreferences("movies,music,social,text,audio");
+	    user.setIsVerified(true);
+	     
+	    return userRepository.save(user);
+    }
+    
+    public void updateUserPassword(UserEntity user, String password) {
+    	user.setPassword(password); 
+	    userRepository.save(user);
+    }
+    
+    public void verifyUser(UserEntity user) {
+    	user.setIsVerified(true);
+    	userRepository.save(user);
+    }
+    
+    public void deleteUser(Long userId) {
+    	userRepository.deleteByUserId(userId);
+    }
+    
+    public UserEntity updateUser(Long userId, UserRequestModel userRequest) {
+    	UserEntity user = findUserById(userId);
+		String[] ignoreProperties;
+		if (isLocalUser(user)) {
+			ignoreProperties = new String[] {"provider", "isVerified"};
+			BeanUtils.copyProperties(userRequest, user, ignoreProperties);
+		}
+		else {
+			ignoreProperties = new String[] {"email", "name", "profilePicUrl", "provider", "isVerified"};
+			BeanUtils.copyProperties(userRequest, user, ignoreProperties);
+		}
+		return userRepository.save(user);
+    }
+    
+    public UserEntity updateOauthUser(UserEntity user, String name, String profilePicUrl) {
+    	user.setName(name);
+        user.setProfilePicUrl(profilePicUrl);
+        return userRepository.save(user);
+    }
+
+	public void updateUserProfilePic(UserEntity user, String profilePicUrl) {
+		user.setProfilePicUrl(profilePicUrl);
+		userRepository.save(user);
+	}
 }
