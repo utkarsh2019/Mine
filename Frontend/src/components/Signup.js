@@ -34,7 +34,7 @@ export default class Signup extends Component {
 
     axios({
       method: "post",
-      url: "https://localhost:8080/auth/signup",
+      url: "http://api.mineapp.tech/auth/signup",
       data: {
         email: userdata.email,
         name: userdata.name,
