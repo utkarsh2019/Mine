@@ -1,4 +1,4 @@
-package tech.mineapp.search.api;
+package tech.mineapp.search.youtube;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -11,20 +11,20 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 @Service
-public class YoutubeApi {
+public class YoutubeController {
 	
 	private RestTemplate restTemplate;
 	
 	@Autowired
-    public YoutubeApi(RestTemplateBuilder builder) {
+    public YoutubeController(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
     }
 	
-	public ResponseEntity<String> youtubeVideoSearch(String query, int noOfSearch) {
+	public YoutubeResponseModel youtubeVideoSearch(String query, int noOfSearch) {
 		String fooResourceUrl
 		  = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBTVgmDUTKrGoRLS9IFF1ZvS6o7N3FVTrM&part=snippet&type=video&q="+query+"&maxResults="+noOfSearch;
-		ResponseEntity<String> response
-		  = restTemplate.getForEntity(fooResourceUrl, String.class);
+		YoutubeResponseModel response
+		  = restTemplate.getForObject(fooResourceUrl, YoutubeResponseModel.class);
 		return response;
 //		try {
 //		ObjectMapper mapper = new ObjectMapper();

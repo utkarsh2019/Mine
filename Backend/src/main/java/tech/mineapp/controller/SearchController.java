@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
+import tech.mineapp.model.response.SearchVideoResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.service.SearchService;
@@ -42,11 +43,13 @@ public class SearchController {
 //			BeanUtils.copyProperties(
 //					userService.findUserById(userPrincipal.getUserId()),
 //					userResponse);
+			SearchVideoResponseModel searchVideoResponse = new SearchVideoResponseModel();
+			searchVideoResponse.setYoutube(searchService.videoSearchYoutube(searchRequest.getQuery(), 3));
 			
 			response.setStatus("SUCCESS");
 			
-//			return ResponseEntity.ok(response);
-			return searchService.videoSearchYoutube(searchRequest.getQuery(), 3);
+			response.setResponseObject(searchVideoResponse);
+			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			
 			response.setStatus("FAIL");
