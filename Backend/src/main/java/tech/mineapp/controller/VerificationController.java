@@ -34,7 +34,7 @@ public class VerificationController {
 		response.setEndpoint("/verify/confirm");
 		
 		try {
-			if (tokenService.tokenExists(token)) {
+			if (!tokenService.tokenExists(token)) {
 		    	response.setStatus("FAIL");
 	     		response.setErrorMessage("Bad token.");
 	     		return ResponseEntity.badRequest().body(response);
