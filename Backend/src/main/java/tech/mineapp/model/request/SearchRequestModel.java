@@ -11,8 +11,5 @@ import lombok.Data;
 @Data
 public class SearchRequestModel {
 	@NotBlank
-	private String category;
-	
-	@NotBlank
 	private String query;
 }

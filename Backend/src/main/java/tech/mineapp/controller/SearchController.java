@@ -36,13 +36,9 @@ public class SearchController {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("POST");
-		response.setEndpoint("/search");
+		response.setEndpoint("/search/video");
 		
 		try {
-//			UserResponseModel userResponse = new UserResponseModel();
-//			BeanUtils.copyProperties(
-//					userService.findUserById(userPrincipal.getUserId()),
-//					userResponse);
 			SearchVideoResponseModel searchVideoResponse = new SearchVideoResponseModel();
 			searchVideoResponse.setYoutube(searchService.videoSearchYoutube(searchRequest.getQuery(), 3));
 			
