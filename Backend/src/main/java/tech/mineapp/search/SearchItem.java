@@ -17,6 +17,6 @@ public class SearchItem {
 		this.name = name;
 		this.description = description;
 		this.url = url;
-		this.imageUrl = url;
+		this.imageUrl = imageUrl;
 	}
 }

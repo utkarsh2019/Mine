@@ -13,4 +13,5 @@ import tech.mineapp.search.SearchItem;
 public class VideoSearchResponseModel implements ResponseModel {
 	private List<SearchItem> youtube;
 	private List<SearchItem> vimeo;
+	private List<SearchItem> dailymotion;
 }

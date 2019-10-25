@@ -19,14 +19,14 @@ public class YoutubeController {
         this.restTemplate = builder.build();
     }
 	
-	public YoutubeResponseModel youtubeVideoSearch(String query, int noOfSearch) {
+	public YoutubeResponseModel youtubeVideoSearch(String query, int noOfSearches) {
 		String youtubeDataUrl
 		  = "https://www.googleapis.com/youtube/v3/search?" +
 				  "part=snippet" +
 				  "&type=video" +
 				  "&key=AIzaSyBTVgmDUTKrGoRLS9IFF1ZvS6o7N3FVTrM" +
 				  "&q=" + query +
-				  "&maxResults=" + noOfSearch;
+				  "&maxResults=" + noOfSearches;
 		YoutubeResponseModel response
 		  = restTemplate.getForObject(youtubeDataUrl, YoutubeResponseModel.class);
 		return response;

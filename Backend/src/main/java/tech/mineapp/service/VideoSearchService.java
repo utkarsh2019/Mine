@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tech.mineapp.search.SearchItem;
+import tech.mineapp.search.dailymotion.DailyMotionController;
+import tech.mineapp.search.dailymotion.DailyMotionResponseModel;
+import tech.mineapp.search.dailymotion.objects.DailyMotionSearchItem;
 import tech.mineapp.search.vimeo.VimeoController;
 import tech.mineapp.search.vimeo.VimeoResponseModel;
 import tech.mineapp.search.vimeo.objects.VimeoSearchItem;
@@ -26,6 +29,9 @@ public class VideoSearchService {
 	
 	@Autowired
 	private VimeoController vimeoController;
+	
+	@Autowired
+	private DailyMotionController dailyMotionController;
 	
 	public List<SearchItem> searchYoutube(String query, int noOfSearches) {
 		YoutubeResponseModel response = youtubeController.youtubeVideoSearch(query, noOfSearches);
@@ -49,6 +55,19 @@ public class VideoSearchService {
 					item.getDescription(),
 					item.getLink(),
 					item.getPictures().getSizes()[0].getLink()));
+		}
+		return searches;
+	}
+	
+	public List<SearchItem> searchDailyMotion(String query, int noOfSearches) {
+		DailyMotionResponseModel response = dailyMotionController.dailyMotionVideoSearch(query, noOfSearches);
+		List<SearchItem> searches = new ArrayList<SearchItem>();
+		for (DailyMotionSearchItem item : response.getList()) {
+			searches.add(new SearchItem(
+					item.getTitle(),
+					null,
+					"https://www.dailymotion.com/video/" + item.getId(),
+					null));
 		}
 		return searches;
 	}

@@ -28,7 +28,7 @@ public class VideoSearchController {
 	@Autowired
 	private VideoSearchService videoSearchService;
 
-	@PostMapping("/search")
+	@PostMapping("/search/video")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal,
 												@RequestBody SearchRequestModel searchRequest) {
@@ -44,6 +44,7 @@ public class VideoSearchController {
 			VideoSearchResponseModel videoSearchResponse = new VideoSearchResponseModel();
 			videoSearchResponse.setYoutube(videoSearchService.searchYoutube(searchRequest.getQuery(), noOfSearches));
 			videoSearchResponse.setVimeo(videoSearchService.searchVimeo(searchRequest.getQuery(), noOfSearches));
+			videoSearchResponse.setDailymotion(videoSearchService.searchDailyMotion(searchRequest.getQuery(), noOfSearches));
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(videoSearchResponse);
