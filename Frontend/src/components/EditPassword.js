@@ -5,6 +5,9 @@ import axios from "axios";
 
 export default class EditPassword extends Component {
   update() {
+    if(document.cookie.indexOf('token') == -1){
+      window.location.replace('/')
+    }
     let cookie = document.cookie.split(";");
     let cookie1 = cookie[0].split("=");
     let cookie2 = cookie[1].split("=");

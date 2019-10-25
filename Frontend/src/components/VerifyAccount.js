@@ -23,7 +23,7 @@ export default class VerifyAccount extends Component {
     let token = this.getUrlParameter('token');
     axios({
         method:'get',
-        url:'http://api.mineapp.tech/verify/confirm?token='+token
+        url:'http://api.mineapp.tech/verify/account/confirm?token='+token
     })
     .then(function (response) {
       window.location.replace('/login');

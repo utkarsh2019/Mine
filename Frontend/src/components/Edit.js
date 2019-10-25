@@ -11,6 +11,9 @@ export default class Edit extends Component {
   };
 
   load = () => {
+    if(document.cookie.indexOf('token') == -1){
+      window.location.replace('/')
+    }
     let cookie = document.cookie.split(";");
     let cookie1 = cookie[0].split("=");
     let cookie2 = cookie[1].split("=");
@@ -197,13 +200,9 @@ export default class Edit extends Component {
                       height="75"
                       width="75"
                     ></img>
-                    <span class="align-right">
-                      <input
-                        type="file"
-                        class="form-control-file"
-                        id="exampleFormControlFile1"
-                      ></input>
-                    </span>
+                    <a class="align-right" href="/editimage">
+                      Edit
+                    </a>
                   </div>
                 </div>
               </div>
@@ -351,6 +350,7 @@ export default class Edit extends Component {
       </div>
     );
   }
+
   updateInfoRender = () => {
     const prefcategories = ["movies", "music", "social", "text", "audio"];
 

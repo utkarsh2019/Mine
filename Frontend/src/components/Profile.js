@@ -11,6 +11,9 @@ export default class Profile extends Component {
   };
 
   load = () => {
+    if(document.cookie.indexOf('token') == -1){
+      window.location.replace('/')
+    }
     let cookie = document.cookie.split(";");
     let cookie1 = cookie[0].split("=");
     let cookie2 = cookie[1].split("=");
@@ -197,14 +200,14 @@ export default class Profile extends Component {
               <br></br>
               <br></br>
               <div className="row">
-                <div className="col-sm-6 text-center  ">
+                <div className="col-sm-6" align="right">
                   <a href="\edit">
                     <button type="button" class="btn btn-primary">
                       Edit
                     </button>
                   </a>
                 </div>
-                <div className="col-sm-6 text-center">
+                <div className="col-sm-6" align="left">
                   <button
                     type="button"
                     class="btn btn-danger"
