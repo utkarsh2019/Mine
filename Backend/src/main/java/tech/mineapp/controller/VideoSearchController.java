@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.model.response.SearchVideoResponseModel;
+import tech.mineapp.model.response.VideoSearchResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
-import tech.mineapp.service.SearchService;
 import tech.mineapp.service.UserService;
+import tech.mineapp.service.VideoSearchService;
 
 /**
  * @author utkarsh
  *
  */
 @RestController
-public class SearchController {
+public class VideoSearchController {
 	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
-	private SearchService searchService;
+	private VideoSearchService videoSearchService;
 
 	@PostMapping("/search")
 	@PreAuthorize("hasRole('USER')")
@@ -39,12 +39,13 @@ public class SearchController {
 		response.setEndpoint("/search/video");
 		
 		try {
-			SearchVideoResponseModel searchVideoResponse = new SearchVideoResponseModel();
-			searchVideoResponse.setYoutube(searchService.videoSearchYoutube(searchRequest.getQuery(), 3));
+			VideoSearchResponseModel videoSearchResponse = new VideoSearchResponseModel();
+			videoSearchResponse.setYoutube(videoSearchService.searchYoutube(searchRequest.getQuery(), 3));
+			videoSearchResponse.setVimeo(videoSearchService.searchVimeo(searchRequest.getQuery(), 3));
 			
 			response.setStatus("SUCCESS");
+			response.setResponseObject(videoSearchResponse);
 			
-			response.setResponseObject(searchVideoResponse);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			

@@ -48,12 +48,6 @@ public class UserService implements UserDetailsService {
     }
     
     public Long generateIdForUser() {
-//		String potentialUserId;
-
-//		do {
-//			potentialUserId = RandomLongGenerator.generateRandomLong();
-//		} while(userIdAlreadyExists(Long.parseLong(potentialUserId)));
-
 		return RandomLongGenerator.generateRandomLong();
 	}
     
@@ -70,17 +64,11 @@ public class UserService implements UserDetailsService {
     }
     
     public boolean checkVerificationByEmail(String email) {
-    	UserEntity user = userRepository.findUserByEmail(email)
-        		.orElseThrow(() ->
-        			new ResourceNotFoundException("User", "email", email));
-    	return user.getIsVerified();
+    	return findUserByEmail(email).getIsVerified();
     }
     
     public boolean checkVerificationByUserId(Long userId) {
-    	UserEntity user = userRepository.findUserByUserId(userId)
-        		.orElseThrow(() ->
-        			new ResourceNotFoundException("User", "id", userId));
-    	return user.getIsVerified();
+    	return findUserById(userId).getIsVerified();
     }
     
     public UserEntity createLocalUser(String name, String email, String password) {
@@ -90,7 +78,7 @@ public class UserService implements UserDetailsService {
 	     user.setEmail(email);
 	     user.setPassword(password);
 	     user.setProvider(AuthProvider.local);
-	     user.setNoOfPreviousSearches(3);	
+	     user.setNoOfSearches(3);	
 	     user.setCategoryPreferences("movies,music,social,text,audio");
 	     
 	     return userRepository.save(user);
@@ -104,7 +92,7 @@ public class UserService implements UserDetailsService {
 	    user.setProvider(provider);
 	    user.setProviderId(providerId);
 	    user.setProfilePicUrl(profilePicUrl);
-	    user.setNoOfPreviousSearches(3);	
+	    user.setNoOfSearches(3);	
 	    user.setCategoryPreferences("movies,music,social,text,audio");
 	    user.setIsVerified(true);
 	     
@@ -148,5 +136,9 @@ public class UserService implements UserDetailsService {
 	public void updateUserProfilePic(UserEntity user, String profilePicUrl) {
 		user.setProfilePicUrl(profilePicUrl);
 		userRepository.save(user);
+	}
+	
+	public int getNoOfSearches(Long userId) {
+		return findUserById(userId).getNoOfSearches();
 	}
 }
