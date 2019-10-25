@@ -39,9 +39,11 @@ public class VideoSearchController {
 		response.setEndpoint("/search/video");
 		
 		try {
+			int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
+			
 			VideoSearchResponseModel videoSearchResponse = new VideoSearchResponseModel();
-			videoSearchResponse.setYoutube(videoSearchService.searchYoutube(searchRequest.getQuery(), 3));
-			videoSearchResponse.setVimeo(videoSearchService.searchVimeo(searchRequest.getQuery(), 3));
+			videoSearchResponse.setYoutube(videoSearchService.searchYoutube(searchRequest.getQuery(), noOfSearches));
+			videoSearchResponse.setVimeo(videoSearchService.searchVimeo(searchRequest.getQuery(), noOfSearches));
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(videoSearchResponse);
