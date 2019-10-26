@@ -3,22 +3,22 @@
  */
 package tech.mineapp.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
 
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * @author utkarsh
  *
  */
+@SuppressWarnings("serial")
 @Data
 @Entity
 @Table(name = "VerificationTokens")
-public class VerificationTokenEntity {
+public class VerificationTokenEntity implements Serializable {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,9 +27,8 @@ public class VerificationTokenEntity {
 	@Column(nullable = false)
     private String token;
    
-    @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "userId")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
     
     @Column(nullable = false)

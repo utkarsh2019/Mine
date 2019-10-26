@@ -48,7 +48,7 @@ public class UserEntity implements Serializable {
     private AuthProvider provider;
     
     @NotNull
-    private int noOfPreviousSearches = 3;
+    private int noOfSearches = 3;
 
     @NotNull
     private String categoryPreferences; // TODO: Re-think storing of user preferences
