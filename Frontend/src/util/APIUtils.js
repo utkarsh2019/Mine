@@ -1,12 +1,12 @@
-// import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
+// import { API_BASE_URL, ACCESS_TOKEN } from "../constants";
 
 // const request = (options) => {
 //     const headers = new Headers({
-//         'Content-Type': 'application/json',
+//         "Content-Type": "application/json",
 //     })
     
 //     if(localStorage.getItem(ACCESS_TOKEN)) {
-//         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+//         headers.append("Authorization", "Bearer " + localStorage.getItem(ACCESS_TOKEN))
 //     }
 
 //     const defaults = {headers: headers};
@@ -30,14 +30,14 @@
 
 //     return request({
 //         url: API_BASE_URL + "/user/me",
-//         method: 'GET'
+//         method: "GET"
 //     });
 // }
 
 // export function login(loginRequest) {
 //     return request({
 //         url: API_BASE_URL + "/auth/login",
-//         method: 'POST',
+//         method: "POST",
 //         body: JSON.stringify(loginRequest)
 //     });
 // }
@@ -45,7 +45,7 @@
 // export function signup(signupRequest) {
 //     return request({
 //         url: API_BASE_URL + "/auth/signup",
-//         method: 'POST',
+//         method: "POST",
 //         body: JSON.stringify(signupRequest)
 //     });
 // }

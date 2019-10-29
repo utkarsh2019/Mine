@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/Edit.css";
 import axios from "axios";
+import { API_BASE_URL } from "../constants";
 
 export default class Edit extends Component {
   logout = () => {
@@ -25,7 +26,7 @@ export default class Edit extends Component {
 
     axios({
       method: "get",
-      url: "http://api.mineapp.tech/user/me",
+      url: API_BASE_URL + "/user/me",
       headers: {
         Authorization: type + " " + token
       }
@@ -96,7 +97,7 @@ export default class Edit extends Component {
     if (this.updateInfoRender()) {
       axios({
         method: "put",
-        url: "http://api.mineapp.tech/user/me",
+        url: API_BASE_URL + "/user/me",
         headers: {
           Authorization: type + " " + token
         },
