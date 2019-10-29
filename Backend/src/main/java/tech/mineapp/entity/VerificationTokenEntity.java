@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tech.mineapp.entity;
 
 import java.io.Serializable;

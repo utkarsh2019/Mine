@@ -1,5 +1,7 @@
 package tech.mineapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,10 +29,12 @@ public class VideoSearchController {
 	
 	@Autowired
 	private VideoSearchService videoSearchService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
 
 	@PostMapping("/search/video")
 	@PreAuthorize("hasRole('USER')")
-	public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal,
+	public ResponseEntity<?> searchVideos(@CurrentUser UserPrincipal userPrincipal,
 												@RequestBody SearchRequestModel searchRequest) {
 		
 		ContainerResponseModel response = new ContainerResponseModel();
@@ -50,10 +54,10 @@ public class VideoSearchController {
 			response.setResponseObject(videoSearchResponse);
 			
 			return ResponseEntity.ok(response);
-		} catch (Exception e) {
-			
+		} catch (Exception e) {			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 			
 			return ResponseEntity.badRequest().body(response);
 		}

@@ -5,9 +5,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import lombok.Data;
 import tech.mineapp.constants.Category;
 
@@ -32,8 +29,7 @@ public class SearchEntity implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Category category;
 	
-	@OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "userId")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 }

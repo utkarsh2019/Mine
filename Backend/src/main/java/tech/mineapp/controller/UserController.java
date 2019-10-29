@@ -1,5 +1,7 @@
 package tech.mineapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ public class UserController {
 	@Autowired
 	ForgotPasswordService forgotPasswordService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@GetMapping("/user/me")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
@@ -44,9 +48,11 @@ public class UserController {
 		
 		try {
 			UserResponseModel userResponse = new UserResponseModel();
+			UserEntity user = userService.findUserById(userPrincipal.getUserId()); 
 			BeanUtils.copyProperties(
-					userService.findUserById(userPrincipal.getUserId()),
+					user,
 					userResponse);
+			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -54,9 +60,9 @@ public class UserController {
 			return ResponseEntity.ok(response);
 			
 		} catch (Exception e) {
-			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 			
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -75,9 +81,11 @@ public class UserController {
 
 		try {
 			UserResponseModel userResponse = new UserResponseModel();
+			UserEntity user = userService.updateUser(userPrincipal.getUserId(), userRequest);
 			BeanUtils.copyProperties(
-					userService.updateUser(userPrincipal.getUserId(), userRequest),
+					user,
 					userResponse);
+			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
 
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -86,6 +94,7 @@ public class UserController {
 		} catch (Exception e) {
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -117,9 +126,9 @@ public class UserController {
 
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}

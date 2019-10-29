@@ -2,6 +2,7 @@ package tech.mineapp.entity;
 
 import lombok.Data;
 import tech.mineapp.constants.AuthProvider;
+import tech.mineapp.constants.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -50,8 +51,14 @@ public class UserEntity implements Serializable {
     @NotNull
     private int noOfSearches = 3;
 
-    @NotNull
-    private String categoryPreferences; // TODO: Re-think storing of user preferences
+    @Enumerated(EnumType.STRING)
+    private Category preference1;
+    
+    @Enumerated(EnumType.STRING)
+    private Category preference2;
+    
+    @Enumerated(EnumType.STRING)
+    private Category preference3;
     
     private String providerId;
 }

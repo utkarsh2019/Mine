@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tech.mineapp.constants.AuthProvider;
+import tech.mineapp.constants.Category;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.UserRequestModel;
@@ -79,8 +80,7 @@ public class UserService implements UserDetailsService {
 	     user.setPassword(password);
 	     user.setProvider(AuthProvider.local);
 	     user.setNoOfSearches(3);	
-	     user.setCategoryPreferences("movies,music,social,text,audio");
-	     
+	     initializePreferences(user);
 	     return userRepository.save(user);
     }
     
@@ -93,9 +93,8 @@ public class UserService implements UserDetailsService {
 	    user.setProviderId(providerId);
 	    user.setProfilePicUrl(profilePicUrl);
 	    user.setNoOfSearches(3);	
-	    user.setCategoryPreferences("movies,music,social,text,audio");
-	    user.setIsVerified(true);
-	     
+	    initializePreferences(user);
+	    user.setIsVerified(true);	     
 	    return userRepository.save(user);
     }
     
@@ -113,17 +112,18 @@ public class UserService implements UserDetailsService {
     	userRepository.deleteByUserId(userId);
     }
     
-    public UserEntity updateUser(Long userId, UserRequestModel userRequest) {
+    public UserEntity updateUser(Long userId, UserRequestModel userRequest) throws Exception {
     	UserEntity user = findUserById(userId);
 		String[] ignoreProperties;
 		if (isLocalUser(user)) {
-			ignoreProperties = new String[] {"provider", "isVerified"};
+			ignoreProperties = new String[] {"provider", "isVerified", "categoryPreferences"};
 			BeanUtils.copyProperties(userRequest, user, ignoreProperties);
 		}
 		else {
-			ignoreProperties = new String[] {"email", "name", "profilePicUrl", "provider", "isVerified"};
+			ignoreProperties = new String[] {"email", "name", "profilePicUrl", "provider", "isVerified", "categoryPreferences"};
 			BeanUtils.copyProperties(userRequest, user, ignoreProperties);
 		}
+		updatePreferences(user, userRequest.getCategoryPreferences());
 		return userRepository.save(user);
     }
     
@@ -140,5 +140,42 @@ public class UserService implements UserDetailsService {
 	
 	public int getNoOfSearches(Long userId) {
 		return findUserById(userId).getNoOfSearches();
+	}
+	
+	public void initializePreferences(UserEntity user) {
+		user.setPreference1(Category.video);
+		user.setPreference2(Category.movie);
+		user.setPreference3(Category.tvseries);
+	}
+	
+	public void updatePreferences(UserEntity user, String categoryPreferences) throws Exception {
+		String [] preferences = categoryPreferences.toLowerCase().split(",");
+		int i = 1;
+		for (; i <= preferences.length; i++) {
+			user.getClass()
+				.getMethod("setPreference"+i, Category.class)
+				.invoke(user, Category.valueOf(preferences[i-1].trim()));
+		}
+		for(; i <= 3; i++) {
+			user.getClass()
+			.getMethod("setPreference"+i, Category.class)
+			.invoke(user, new Object[] {null});
+		}
+	}
+	
+	public String convertToCategoryPreferences(UserEntity user) throws Exception {
+		String categoryPreferences = "";
+		for (int i=1; i <= 3; i++) {
+			Category pref = (Category) user.getClass()
+							  .getMethod("getPreference"+i)
+							  .invoke(user);
+			if (pref != null) {
+				if (i != 1) {
+					categoryPreferences += ",";
+				}
+				categoryPreferences += pref.toString();
+			}
+		}
+		return categoryPreferences;
 	}
 }

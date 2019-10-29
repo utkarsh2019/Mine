@@ -1,5 +1,7 @@
 package tech.mineapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +34,8 @@ public class FileUploadController {
 	
 	@Autowired
 	private UserService userService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
 		
 	@GetMapping("/user/me/pic")
 	@PreAuthorize("hasRole('USER')")
@@ -68,9 +72,9 @@ public class FileUploadController {
 			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -102,10 +106,10 @@ public class FileUploadController {
 			response.setStatus("SUCCESS");
 			
 			return ResponseEntity.ok(response);
-		} catch (Exception e) {
-			
+		} catch (Exception e) {			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}
