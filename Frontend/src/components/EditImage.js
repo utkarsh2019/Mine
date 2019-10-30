@@ -58,17 +58,25 @@ render() {
             <h2>Change Profile Picture</h2>
             <hr></hr>
             <div className="row">
-              <div className="col-sm-4"></div>
+              <div className="col-sm-2"></div>
               <div className="col-sm-8">
-                <div class="form-group">
+                <div class="form-group" align="center">
                   <img
                     src={require("./../img/profile.png")}
-                    height="75"
-                    width="75"
+                    height="200"
+                    width="200"
+                    class="rounded-circle"
                   ></img>
-                  <a class="align-right" href="/editimage">
-                    Edit
-                  </a>
+                </div>
+                <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                </div>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01"
+                    aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg"></input>
+                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                </div>
                 </div>
               </div>
             </div>
