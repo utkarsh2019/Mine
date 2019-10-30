@@ -13,7 +13,7 @@ public class UserResponseModel implements ResponseModel {
 	private String email;
 	private String name;
 	private String categoryPreferences;
-	private int noOfPreviousSearches;
+	private int noOfSearches;
 	private String profilePicURL;
 	private AuthProvider provider;
 }

@@ -2,6 +2,8 @@ package tech.mineapp.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,8 @@ public class AuthController {
     
     @Autowired
     ApplicationEventPublisher eventPublisher;
+    
+	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthRequestModel loginRequest) {
@@ -106,9 +110,9 @@ public class AuthController {
 			return ResponseEntity.ok(response);
 			
 		} catch (Exception e) {
-			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 			
 			return ResponseEntity.badRequest().body(response);
 		}
