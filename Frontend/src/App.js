@@ -6,12 +6,8 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import OAuth2RedirectHandler from "./oauth2/OAuth2RedirectHandler";
-import { getCurrentUser } from "./util/APIUtils";
 import Alert from "react-s-alert";
-import { ACCESS_TOKEN } from "./constants/index";
-import PrivateRoute from "./common/PrivateRoute";
-import AppHeader from "./common/AppHeader";
-import NotFound from "./common/NotFound";
+import NotFound from "./components/NotFound";
 import Edit from "./components/Edit"
 import Dashboard from "./components/Dashboard";
 import Trending from "./components/Trending";
