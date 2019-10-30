@@ -3,6 +3,7 @@ import logo from "../img/minelogo.png";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
+import { API_BASE_URL } from "../constants";
 
 export default class ForgotPassword extends Component {
   forgot() {
@@ -11,13 +12,13 @@ export default class ForgotPassword extends Component {
 
     axios({
       method: "post",
-      url: "http://api.mineapp.tech/forgotPassword",
+      url: API_BASE_URL + "/forgotPassword",
       data: {
         email: userdata.email
       }
     })
       .then(function(response) {
-        window.location.replace('/');
+        window.location.replace("/");
       })
       .catch(function(error) {
         alert(error);

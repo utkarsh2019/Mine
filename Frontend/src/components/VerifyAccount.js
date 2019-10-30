@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../css/verifyaccount.css";
 import "../css/bootstrap.css";
 import axios from "axios";
+import { API_BASE_URL } from "../constants";
 
 export default class VerifyAccount extends Component {
   
@@ -12,21 +13,21 @@ export default class VerifyAccount extends Component {
   }
 
   getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 
     var results = regex.exec(this.props.location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   };
 
   verify(){
-    let token = this.getUrlParameter('token');
+    let token = this.getUrlParameter("token");
     axios({
-        method:'get',
-        url:'http://api.mineapp.tech/verify/account?token='+token
+        method: "get",
+        url: API_BASE_URL + "/verify/confirm?token="+token
     })
     .then(function (response) {
-      window.location.replace('/login');
+      window.location.replace("/login");
     })
     .catch(function (error) {
       alert(error);
