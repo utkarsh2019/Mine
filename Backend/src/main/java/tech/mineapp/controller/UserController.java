@@ -1,25 +1,22 @@
 package tech.mineapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import tech.mineapp.entity.UserEntity;
-import tech.mineapp.exception.ResourceNotFoundException;
-import tech.mineapp.model.request.PasswordUpdateRequestModel;
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.UserResponseModel;
-import tech.mineapp.repository.ForgotPasswordRepository;
-import tech.mineapp.repository.UserRepository;
-import tech.mineapp.repository.VerificationTokenRepository;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
+import tech.mineapp.service.ForgotPasswordService;
 import tech.mineapp.service.UserService;
+import tech.mineapp.service.VerificationTokenService;
 
 /**
  * The main controller for the /users endpoint
@@ -31,33 +28,31 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	VerificationTokenService verificationTokenService;
+
+	@Autowired
+	ForgotPasswordService forgotPasswordService;
 	
-	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	VerificationTokenRepository verificationTokenRepository;
-
-	@Autowired
-	ForgotPasswordRepository forgotPasswordRepository;
-
-	@Autowired
-	PasswordEncoder passwordEncoder;
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@GetMapping("/user/me")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+		
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("GET");
-		response.setEndpoint("/api/users/me");
+		response.setEndpoint("/user/me");
 		
 		try {
-			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
-	                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUserId()));
-			
 			UserResponseModel userResponse = new UserResponseModel();
-			BeanUtils.copyProperties(user, userResponse);
+			UserEntity user = userService.findUserById(userPrincipal.getUserId()); 
+			BeanUtils.copyProperties(
+					user,
+					userResponse);
+			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -65,9 +60,9 @@ public class UserController {
 			return ResponseEntity.ok(response);
 			
 		} catch (Exception e) {
-			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 			
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -82,23 +77,15 @@ public class UserController {
 		ContainerResponseModel response = new ContainerResponseModel();
 
 		response.setVerb("PUT");
-		response.setEndpoint("/api/users/me");
+		response.setEndpoint("/user/me");
 
 		try {
-			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
-	                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUserId()));
-			String[] ignoreProperties;
-			if (userService.isLocalUser(user)) {
-				ignoreProperties = new String[] {"provider", "isVerified"};
-				BeanUtils.copyProperties(userRequest, user, ignoreProperties);
-			}
-			else {
-				ignoreProperties = new String[] {"email", "name", "profilePicUrl", "provider", "isVerified"};
-				BeanUtils.copyProperties(userRequest, user, ignoreProperties);
-			}
-			UserEntity updatedUser = userRepository.save(user);
 			UserResponseModel userResponse = new UserResponseModel();
-			BeanUtils.copyProperties(updatedUser, userResponse);
+			UserEntity user = userService.updateUser(userPrincipal.getUserId(), userRequest);
+			BeanUtils.copyProperties(
+					user,
+					userResponse);
+			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
 
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -107,19 +94,20 @@ public class UserController {
 		} catch (Exception e) {
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}
 	}
 
 	@DeleteMapping("/user/me")
-	@Transactional
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> removeUser(@CurrentUser UserPrincipal userPrincipal) {
 
 		ContainerResponseModel response = new ContainerResponseModel();
 
 		response.setVerb("DELETE");
-		response.setEndpoint("/api/users/me");
+		response.setEndpoint("/user/me");
 		
 		if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
      		response.setStatus("FAIL");
@@ -128,51 +116,21 @@ public class UserController {
      	}
 
 		try {
-			UserEntity userEntityToDelete = userRepository.findUserByUserId(userPrincipal.getUserId()).get();
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
 
-			verificationTokenRepository.deleteByUser(userEntityToDelete);
-			forgotPasswordRepository.deleteByUser(userEntityToDelete);
-
-			userRepository.deleteByUserId(userPrincipal.getUserId());
-
-			response.setStatus("SUCCESS");
-
-			return ResponseEntity.ok(response);
-		} catch (Exception e) {
-
-			response.setStatus("FAIL");
-			response.setErrorMessage(e.getMessage());
-
-			return ResponseEntity.badRequest().body(response);
-		}
-	}
-
-	@PutMapping("/user/me/password")
-	public ResponseEntity<?> updatePassword(@CurrentUser UserPrincipal userPrincipal,
-											@RequestBody PasswordUpdateRequestModel passwordUpdateRequest){
-
-		ContainerResponseModel response = new ContainerResponseModel();
-
-		response.setVerb("PUT");
-		response.setEndpoint("/api/user/me/password");
-
-		try {
-			UserEntity user = userRepository.findUserByUserId(userPrincipal.getUserId())
-					.orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getUserId()));
-
-			user.setPassword(passwordEncoder.encode(passwordUpdateRequest.getPassword()));
-			userRepository.save(user);
+			verificationTokenService.deleteTokensByUser(user);
+			forgotPasswordService.deleteTokensByUser(user);
+			userService.deleteUser(userPrincipal.getUserId());
 
 			response.setStatus("SUCCESS");
 
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}
 	}
-
 }

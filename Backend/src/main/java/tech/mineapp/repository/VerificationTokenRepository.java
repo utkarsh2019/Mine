@@ -13,9 +13,11 @@ import tech.mineapp.entity.VerificationTokenEntity;
 @Repository
 public interface VerificationTokenRepository extends JpaRepository<VerificationTokenEntity, Long> {
  
-    VerificationTokenEntity findByToken(String token);
- 
+    VerificationTokenEntity findByToken(String token); 
     VerificationTokenEntity findByUser(UserEntity user);
     
+    Boolean existsByToken(String token);
+    
     void deleteByUser(UserEntity user);
+    void deleteByToken(String token);
 }

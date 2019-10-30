@@ -38,7 +38,7 @@ public class VerificationListener implements
     private void confirmRegistration(OnVerificationCompleteEvent event) {
         UserEntity user = event.getUser();
         String token = UUID.randomUUID().toString();
-        tokenService.createVerificationToken(user, token);
+        tokenService.createToken(user, token);
          
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";
@@ -49,7 +49,7 @@ public class VerificationListener implements
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + " \r\n\r\n" + "http://localhost:3000" + confirmationUrl);
+        email.setText(message + " \r\n\r\n" + "http://mineapp.tech" + confirmationUrl);
         mailSender.send(email);
     }
 }
