@@ -2,6 +2,8 @@ package tech.mineapp.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.event.OnVerificationCompleteEvent;
 import tech.mineapp.model.request.AuthRequestModel;
 import tech.mineapp.model.request.SignupRequestModel;
 import tech.mineapp.model.response.AuthResponseModel;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.TokenProvider;
 import tech.mineapp.service.UserService;
 
@@ -37,9 +37,6 @@ public class AuthController {
 	
 	@Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
     
     @Autowired
     private UserService userService;
@@ -52,6 +49,8 @@ public class AuthController {
     
     @Autowired
     ApplicationEventPublisher eventPublisher;
+    
+	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody AuthRequestModel loginRequest) {
@@ -92,25 +91,17 @@ public class AuthController {
 		response.setEndpoint("/auth/signup");
 		
 		try {
-			if(userRepository.existsByEmail(signupRequest.getEmail())) {
+			if(userService.userEmailAlreadyExists(signupRequest.getEmail())) {
 				response.setStatus("FAIL");
 				response.setErrorMessage("Email address already in use.");
 				
 				return ResponseEntity.badRequest().body(response);
 	        }
 
-	        UserEntity user = new UserEntity();
-	        user.setUserId(userService.generateIdForUser());
-	        user.setName(signupRequest.getName());
-	        user.setEmail(signupRequest.getEmail());
-	        user.setPassword(signupRequest.getPassword());
-	        user.setProvider(AuthProvider.local);
-
-	        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-	        user.setCategoryPreferences("movies,music,social,text,audio");
-
-	        UserEntity savedUser = userRepository.save(user);
+	        UserEntity savedUser = userService.createLocalUser(
+	        		signupRequest.getName(),
+	        		signupRequest.getEmail(),
+	        		passwordEncoder.encode(signupRequest.getPassword()));
 			
 	        eventPublisher.publishEvent(new OnVerificationCompleteEvent(savedUser, request.getLocale(), request.getContextPath()));
 	        
@@ -119,9 +110,9 @@ public class AuthController {
 			return ResponseEntity.ok(response);
 			
 		} catch (Exception e) {
-			
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 			
 			return ResponseEntity.badRequest().body(response);
 		}

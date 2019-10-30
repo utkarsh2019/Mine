@@ -1,9 +1,4 @@
-/**
- * 
- */
 package tech.mineapp.security.oauth2;
-
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -18,7 +13,6 @@ import org.springframework.util.StringUtils;
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.OAuth2AuthenticationProcessingException;
-import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.security.oauth2.user.OAuth2UserInfo;
 import tech.mineapp.security.oauth2.user.OAuth2UserInfoFactory;
@@ -30,9 +24,6 @@ import tech.mineapp.service.UserService;
  */
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-
-    @Autowired
-    private UserRepository userRepository;
     
     @Autowired
     private UserService userService;
@@ -56,12 +47,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
-
-        Optional<UserEntity> userOptional = userRepository.findUserByEmail(oAuth2UserInfo.getEmail());
+        
         UserEntity user;
-        if(userOptional.isPresent()) {
-            user = userOptional.get();
-            if(!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+        if(userService.userEmailAlreadyExists(oAuth2UserInfo.getEmail())) {
+        	user = userService.findUserByEmail(oAuth2UserInfo.getEmail());
+            if(!user.getProvider()
+            		.equals(AuthProvider.valueOf(oAuth2UserRequest
+            				.getClientRegistration()
+            				.getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         user.getProvider() + " account. Please use your " + user.getProvider() +
                         " account to login.");
@@ -75,23 +68,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private UserEntity registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        UserEntity user = new UserEntity();
-        
-        user.setUserId(userService.generateIdForUser());
-        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
-        user.setProviderId(oAuth2UserInfo.getId());
-        user.setName(oAuth2UserInfo.getName());
-        user.setEmail(oAuth2UserInfo.getEmail());
-        user.setProfilePicUrl(oAuth2UserInfo.getImageUrl());
-        user.setCategoryPreferences("movies,music,social,text,audio");
-        user.setIsVerified(true);
-        return userRepository.save(user);
+        return userService.createOauthUser(
+        		oAuth2UserInfo.getName(),
+        		oAuth2UserInfo.getEmail(),
+        		AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()),
+        		oAuth2UserInfo.getId(),
+        		oAuth2UserInfo.getImageUrl());
     }
 
-    private UserEntity updateExistingUser(UserEntity existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getName());
-        existingUser.setProfilePicUrl(oAuth2UserInfo.getImageUrl());
-        return userRepository.save(existingUser);
+    private UserEntity updateExistingUser(UserEntity user, OAuth2UserInfo oAuth2UserInfo) {
+        return userService.updateOauthUser(user, oAuth2UserInfo.getName(), oAuth2UserInfo.getImageUrl());
     }
 
 }

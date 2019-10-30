@@ -1,18 +1,15 @@
 package tech.mineapp.controller;
 
-import java.util.Calendar;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tech.mineapp.entity.UserEntity;
-import tech.mineapp.entity.VerificationTokenEntity;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.repository.UserRepository;
+import tech.mineapp.service.UserService;
 import tech.mineapp.service.VerificationTokenService;
 
 /**
@@ -21,50 +18,48 @@ import tech.mineapp.service.VerificationTokenService;
  */
 
 @RestController
-@RequestMapping("/verify")
 public class VerificationController {
 	
 	@Autowired
 	private VerificationTokenService tokenService;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
-	@GetMapping("/confirm")
+	private static final Logger logger = LoggerFactory.getLogger(VerificationController.class);
+	
+	@GetMapping("/verify/account")
 	public ResponseEntity<?> verify(@RequestParam(name = "token") String token) {
 	    
 		 
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("POST");
-		response.setEndpoint("/verify/password");
+		response.setEndpoint("/verify/confirm");
 		
 		try {
-		    VerificationTokenEntity verificationToken = tokenService.getVerificationToken(token);
-		    if (verificationToken == null) {
+			if (!tokenService.tokenExists(token)) {
 		    	response.setStatus("FAIL");
-	     		response.setErrorMessage("Null token.");
+	     		response.setErrorMessage("Bad token.");
 	     		return ResponseEntity.badRequest().body(response);
 		    }
-		     
-		    UserEntity user = verificationToken.getUser();
-		    Calendar cal = Calendar.getInstance();
-		    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+		    
+		    if (tokenService.isExpired(token)) {
 		    	response.setStatus("FAIL");
 	     		response.setErrorMessage("Expired token.");
 	     		return ResponseEntity.badRequest().body(response);
 		    } 
 		    
-		    tokenService.deleteVerificationToken(user);
-		    user.setIsVerified(true); 
-		    userRepository.save(user);
+		    userService.verifyUser(tokenService.getUserByToken(token)); 
+		    tokenService.deleteToken(token);
+		    
 		    response.setStatus("SUCCESS");
 			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}

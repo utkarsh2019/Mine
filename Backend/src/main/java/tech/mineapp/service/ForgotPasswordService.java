@@ -15,10 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tech.mineapp.entity.ForgotPasswordEntity;
 import tech.mineapp.entity.UserEntity;
-import tech.mineapp.entity.VerificationTokenEntity;
 import tech.mineapp.exception.UserDoesNotExistException;
 import tech.mineapp.repository.ForgotPasswordRepository;
-import tech.mineapp.repository.VerificationTokenRepository;
 
 /**
  * @author utkarsh
@@ -32,7 +30,7 @@ public class ForgotPasswordService {
 	private UserService userService;
 	
 	@Autowired
-	private ForgotPasswordRepository fpRepository;
+	private ForgotPasswordRepository forgotPasswordRepository;
 	
 	private Date calculateExpiryDate() {
         Calendar cal = Calendar.getInstance();
@@ -41,28 +39,40 @@ public class ForgotPasswordService {
         return new Date(cal.getTime().getTime());
     }
 	
-	public void createForgotPasswordToken(UserEntity user, String token) {
+	public void createToken(UserEntity user, String token) {
     	if (!userService.userIdAlreadyExists(user.getUserId())) {
     		throw new UserDoesNotExistException();
     	}
     	
-    	ForgotPasswordEntity myToken = new ForgotPasswordEntity();
-    	myToken.setToken(token);
-    	myToken.setUser(user);
-    	myToken.setExpiryDate(calculateExpiryDate());
-        fpRepository.save(myToken);
+    	ForgotPasswordEntity newToken = new ForgotPasswordEntity();
+    	newToken.setToken(token);
+    	newToken.setUser(user);
+    	newToken.setExpiryDate(calculateExpiryDate());
+        forgotPasswordRepository.save(newToken);
     }
 	
-	public UserEntity getUser(String fpToken) {
-        UserEntity user = fpRepository.findByToken(fpToken).getUser();
-        return user;
+	public UserEntity getUserByToken(String token) {
+        return forgotPasswordRepository.findByToken(token).getUser();
     }
     
-    public ForgotPasswordEntity getForgotPasswordToken(String fpToken) {
-        return fpRepository.findByToken(fpToken);
+    public ForgotPasswordEntity getToken(String token) {
+        return forgotPasswordRepository.findByToken(token);
     }
     
-    public void deleteForgotPasswordToken(UserEntity user) {
-    	fpRepository.deleteByUser(user);
+    public void deleteTokensByUser(UserEntity user) {
+    	forgotPasswordRepository.deleteByUser(user);
+    }
+    
+    public void deleteToken(String token) {
+    	forgotPasswordRepository.deleteByToken(token);
+    }
+    
+    public Boolean isExpired(String token) {
+    	Calendar cal = Calendar.getInstance();
+    	return (getToken(token).getExpiryDate().getTime() - cal.getTime().getTime()) <= 0;
+    }
+    
+    public Boolean tokenExists(String token) {
+    	return forgotPasswordRepository.existsByToken(token);
     }
 }
