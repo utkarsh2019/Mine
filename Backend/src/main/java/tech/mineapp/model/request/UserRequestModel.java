@@ -17,11 +17,9 @@ public class UserRequestModel {
 	
 	@NotBlank
 	private String name;
-	
-	private String profilePicUrl;
 
 	private String categoryPreferences;
 	
-	private int noOfPreviousSearches;
+	private int noOfSearches;
 
 }

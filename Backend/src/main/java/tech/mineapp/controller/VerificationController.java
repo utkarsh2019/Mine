@@ -1,5 +1,7 @@
 package tech.mineapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,8 @@ public class VerificationController {
 	@Autowired
 	private UserService userService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(VerificationController.class);
+	
 	@GetMapping("/verify/account")
 	public ResponseEntity<?> verify(@RequestParam(name = "token") String token) {
 	    
@@ -34,7 +38,7 @@ public class VerificationController {
 		response.setEndpoint("/verify/confirm");
 		
 		try {
-			if (tokenService.tokenExists(token)) {
+			if (!tokenService.tokenExists(token)) {
 		    	response.setStatus("FAIL");
 	     		response.setErrorMessage("Bad token.");
 	     		return ResponseEntity.badRequest().body(response);
@@ -53,9 +57,9 @@ public class VerificationController {
 			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}

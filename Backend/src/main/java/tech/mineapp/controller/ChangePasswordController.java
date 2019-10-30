@@ -1,5 +1,7 @@
 package tech.mineapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +29,8 @@ public class ChangePasswordController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ChangePasswordController.class);
 	
 	@PutMapping("/user/me/password")
 	@PreAuthorize("hasRole('USER')")
@@ -58,9 +62,9 @@ public class ChangePasswordController {
 
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}
