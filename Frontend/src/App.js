@@ -1,24 +1,24 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from './components/Home';
-import Profile from './components/Profile';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import ForgotPassword from './components/ForgotPassword';
-import OAuth2RedirectHandler from './oauth2/OAuth2RedirectHandler';
-import { getCurrentUser } from './util/APIUtils';
-import Alert from 'react-s-alert';
-import { ACCESS_TOKEN } from './constants/index';
-import PrivateRoute from './common/PrivateRoute';
-import AppHeader from './common/AppHeader';
-import NotFound from './common/NotFound';
-import Edit from './components/Edit'
-import Dashboard from './components/Dashboard';
-import Trending from './components/Trending';
-import Search from './components/Search';
-import ForgotPasswordUpdate from './components/ForgotPasswordUpdate';
-import VerifyAccount from './components/VerifyAccount';
-import EditPassword from './components/changePassword';
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import ForgotPassword from "./components/ForgotPassword";
+import OAuth2RedirectHandler from "./oauth2/OAuth2RedirectHandler";
+import { getCurrentUser } from "./util/APIUtils";
+import Alert from "react-s-alert";
+import { ACCESS_TOKEN } from "./constants/index";
+import PrivateRoute from "./common/PrivateRoute";
+import AppHeader from "./common/AppHeader";
+import NotFound from "./common/NotFound";
+import Edit from "./components/Edit"
+import Dashboard from "./components/Dashboard";
+import Trending from "./components/Trending";
+import Search from "./components/Search";
+import ForgotPasswordUpdate from "./components/ForgotPasswordUpdate";
+import VerifyAccount from "./components/VerifyAccount";
+import EditPassword from "./components/ChangePassword";
 
 
 export default class App extends Component {
@@ -101,7 +101,7 @@ export default class App extends Component {
       </div>
       <Alert stack={{limit: 3}} 
         timeout = {3000}
-        position='top-right' effect='slide' offset={65} />
+        position="top-right" effect="slide" offset={65} />
     </div>
   );
 

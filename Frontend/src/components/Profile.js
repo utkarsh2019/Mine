@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/Profile.css";
 import axios from "axios";
+import { API_BASE_URL } from "../constants";
 
 export default class Profile extends Component {
   logout = () => {
@@ -25,7 +26,7 @@ export default class Profile extends Component {
 
     axios({
       method: "get",
-      url: "http://api.mineapp.tech/user/me",
+      url: API_BASE_URL + "/user/me",
       headers: {
         Authorization: type + " " + token
       }
@@ -37,7 +38,7 @@ export default class Profile extends Component {
           "Email: " + response.data.responseObject.email;
         document.getElementById("num").innerHTML =
           "Number of Searches Displayed: " +
-          response.data.responseObject.noOfPreviousSearches;
+          response.data.responseObject.noOfSearches;
 
         let pref = response.data.responseObject.categoryPreferences.split(",");
         document.getElementById("item1").innerHTML = pref[0];
@@ -66,7 +67,7 @@ export default class Profile extends Component {
 
     axios({
       method: "delete",
-      url: "http://api.mineapp.tech/user/me",
+      url: API_BASE_URL + "/user/me",
       headers: {
         Authorization: type + " " + token
       }

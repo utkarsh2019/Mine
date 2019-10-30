@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/signup.css";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "./../constants";
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "./../constants";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -34,7 +34,7 @@ export default class Signup extends Component {
 
     axios({
       method: "post",
-      url: "http://api.mineapp.tech/auth/signup",
+      url: API_BASE_URL + "/auth/signup",
       data: {
         email: userdata.email,
         name: userdata.name,

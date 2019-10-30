@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
+import { API_BASE_URL } from "../constants";
 
 export default class ForgotPasswordUpdate extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class ForgotPasswordUpdate extends Component {
     let pass = document.getElementById("passwordinput").value;
     axios({
       method: "post",
-      url: "http://api.mineapp.tech/verify/password?token=" + token,
+      url: API_BASE_URL + "/verify/password?token=" + token,
       data: {
         password: pass
       }

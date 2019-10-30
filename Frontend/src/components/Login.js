@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../css/login.css";
 import "../css/bootstrap.css";
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "./../constants";
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "./../constants";
 import axios from "axios";
 
 export default class Login extends Component {
@@ -26,7 +26,7 @@ export default class Login extends Component {
   
     axios({
       method: "post",
-      url: "http://api.mineapp.tech/auth/login",
+      url: API_BASE_URL + "/auth/login",
       data: {
         email: userdata.email,
         password: userdata.password
