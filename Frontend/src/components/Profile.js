@@ -38,7 +38,7 @@ export default class Profile extends Component {
           "Email: " + response.data.responseObject.email;
         document.getElementById("num").innerHTML =
           "Number of Searches Displayed: " +
-          response.data.responseObject.noOfPreviousSearches;
+          response.data.responseObject.noOfSearches;
 
         let pref = response.data.responseObject.categoryPreferences.split(",");
         document.getElementById("item1").innerHTML = pref[0];

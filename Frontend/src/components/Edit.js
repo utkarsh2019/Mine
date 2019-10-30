@@ -37,13 +37,13 @@ export default class Edit extends Component {
         document.getElementById("email").value =
           response.data.responseObject.email;
 
-        if (response.data.responseObject.noOfPreviousSearches == 1) {
+        if (response.data.responseObject.noOfSearches == 1) {
           document.getElementById("inlineRadio1").checked = true;
-        } else if (response.data.responseObject.noOfPreviousSearches == 3) {
+        } else if (response.data.responseObject.noOfSearches == 3) {
           document.getElementById("inlineRadio2").checked = true;
-        } else if (response.data.responseObject.noOfPreviousSearches == 5) {
+        } else if (response.data.responseObject.noOfSearches == 5) {
           document.getElementById("inlineRadio3").checked = true;
-        } else if (response.data.responseObject.noOfPreviousSearches == 7) {
+        } else if (response.data.responseObject.noOfSearches == 7) {
           document.getElementById("inlineRadio3").checked = true;
         }
 
@@ -106,7 +106,7 @@ export default class Edit extends Component {
           name: document.getElementById("name").value,
           profilePicUrl: null,
           categoryPreferences: categoryPref,
-          noOfPreviousSearches: num
+          noOfSearches: num
         }
       })
         .then(function(response) {
