@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
-import Profile from "./components/ViewProfile";
+import ViewProfile from "./components/ViewProfile";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
@@ -79,7 +79,7 @@ export default class App extends Component {
           <Route path="/dashboard"
             render={(props) => <Dashboard authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/profile"
-            render={(props) => <Profile authenticated={this.state.authenticated} {...props} />}></Route>
+            render={(props) => <ViewProfile authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/edit"
             render={(props) => <Edit authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/trending"
