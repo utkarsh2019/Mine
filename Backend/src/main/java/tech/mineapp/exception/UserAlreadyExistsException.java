@@ -6,6 +6,7 @@ package tech.mineapp.exception;
  *
  * @author amolmoses
  */
+@SuppressWarnings("serial")
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException() {
         super("User already exists!");

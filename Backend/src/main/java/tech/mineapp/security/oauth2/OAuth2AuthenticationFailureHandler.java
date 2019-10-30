@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tech.mineapp.security.oauth2;
 
 import javax.servlet.ServletException;
