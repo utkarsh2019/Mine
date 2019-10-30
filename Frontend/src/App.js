@@ -1,18 +1,18 @@
 import React, {Component} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
-import Profile from "./components/Profile";
+import Profile from "./components/ViewProfile";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import OAuth2RedirectHandler from "./oauth2/OAuth2RedirectHandler";
 import Alert from "react-s-alert";
 import NotFound from "./components/NotFound";
-import Edit from "./components/Edit"
+import Edit from "./components/EditProfile"
 import Dashboard from "./components/Dashboard";
 import Trending from "./components/Trending";
 import Search from "./components/Search";
-import ForgotPasswordUpdate from "./components/ForgotPasswordUpdate";
+import ForgotPasswordUpdate from "./components/VerifyPassword";
 import VerifyAccount from "./components/VerifyAccount";
 import EditPassword from "./components/ChangePassword";
 
