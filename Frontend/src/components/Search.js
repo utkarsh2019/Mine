@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 
 import "../css/bootstrap.css";
 import "../css/search.css";
+import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class Search extends Component {
   componentDidMount() {
@@ -27,6 +29,10 @@ export default class Search extends Component {
     });
   }
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+
     return (
       <div>
         <script

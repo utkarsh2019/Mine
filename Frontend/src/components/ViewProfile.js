@@ -3,7 +3,8 @@ import "../css/bootstrap.css";
 import "../css/Profile.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
-import { getJwtToken, deleteCookies } from "../utils/CookieUtil";
+import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class Profile extends Component {
   logout = () => {
@@ -66,6 +67,9 @@ export default class Profile extends Component {
   };
 
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
     return (
       <div className="Profile" onLoad={this.load}>
         <div>

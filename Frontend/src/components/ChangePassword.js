@@ -3,7 +3,8 @@ import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
-import { getJwtToken } from "../utils/CookieUtil";
+import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class EditPassword extends Component {
   update() {
@@ -33,6 +34,10 @@ export default class EditPassword extends Component {
   }
 
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+    
     return (
       <div>
         <div class="container-fluid">

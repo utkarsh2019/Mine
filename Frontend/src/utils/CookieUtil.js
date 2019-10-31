@@ -22,3 +22,17 @@ export function setCookies(token, type) {
   document.cookie = "accessToken=" + token + ";path=/";
   document.cookie = "tokenType=" + type + ";path=/";
 }
+
+export function checkUserLoggedIn() {
+  let cookies = document.cookie.split(";");
+  if (cookies.length < 2) {
+    return false;
+  }
+  let accessToken = "accessToken=";
+  let tokenType = "tokenType=";
+  if ((!cookies[0].startsWith(accessToken) && !cookies[0].startsWith(tokenType)) ||
+    (!cookies[1].startsWith(accessToken) && !cookies[1].startsWith(tokenType))) {
+      return false;
+  }
+  return true;
+}

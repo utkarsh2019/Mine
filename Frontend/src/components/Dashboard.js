@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/dashboard.css";
+import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class Dashboard extends Component {
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+
     return (
       <div>
         <div>

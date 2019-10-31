@@ -3,7 +3,8 @@ import "../css/bootstrap.css";
 import "../css/Edit.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
-import { getJwtToken, deleteCookies } from "../utils/CookieUtil";
+import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class Edit extends Component {
   logout = () => {
@@ -103,6 +104,10 @@ export default class Edit extends Component {
   };
 
   render() {
+    if (! checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+
     return (
       <div className="Edit" onLoad={this.load}>
         <div>
