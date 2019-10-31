@@ -3,6 +3,7 @@ import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
+import { getUrlParameter } from "../utils/UrlUtil"
 
 export default class VerifyPassword extends Component {
   constructor(props) {
@@ -10,18 +11,9 @@ export default class VerifyPassword extends Component {
 
     this.update = this.update.bind(this);
   }
-  getUrlParameter(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-
-    var results = regex.exec(this.props.location.search);
-    return results === null
-      ? ""
-      : decodeURIComponent(results[1].replace(/\+/g, " "));
-  }
 
   update() {
-    let token = this.getUrlParameter("token");
+    let token = getUrlParameter("token", this.props.location.search);
     let pass = document.getElementById("passwordinput").value;
     axios({
       method: "post",
