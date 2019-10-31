@@ -3,6 +3,7 @@ import "../css/login.css";
 import "../css/bootstrap.css";
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "../constants/Constants";
 import axios from "axios";
+import { setCookies } from "../utils/CookieUtil";
 
 export default class Login extends Component {
   constructor(props) {
@@ -33,10 +34,7 @@ export default class Login extends Component {
       }
     })
       .then(function(response) {
-        document.cookie =
-          "accessToken=" + response.data.responseObject.accessToken + ";path=/";
-        document.cookie =
-          "tokenType=" + response.data.responseObject.tokenType + ";path=/";
+        setCookies(response.data.responseObject.accessToken, response.data.responseObject.tokenType);
         window.location.replace("/dashboard");
       })
       .catch(function(error) {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ACCESS_TOKEN } from "../constants/Constants";
 import { Redirect } from "react-router-dom"
+import { setCookies } from "../utils/CookieUtil";
 
 class OAuth2RedirectHandler extends Component {
     getUrlParameter(name) {
@@ -16,17 +17,12 @@ class OAuth2RedirectHandler extends Component {
         const error = this.getUrlParameter("error");
 
         if(token) {
-            document.cookie = "accessToken=" + token + ";path=/";
-            document.cookie = "tokenType=Bearer;path=/";
-            // window.location.replace("/profile");
-
-            // localStorage.setItem(ACCESS_TOKEN, token);
+            setCookies(token, "Bearer");
             return <Redirect to={{
                 pathname: "/profile",
                 state: { from: this.props.location }
             }}/>; 
         } else {
-            // window.location.replace("/login");
             return <Redirect to={{
                 pathname: "/login",
                 state: { 

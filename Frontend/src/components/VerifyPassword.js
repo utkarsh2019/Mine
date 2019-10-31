@@ -4,7 +4,7 @@ import "../css/bootstrap.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 
-export default class ForgotPasswordUpdate extends Component {
+export default class VerifyPassword extends Component {
   constructor(props) {
     super(props);
 

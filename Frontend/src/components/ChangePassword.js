@@ -3,20 +3,13 @@ import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
+import { getJwtToken } from "../utils/CookieUtil";
 
 export default class EditPassword extends Component {
   update() {
-    let cookie = document.cookie.split(";");
-    let cookie1 = cookie[0].split("=");
-    let cookie2 = cookie[1].split("=");
-    let type, token;
-    if (cookie1[0] === "tokenType") {
-      type = cookie1[1];
-      token = cookie2[1];
-    } else {
-      type = cookie2[1];
-      token = cookie1[1];
-    }
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
 
     let pass = document.getElementById("passwordinput").value;
 

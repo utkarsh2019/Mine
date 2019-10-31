@@ -24,7 +24,7 @@ export default class VerifyAccount extends Component {
     let token = this.getUrlParameter("token");
     axios({
         method: "get",
-        url: API_BASE_URL + "/verify/confirm?token="+token
+        url: API_BASE_URL + "/verify/confirm?token=" + token
     })
     .then(function (response) {
       window.location.replace("/login");
