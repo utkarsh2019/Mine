@@ -32,6 +32,10 @@ export default class Edit extends Component {
     } else if (user.noOfSearches == 7) {
       document.getElementById("inlineRadio4").checked = true;
     }
+       
+    if(user.profilePicUrl != null){
+      document.getElementById("profileImage").src = user.profilePicUrl;
+    }
 
     let pref = user.categoryPreferences.split(",");
     document.getElementById("preferenceInput1").value = pref[0];
@@ -175,14 +179,12 @@ export default class Edit extends Component {
                       src={require("./../images/profile.png")}
                       height="75"
                       width="75"
+                      class="rounded-circle"
+                      id = "profileImage"
                     ></img>
-                    <span class="align-right">
-                      <input
-                        type="file"
-                        class="form-control-file"
-                        id="exampleFormControlFile1"
-                      ></input>
-                    </span>
+                    <a class="align-right" href="/editimage">
+                      Edit
+                    </a>
                   </div>
                 </div>
               </div>
@@ -330,6 +332,7 @@ export default class Edit extends Component {
       </div>
     );
   }
+
   updateInfoRender = () => {
     const prefcategories = ["movies", "music", "social", "text", "audio"];
 

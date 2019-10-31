@@ -15,6 +15,7 @@ import Search from "./components/Search";
 import ForgotPasswordUpdate from "./components/VerifyPassword";
 import VerifyAccount from "./components/VerifyAccount";
 import EditPassword from "./components/EditPassword";
+import EditImage from "./components/EditImage";
 
 
 export default class App extends Component {
@@ -57,6 +58,8 @@ export default class App extends Component {
             render={(props) => <VerifyAccount authenticated={this.state.authenticated} {...props} />}></Route>
            <Route path="/editpassword"
             render={(props) => <EditPassword authenticated={this.state.authenticated} {...props} />}></Route>
+          <Route path="/editimage"
+            render={(props) => <EditImage authenticated={this.state.authenticated} {...props} />}></Route>
           <Route component={NotFound}></Route>
         </Switch>
       </div>

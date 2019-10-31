@@ -31,9 +31,8 @@ export function checkUserLoggedIn() {
   cookies[1] = cookies[1].trim();
   let accessToken = "accessToken=";
   let tokenType = "tokenType=";
-  if ((!cookies[0].startsWith(accessToken) && !cookies[0].startsWith(tokenType)) ||
-    (!cookies[1].startsWith(accessToken) && !cookies[1].startsWith(tokenType))) {
-      return false;
+  if(document.cookie.indexOf(accessToken) == -1 || document.cookie.indexOf(tokenType) == -1 ){
+    return false;
   }
   return true;
 }

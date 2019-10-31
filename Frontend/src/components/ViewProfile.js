@@ -25,6 +25,10 @@ export default class Profile extends Component {
 
     document.getElementById("num").innerHTML = user.noOfSearches;
 
+    if(user.profilePicUrl != null){
+      document.getElementById("profileImage").src = user.profilePicUrl;
+    }
+
     let pref = user.categoryPreferences.split(",");
     document.getElementById("item1").innerHTML = pref[0];
     document.getElementById("item2").innerHTML = pref[1];
@@ -160,6 +164,8 @@ export default class Profile extends Component {
                     src={require("./../images/profile.png")}
                     height="75"
                     width="75"
+                    class="rounded-circle"
+                    id="profileImage"
                   ></img>
                 </div>
               </div>
@@ -199,21 +205,21 @@ export default class Profile extends Component {
               <br></br>
               <br></br>
               <div className="row">
-                <div className="col-sm-6 text-center  ">
+                <div className="col-sm-6" align="right">
                   <a href="\edit">
                     <button type="button" class="btn btn-primary">
                       Edit
                     </button>
                   </a>
                 </div>
-                <div className="col-sm-6 text-center">
+                <div className="col-sm-6" align="left">
                   <button
                     type="button"
                     class="btn btn-danger"
                     onClick={() => {
                       if (
                         window.confirm(
-                          "Are you sure you wish to delete this item?"
+                          "Are you sure you wish to delete this account?"
                         )
                       )
                         this.deleteAccount();
