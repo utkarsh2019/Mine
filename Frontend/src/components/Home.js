@@ -3,9 +3,15 @@ import "../css/home.css";
 import "../css/bootstrap.css";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToProfile } from "../utils/RedirectUtil";
 
 export default class Home extends Component {
   render() {
+    if (checkUserLoggedIn()) {
+      return redirectToProfile(this.props.location);
+    }
+
     return (
       <div className="App">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top container-fluid">
