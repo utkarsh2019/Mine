@@ -25,6 +25,7 @@ export default class Profile extends Component {
       }
     })
       .then(function(response) {
+        console.log(response.data.responseObject);
         document.getElementById("name").innerHTML =
           "Name: " + response.data.responseObject.name;
         document.getElementById("email").innerHTML =
@@ -32,6 +33,9 @@ export default class Profile extends Component {
         document.getElementById("num").innerHTML =
           "Number of Searches Displayed: " +
           response.data.responseObject.noOfSearches;
+          if(response.data.responseObject.profilePicUrl != null){
+            document.getElementById("profileImage").src = response.data.responseObject.profilePicUrl;
+          }
 
         let pref = response.data.responseObject.categoryPreferences.split(",");
         document.getElementById("item1").innerHTML = pref[0];
@@ -144,6 +148,8 @@ export default class Profile extends Component {
                     src={require("./../img/profile.png")}
                     height="75"
                     width="75"
+                    class="rounded-circle"
+                    id="profileImage"
                   ></img>
                 </div>
               </div>
@@ -183,21 +189,21 @@ export default class Profile extends Component {
               <br></br>
               <br></br>
               <div className="row">
-                <div className="col-sm-6 text-center  ">
+                <div className="col-sm-6" align="right">
                   <a href="\edit">
                     <button type="button" class="btn btn-primary">
                       Edit
                     </button>
                   </a>
                 </div>
-                <div className="col-sm-6 text-center">
+                <div className="col-sm-6" align="left">
                   <button
                     type="button"
                     class="btn btn-danger"
                     onClick={() => {
                       if (
                         window.confirm(
-                          "Are you sure you wish to delete this item?"
+                          "Are you sure you wish to delete this account?"
                         )
                       )
                         this.deleteAccount();
