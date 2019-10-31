@@ -10,8 +10,8 @@ public class RandomLongGeneratorTests {
 
     @Test
     public void checkGenerateIdForUserGeneratesRandomIds() {
-        Long firstId = RandomLongGenerator.generateRandomLong();
-        Long secondId = RandomLongGenerator.generateRandomLong();
+        Long firstId = RandomLongGeneratorUtil.generateRandomLong();
+        Long secondId = RandomLongGeneratorUtil.generateRandomLong();
 
         assertThat(
                 "Both the Ids should be different",
@@ -22,8 +22,8 @@ public class RandomLongGeneratorTests {
 
     @Test
     public void checkGenerateIdForUserGeneratesIdsOfSameLength() {
-    	Long firstId = RandomLongGenerator.generateRandomLong();
-        Long secondId = RandomLongGenerator.generateRandomLong();
+    	Long firstId = RandomLongGeneratorUtil.generateRandomLong();
+        Long secondId = RandomLongGeneratorUtil.generateRandomLong();
 
         assertThat(
                 "Both the Ids should have the same length",

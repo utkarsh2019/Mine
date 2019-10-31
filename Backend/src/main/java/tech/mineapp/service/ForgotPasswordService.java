@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tech.mineapp.service;
 
 import static tech.mineapp.constants.Constants.VerificationConstants.URL_EXPIRATION_TIME;

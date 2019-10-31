@@ -8,7 +8,7 @@ import java.util.Random;
  *
  * @author amolmoses, utkarsh
  */
-public class RandomLongGenerator {
+public class RandomLongGeneratorUtil {
 
 	private final static Long lower = Long.parseLong("100000000000000");
 	private final static Long upper = Long.parseLong("999999999999999");

@@ -5,6 +5,8 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
+import tech.mineapp.config.ApiPropertiesConfig;
+
 /**
  * @author utkarsh
  *
@@ -14,9 +16,12 @@ public class YoutubeController {
 	
 	private RestTemplate restTemplate;
 	
+	private ApiPropertiesConfig apiProperties;
+	
 	@Autowired
-    public YoutubeController(RestTemplateBuilder builder) {
+    public YoutubeController(RestTemplateBuilder builder, ApiPropertiesConfig apiProperties) {
         this.restTemplate = builder.build();
+        this.apiProperties = apiProperties;
     }
 	
 	public YoutubeResponseModel youtubeVideoSearch(String query, int noOfSearches) {
@@ -24,7 +29,7 @@ public class YoutubeController {
 		  = "https://www.googleapis.com/youtube/v3/search?" +
 				  "part=snippet" +
 				  "&type=video" +
-				  "&key=AIzaSyBTVgmDUTKrGoRLS9IFF1ZvS6o7N3FVTrM" +
+				  "&key=" + apiProperties.getGoogle().getApiKey() +
 				  "&q=" + query +
 				  "&maxResults=" + noOfSearches;
 		YoutubeResponseModel response
