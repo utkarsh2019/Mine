@@ -7,19 +7,15 @@ import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUt
 import { redirectToHome } from "../utils/RedirectUtil";
 import { getCurrentUser, setCurrentUser } from "../utils/UserStorageUtil";
 
-export default class Edit extends Component {
+export default class EditProfile extends Component {
   constructor(props) {
     super(props);
 
     this.setUserFields = this.setUserFields.bind(this);
   }
 
-  logout = () => {
-    deleteCookies();
-    window.location.replace("/");
-  };
-
-  setUserFields = (user) => {
+  setUserFields = () => {
+    let user = getCurrentUser();
     document.getElementById("name").value = user.name;
     document.getElementById("email").value = user.email;
 
@@ -100,9 +96,9 @@ export default class Edit extends Component {
     if (! checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
     }
-
+    
     return (
-      <div className="Edit" onLoad={this.setUserFields(getCurrentUser())}>
+      <div className="Edit" onLoad={this.setUserFields()}>
         <div>
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">

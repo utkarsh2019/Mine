@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { setCurrentUser, getCurrentUser } from "../utils/UserStorageUtil";
+import { setCurrentUser, getCurrentUser, clearCurrentUser } from "../utils/UserStorageUtil";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -15,15 +15,16 @@ export default class Profile extends Component {
   }
 
   logout = () => {
+    clearCurrentUser();
     deleteCookies();
     window.location.replace("/");
   };
 
   setUserFields = (user) => {
-    document.getElementById("name").value = user.name;
-    document.getElementById("email").value = user.email;
+    document.getElementById("name").innerHTML = "Name: " + user.name;
+    document.getElementById("email").innerHTML = "Email: " + user.email;
 
-    document.getElementById("num").innerHTML = user.noOfSearches;
+    document.getElementById("num").innerHTML = "No of Searches Displayed: " + user.noOfSearches;
 
     if(user.profilePicUrl != null){
       document.getElementById("profileImage").src = user.profilePicUrl;
@@ -197,7 +198,7 @@ export default class Profile extends Component {
                   </ul>
                   <hr></hr>
                   <p id="num">
-                    <b>Number of Searches Displayed:3</b>
+                    <b>Number of Searches Displayed: 3</b>
                   </p>
                 </div>
               </div>
