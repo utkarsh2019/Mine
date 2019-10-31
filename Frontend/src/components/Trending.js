@@ -16,7 +16,7 @@ export default class Trending extends Component {
           <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid fixed-top">
             <a class="navbar-brand" href="#">
               <img
-                src={require("./../img/minelogo.png")}
+                src={require("./../images/minelogo.png")}
                 width="50"
                 height="50"
                 class="d-inline-block"

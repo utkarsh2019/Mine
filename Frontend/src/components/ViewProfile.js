@@ -76,7 +76,7 @@ export default class Profile extends Component {
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
               <img
-                src={require("./../img/minelogo.png")}
+                src={require("./../images/minelogo.png")}
                 width="50"
                 height="50"
                 class="d-inline-block"
@@ -141,7 +141,7 @@ export default class Profile extends Component {
                   <p id="email">Email:Email Address of the User</p>
                   <hr></hr>
                   <img
-                    src={require("./../img/profile.png")}
+                    src={require("./../images/profile.png")}
                     height="75"
                     width="75"
                   ></img>

@@ -1,24 +1,32 @@
 import React, { Component } from "react";
-import logo from "../images/minelogo.png";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
+import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
-export default class ForgotPassword extends Component {
-  forgot() {
-    let userdata = {};
-    userdata.email = document.getElementById("emailinput").value;
+export default class EditPassword extends Component {
+  update() {
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+
+    let pass = document.getElementById("passwordinput").value;
 
     axios({
-      method: "post",
-      url: API_BASE_URL + "/forgotPassword",
+      method: "put",
+      url: API_BASE_URL + "/user/me/password",
+      headers: {
+        Authorization: type + " " + token
+      },
       data: {
-        email: userdata.email
+        password: pass
       }
     })
       .then(function(response) {
-        window.location.replace("/");
+        console.log(response);
+        window.location.replace("/edit");
       })
       .catch(function(error) {
         alert(error);
@@ -26,6 +34,10 @@ export default class ForgotPassword extends Component {
   }
 
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+    
     return (
       <div>
         <div class="container-fluid">
@@ -40,25 +52,36 @@ export default class ForgotPassword extends Component {
             <div class="col">
               <div class="forgotpassword">
                 <form>
-                  <h2>Forgot Password</h2>
+                  <h2>Update Password</h2>
                   <hr></hr>
 
                   <div class="form-group">
-                    <label for="emailinput">Email address</label>
+                    <label for="passwordinput">New Password</label>
                     <input
-                      type="email"
+                      type="password"
                       class="form-control"
-                      id="emailinput"
-                      placeholder="name@example.com"
+                      id="passwordinput"
+                      placeholder="Enter Password"
+                    ></input>
+                  </div>
+                  <div class="form-group">
+                    <label for="confirmpasswordinput">
+                      Confirm New Password
+                    </label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="confirmpasswordinput"
+                      placeholder="Re-enter Password"
                     ></input>
                   </div>
 
                   <button
                     type="button"
                     class="btn btn-primary"
-                    onClick={this.forgot}
+                    onClick={this.update}
                   >
-                    Submit
+                    Update
                   </button>
                 </form>
               </div>
