@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/verifyaccount.css";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL } from "../constants/Constants";
 
 export default class VerifyAccount extends Component {
   

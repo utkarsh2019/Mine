@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL } from "../constants/Constants";
 
 export default class EditPassword extends Component {
   update() {
@@ -22,7 +22,7 @@ export default class EditPassword extends Component {
 
     axios({
       method: "put",
-      url: API_BASE_URL+"/user/me/password",
+      url: API_BASE_URL + "/user/me/password",
       headers: {
         Authorization: type + " " + token
       },

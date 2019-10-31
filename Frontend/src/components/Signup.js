@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/signup.css";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "./../constants";
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "../constants/Constants";
 
 export default class Signup extends Component {
   constructor(props) {
