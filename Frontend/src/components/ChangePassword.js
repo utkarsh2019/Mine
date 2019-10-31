@@ -2,27 +2,21 @@ import React, { Component } from "react";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL } from "../constants/Constants";
+import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class EditPassword extends Component {
   update() {
-    let cookie = document.cookie.split(";");
-    let cookie1 = cookie[0].split("=");
-    let cookie2 = cookie[1].split("=");
-    let type, token;
-    if (cookie1[0] === "tokenType") {
-      type = cookie1[1];
-      token = cookie2[1];
-    } else {
-      type = cookie2[1];
-      token = cookie1[1];
-    }
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
 
     let pass = document.getElementById("passwordinput").value;
 
     axios({
       method: "put",
-      url: API_BASE_URL+"/user/me/password",
+      url: API_BASE_URL + "/user/me/password",
       headers: {
         Authorization: type + " " + token
       },
@@ -40,6 +34,10 @@ export default class EditPassword extends Component {
   }
 
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+    
     return (
       <div>
         <div class="container-fluid">

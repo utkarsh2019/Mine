@@ -3,7 +3,7 @@ import logo from "../img/minelogo.png";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL } from "../constants/Constants";
 
 export default class ForgotPassword extends Component {
   forgot() {
