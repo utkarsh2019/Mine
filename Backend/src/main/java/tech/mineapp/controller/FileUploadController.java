@@ -3,12 +3,9 @@ package tech.mineapp.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,14 +33,6 @@ public class FileUploadController {
 	private UserService userService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
-		
-	@GetMapping("/user/me/pic")
-	@PreAuthorize("hasRole('USER')")
-	public ResponseEntity<Resource> serveFile(@CurrentUser UserPrincipal userPrincipal) {
-		Resource file = fileUploadService.loadAsResource(String.valueOf(userPrincipal.getUserId()));
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
-	}
 	
 	@PutMapping("/user/me/pic")
 	@PreAuthorize("hasRole('USER')")
@@ -55,19 +44,21 @@ public class FileUploadController {
 		response.setEndpoint("/user/me/password");
 		
 		try {
-			if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			
+			if (!userService.checkVerification(user)) {
 	     		response.setStatus("FAIL");
 	     		response.setErrorMessage("Unverified user.");
 	     		return ResponseEntity.badRequest().body(response);
 	     	}
-			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			
 			if (!userService.isLocalUser(user)) {
 				response.setStatus("FAIL");
 	     		response.setErrorMessage("Not a local user.");
 	     		return ResponseEntity.badRequest().body(response);
 			}
-			fileUploadService.store(file, String.valueOf(userPrincipal.getUserId()));
-			userService.updateUserProfilePic(user, "http://api.mineapp.tech/user/me/pic");
+			String profilePicUrl = fileUploadService.uploadPhoto(file);
+			userService.updateUserProfilePic(user, profilePicUrl);
 			response.setStatus("SUCCESS");
 			
 			return ResponseEntity.ok(response);
@@ -89,18 +80,20 @@ public class FileUploadController {
 		response.setEndpoint("/user/me/password");
 		
 		try {
-			if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			
+			if (!userService.checkVerification(user)) {
 	     		response.setStatus("FAIL");
 	     		response.setErrorMessage("Unverified user.");
 	     		return ResponseEntity.badRequest().body(response);
 	     	}
-			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			
 			if (!userService.isLocalUser(user)) {
 				response.setStatus("FAIL");
 	     		response.setErrorMessage("Not a local user.");
 	     		return ResponseEntity.badRequest().body(response);
 			}
-			fileUploadService.delete(String.valueOf(userPrincipal.getUserId()));
+			
 			userService.updateUserProfilePic(user, null);
 			
 			response.setStatus("SUCCESS");

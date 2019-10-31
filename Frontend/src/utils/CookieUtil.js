@@ -28,6 +28,7 @@ export function checkUserLoggedIn() {
   if (cookies.length < 2) {
     return false;
   }
+  cookies[1] = cookies[1].trim();
   let accessToken = "accessToken=";
   let tokenType = "tokenType=";
   if(document.cookie.indexOf(accessToken) == -1 || document.cookie.indexOf(tokenType) == -1 ){

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { setCookies } from "../utils/CookieUtil";
 import { getUrlParameter } from "../utils/UrlUtil"
-import { redirectToProfile, redirectToLogin } from "../utils/RedirectUtil";
+import { redirectToDashboard, redirectToLogin } from "../utils/RedirectUtil";
 
 class OAuth2 extends Component {
 
@@ -11,7 +11,7 @@ class OAuth2 extends Component {
 
         if(token) {
             setCookies(token, "Bearer");
-            return redirectToProfile(this.props.location);
+            return redirectToDashboard(this.props.location);
         } else {
             return redirectToLogin(this.props.location, error);
         }

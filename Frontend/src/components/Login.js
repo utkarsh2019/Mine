@@ -3,12 +3,42 @@ import "../css/login.css";
 import "../css/bootstrap.css";
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "../constants/Constants";
 import axios from "axios";
-import { setCookies } from "../utils/CookieUtil";
+import { getJwtToken, setCookies } from "../utils/CookieUtil";
+import { setCurrentUser } from "../utils/UserStorageUtil";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
+
+    this.setUser = this.setUser.bind(this);
   }
+
+  setUser = () => {
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+
+    axios({
+      method: "get",
+      url: API_BASE_URL + "/user/me",
+      headers: {
+        Authorization: type + " " + token
+      }
+    })
+      .then(function(response) {
+        setCurrentUser(
+          response.data.responseObject.name,
+          response.data.responseObject.email,
+          response.data.responseObject.profilePicUrl,
+          response.data.responseObject.provider,
+          response.data.responseObject.noOfSearches,
+          response.data.responseObject.categoryPreferences
+        );
+      })
+      .catch(function(error) {
+        alert(error);
+      });
+  };
 
   login = () => {
     let userdata = {};
@@ -33,11 +63,12 @@ export default class Login extends Component {
         password: userdata.password
       }
     })
-      .then(function(response) {
+      .then(response => {
         setCookies(response.data.responseObject.accessToken, response.data.responseObject.tokenType);
+        this.setUser();
         window.location.replace("/dashboard");
       })
-      .catch(function(error) {
+      .catch(error => {
         if(document.getElementById("passwordinput").value != "" && document.getElementById("emailinput").value != ""){
           alert("Please Check your EmailId or Password");
         }
@@ -52,7 +83,7 @@ export default class Login extends Component {
             <div class="col">
               <img
                 class="center-block"
-                src={require("../img/minelogo.png")}
+                src={require("../images/minelogo.png")}
               ></img>
             </div>
 
@@ -103,7 +134,7 @@ export default class Login extends Component {
                     href={GOOGLE_AUTH_URL}
                   >
                     <img
-                      src={require("../img/google-logo.png")}
+                      src={require("../images/google-logo.png")}
                       width="25px"
                       height="25px"
                       alt="Google"
@@ -115,7 +146,7 @@ export default class Login extends Component {
                     href={FACEBOOK_AUTH_URL}
                   >
                     <img
-                      src={require("../img/fb-logo.png")}
+                      src={require("../images/fb-logo.png")}
                       width="25px"
                       height="25px"
                       alt="Facebook"

@@ -6,6 +6,7 @@ import { exact } from "prop-types";
 import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import { API_BASE_URL } from "../constants/Constants";
+import { getCurrentUserField, setCurrentUser } from "../utils/UserStorageUtil";
 ;
 export default class EditImage extends Component {
 
@@ -19,10 +20,44 @@ constructor(props){
   this.imageState = this.imageState.bind(this);
   this.upload = this.upload.bind(this);
   this.deletePic = this.deletePic.bind(this);
+  this.setUserFields = this.setUserFields.bind(this);
 }
 
-imageState(evt){
+setUserFields = (profilePicUrl) => {
+  if(profilePicUrl != null){
+    document.getElementById("profileImage").src = profilePicUrl;
+  }
+};
 
+reloadUser = () => {
+  let jwt = getJwtToken();
+  let type = jwt[0];
+  let token = jwt[1];
+
+  axios({
+    method: "get",
+    url: API_BASE_URL + "/user/me",
+    headers: {
+      Authorization: type + " " + token
+    }
+  })
+    .then(response => {
+      setCurrentUser(
+        response.data.responseObject.name,
+        response.data.responseObject.email,
+        response.data.responseObject.profilePicUrl,
+        response.data.responseObject.provider,
+        response.data.responseObject.noOfSearches,
+        response.data.responseObject.categoryPreferences
+      );
+      this.setUserFields(getCurrentUserField("profilePicUrl"));
+    })
+    .catch(error => {
+      alert(error);
+    });
+};
+
+imageState(evt){
   evt.preventDefault();
 
   let fileName = document.getElementById("inputGroupFile01").value;
@@ -35,8 +70,8 @@ imageState(evt){
 
 deletePic(){
   let jwt = getJwtToken();
-    let type = jwt[0];
-    let token = jwt[1];
+  let type = jwt[0];
+  let token = jwt[1];
 
     axios({
       method: "delete",
@@ -45,10 +80,10 @@ deletePic(){
         Authorization: type + " " + token
       }
     })
-      .then(function(response) {
-        console.log(response);
+      .then(response => {
+        this.reloadUser();
       })
-      .catch(function(error) {
+      .catch(error => {
         alert(error);
       });
 };
@@ -71,9 +106,9 @@ upload(){
 
   axios.put(API_BASE_URL + "/user/me/pic", formData, configData )
   .then(response => {
-    console.log(response);
+    this.reloadUser();
   })
-  .catch((error) => {
+  .catch(error => {
     alert(error);
   });
 }
@@ -84,12 +119,12 @@ render() {
     return redirectToHome(this.props.location);
   } 
     return (
-      <div className="Edit" onLoad={this.load}>
+      <div className="Edit" onLoad={this.setUserFields(getCurrentUserField("profilePicUrl"))}>
       <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">
             <img
-              src={require("./../img/minelogo.png")}
+              src={require("./../images/minelogo.png")}
               width="50"
               height="50"
               class="d-inline-block"
@@ -139,10 +174,11 @@ render() {
               <div className="col-sm-8">
                 <div class="form-group" align="center">
                   <img
-                    src={require("./../img/profile.png")}
+                    src={require("./../images/profile.png")}
                     height="200"
                     width="200"
                     class="rounded-circle"
+                    id="profileImage"
                   ></img>
                 </div>
                 <div class="input-group">

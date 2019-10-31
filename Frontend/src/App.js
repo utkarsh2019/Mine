@@ -8,11 +8,11 @@ import ForgotPassword from "./components/ForgotPassword";
 import OAuth2RedirectHandler from "./components/OAuth2";
 import Alert from "react-s-alert";
 import NotFound from "./components/NotFound";
-import Edit from "./components/EditProfile"
+import EditProfile from "./components/EditProfile"
 import Dashboard from "./components/Dashboard";
 import Trending from "./components/Trending";
 import Search from "./components/Search";
-import ForgotPasswordUpdate from "./components/VerifyPassword";
+import VerifyPassword from "./components/VerifyPassword";
 import VerifyAccount from "./components/VerifyAccount";
 import EditPassword from "./components/EditPassword";
 import EditImage from "./components/EditImage";
@@ -47,13 +47,13 @@ export default class App extends Component {
           <Route path="/profile"
             render={(props) => <ViewProfile authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/edit"
-            render={(props) => <Edit authenticated={this.state.authenticated} {...props} />}></Route>
+            render={(props) => <EditProfile authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/trending"
             render={(props) => <Trending authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/search"
             render={(props) => <Search authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/forgotpasswordupdate"
-            render={(props) => <ForgotPasswordUpdate authenticated={this.state.authenticated} {...props} />}></Route>
+            render={(props) => <VerifyPassword authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/verifyaccount"
             render={(props) => <VerifyAccount authenticated={this.state.authenticated} {...props} />}></Route>
            <Route path="/editpassword"

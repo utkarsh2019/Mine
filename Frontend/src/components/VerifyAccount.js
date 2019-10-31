@@ -35,7 +35,7 @@ export default class VerifyAccount extends Component {
             <div class="col">
               <img
                 class="center-block"
-                src={require("../img/minelogo.png")}
+                src={require("../images/minelogo.png")}
               ></img>
             </div>
 

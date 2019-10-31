@@ -57,7 +57,7 @@ export default class Signup extends Component {
             <div class="col">
               <img
                 class="center-block"
-                src={require("../img/minelogo.png")}
+                src={require("../images/minelogo.png")}
               ></img>
             </div>
 
@@ -120,7 +120,7 @@ export default class Signup extends Component {
                     href={GOOGLE_AUTH_URL}
                   >
                     <img
-                      src={require("../img/google-logo.png")}
+                      src={require("../images/google-logo.png")}
                       width="25px"
                       height="25px"
                       alt="Google"
@@ -132,7 +132,7 @@ export default class Signup extends Component {
                     href={FACEBOOK_AUTH_URL}
                   >
                     <img
-                      src={require("../img/fb-logo.png")}
+                      src={require("../images/fb-logo.png")}
                       width="25px"
                       height="25px"
                       alt="Facebook"

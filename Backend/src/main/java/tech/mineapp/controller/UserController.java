@@ -108,16 +108,16 @@ public class UserController {
 
 		response.setVerb("DELETE");
 		response.setEndpoint("/user/me");
-		
-		if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
-     		response.setStatus("FAIL");
-     		response.setErrorMessage("Unverified user.");
-     		return ResponseEntity.badRequest().body(response);
-     	}
 
 		try {
 			UserEntity user = userService.findUserById(userPrincipal.getUserId());
-
+			
+			if (!userService.checkVerification(user)) {
+	     		response.setStatus("FAIL");
+	     		response.setErrorMessage("Unverified user.");
+	     		return ResponseEntity.badRequest().body(response);
+	     	}
+			
 			verificationTokenService.deleteTokensByUser(user);
 			forgotPasswordService.deleteTokensByUser(user);
 			userService.deleteUser(userPrincipal.getUserId());

@@ -5,55 +5,40 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
+import { getCurrentUser, setCurrentUser } from "../utils/UserStorageUtil";
 
-export default class Edit extends Component {
-  logout = () => {
-    deleteCookies();
-    window.location.replace("/");
-  };
+export default class EditProfile extends Component {
+  constructor(props) {
+    super(props);
 
-  load = () => {
-    let jwt = getJwtToken();
-    let type = jwt[0];
-    let token = jwt[1];
+    this.setUserFields = this.setUserFields.bind(this);
+  }
 
-    axios({
-      method: "get",
-      url: API_BASE_URL + "/user/me",
-      headers: {
-        Authorization: type + " " + token
-      }
-    })
-      .then(function(response) {
-        document.getElementById("name").value =
-          response.data.responseObject.name;
-        document.getElementById("email").value =
-          response.data.responseObject.email;
-        
-        if(response.data.responseObject.profilePicUrl != null){
-          document.getElementById("profileImage").src = response.data.responseObject.profilePicUrl;
-        }
+  setUserFields = () => {
+    let user = getCurrentUser();
+    document.getElementById("name").value = user.name;
+    document.getElementById("email").value = user.email;
 
-        if (response.data.responseObject.noOfSearches == 1) {
-          document.getElementById("inlineRadio1").checked = true;
-        } else if (response.data.responseObject.noOfSearches == 3) {
-          document.getElementById("inlineRadio2").checked = true;
-        } else if (response.data.responseObject.noOfSearches == 5) {
-          document.getElementById("inlineRadio3").checked = true;
-        } else if (response.data.responseObject.noOfSearches == 7) {
-          document.getElementById("inlineRadio3").checked = true;
-        }
+    if (user.noOfSearches == 1) {
+      document.getElementById("inlineRadio1").checked = true;
+    } else if (user.noOfSearches == 3) {
+      document.getElementById("inlineRadio3").checked = true;
+    } else if (user.noOfSearches == 5) {
+      document.getElementById("inlineRadio3").checked = true;
+    } else if (user.noOfSearches == 7) {
+      document.getElementById("inlineRadio4").checked = true;
+    }
+       
+    if(user.profilePicUrl != null){
+      document.getElementById("profileImage").src = user.profilePicUrl;
+    }
 
-        let pref = response.data.responseObject.categoryPreferences.split(",");
-        document.getElementById("preferenceInput1").value = pref[0];
-        document.getElementById("preferenceInput2").value = pref[1];
-        document.getElementById("preferenceInput3").value = pref[2];
-        document.getElementById("preferenceInput4").value = pref[3];
-        document.getElementById("preferenceInput5").value = pref[4];
-      })
-      .catch(function(error) {
-        alert(error);
-      });
+    let pref = user.categoryPreferences.split(",");
+    document.getElementById("preferenceInput1").value = pref[0];
+    document.getElementById("preferenceInput2").value = pref[1];
+    document.getElementById("preferenceInput3").value = pref[2];
+    document.getElementById("preferenceInput4").value = pref[3];
+    document.getElementById("preferenceInput5").value = pref[4];
   };
 
   updateInfo = () => {
@@ -111,14 +96,14 @@ export default class Edit extends Component {
     if (! checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
     }
-
+    
     return (
-      <div className="Edit" onLoad={this.load}>
+      <div className="Edit" onLoad={this.setUserFields()}>
         <div>
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
               <img
-                src={require("./../img/minelogo.png")}
+                src={require("./../images/minelogo.png")}
                 width="50"
                 height="50"
                 class="d-inline-block"
@@ -187,7 +172,7 @@ export default class Edit extends Component {
                   <hr></hr>
                   <div class="form-group">
                     <img
-                      src={require("./../img/profile.png")}
+                      src={require("./../images/profile.png")}
                       height="75"
                       width="75"
                       class="rounded-circle"

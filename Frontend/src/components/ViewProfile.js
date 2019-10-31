@@ -5,11 +5,37 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
+import { setCurrentUser, getCurrentUser, clearCurrentUser } from "../utils/UserStorageUtil";
 
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+
+    this.setUserFields = this.setUserFields.bind(this);
+  }
+
   logout = () => {
+    clearCurrentUser();
     deleteCookies();
     window.location.replace("/");
+  };
+
+  setUserFields = (user) => {
+    document.getElementById("name").innerHTML = "Name: " + user.name;
+    document.getElementById("email").innerHTML = "Email: " + user.email;
+
+    document.getElementById("num").innerHTML = "No of Searches Displayed: " + user.noOfSearches;
+
+    if(user.profilePicUrl != null){
+      document.getElementById("profileImage").src = user.profilePicUrl;
+    }
+
+    let pref = user.categoryPreferences.split(",");
+    document.getElementById("item1").innerHTML = pref[0];
+    document.getElementById("item2").innerHTML = pref[1];
+    document.getElementById("item3").innerHTML = pref[2];
+    document.getElementById("item4").innerHTML = pref[3];
+    document.getElementById("item5").innerHTML = pref[4];
   };
 
   load = () => {
@@ -24,27 +50,18 @@ export default class Profile extends Component {
         Authorization: type + " " + token
       }
     })
-      .then(function(response) {
-        console.log(response.data.responseObject);
-        document.getElementById("name").innerHTML =
-          "Name: " + response.data.responseObject.name;
-        document.getElementById("email").innerHTML =
-          "Email: " + response.data.responseObject.email;
-        document.getElementById("num").innerHTML =
-          "Number of Searches Displayed: " +
-          response.data.responseObject.noOfSearches;
-          if(response.data.responseObject.profilePicUrl != null){
-            document.getElementById("profileImage").src = response.data.responseObject.profilePicUrl;
-          }
-
-        let pref = response.data.responseObject.categoryPreferences.split(",");
-        document.getElementById("item1").innerHTML = pref[0];
-        document.getElementById("item2").innerHTML = pref[1];
-        document.getElementById("item3").innerHTML = pref[2];
-        document.getElementById("item4").innerHTML = pref[3];
-        document.getElementById("item5").innerHTML = pref[4];
+      .then(response => {
+        setCurrentUser(
+          response.data.responseObject.name,
+          response.data.responseObject.email,
+          response.data.responseObject.profilePicUrl,
+          response.data.responseObject.provider,
+          response.data.responseObject.noOfSearches,
+          response.data.responseObject.categoryPreferences
+        );
+        this.setUserFields(getCurrentUser());
       })
-      .catch(function(error) {
+      .catch(error => {
         alert(error);
       });
   };
@@ -80,7 +97,7 @@ export default class Profile extends Component {
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
               <img
-                src={require("./../img/minelogo.png")}
+                src={require("./../images/minelogo.png")}
                 width="50"
                 height="50"
                 class="d-inline-block"
@@ -145,7 +162,7 @@ export default class Profile extends Component {
                   <p id="email">Email:Email Address of the User</p>
                   <hr></hr>
                   <img
-                    src={require("./../img/profile.png")}
+                    src={require("./../images/profile.png")}
                     height="75"
                     width="75"
                     class="rounded-circle"
@@ -181,7 +198,7 @@ export default class Profile extends Component {
                   </ul>
                   <hr></hr>
                   <p id="num">
-                    <b>Number of Searches Displayed:3</b>
+                    <b>Number of Searches Displayed: 3</b>
                   </p>
                 </div>
               </div>

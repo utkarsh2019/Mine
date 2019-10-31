@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import logo from "../img/minelogo.png";
+import logo from "../images/minelogo.png";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
@@ -33,7 +33,7 @@ export default class ForgotPassword extends Component {
             <div class="col">
               <img
                 class="center-block"
-                src={require("../img/minelogo.png")}
+                src={require("../images/minelogo.png")}
               ></img>
             </div>
 

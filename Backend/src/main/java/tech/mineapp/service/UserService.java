@@ -14,7 +14,7 @@ import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.UserRequestModel;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.UserPrincipal;
-import tech.mineapp.util.RandomLongGenerator;
+import tech.mineapp.util.RandomLongGeneratorUtil;
 
 /**
  * @author utkarsh
@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
     }
     
     public Long generateIdForUser() {
-		return RandomLongGenerator.generateRandomLong();
+		return RandomLongGeneratorUtil.generateRandomLong();
 	}
     
     public boolean userIdAlreadyExists(Long userId) {
@@ -68,8 +68,8 @@ public class UserService implements UserDetailsService {
     	return findUserByEmail(email).getIsVerified();
     }
     
-    public boolean checkVerificationByUserId(Long userId) {
-    	return findUserById(userId).getIsVerified();
+    public boolean checkVerification(UserEntity user) {
+    	return user.getIsVerified();
     }
     
     public UserEntity createLocalUser(String name, String email, String password) {
