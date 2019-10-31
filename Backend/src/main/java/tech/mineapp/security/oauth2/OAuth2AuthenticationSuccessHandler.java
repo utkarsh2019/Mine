@@ -20,7 +20,7 @@ import tech.mineapp.exception.BadRequestException;
 
 import static tech.mineapp.constants.Constants.HttpCookieOAuth2AuthConstants.REDIRECT_URI_PARAM_COOKIE_NAME;
 import tech.mineapp.security.TokenProvider;
-import tech.mineapp.util.CookieUtils;
+import tech.mineapp.util.CookieUtil;
 
 /**
  * @author utkarsh
@@ -58,7 +58,7 @@ public class OAuth2AuthenticationSuccessHandler  extends SimpleUrlAuthentication
     }
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+        Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
         if(redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {

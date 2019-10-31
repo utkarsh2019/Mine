@@ -43,12 +43,13 @@ public class ChangePasswordController {
 		response.setEndpoint("/user/me/password");
 
 		try {
-			if (!userService.checkVerificationByUserId(userPrincipal.getUserId())) {
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			if (!userService.checkVerification(user)) {
 	     		response.setStatus("FAIL");
 	     		response.setErrorMessage("Unverified user.");
 	     		return ResponseEntity.badRequest().body(response);
 	     	}
-			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			
 			if (!userService.isLocalUser(user)) {
 				response.setStatus("FAIL");
 	     		response.setErrorMessage("Not a local user.");

@@ -13,7 +13,7 @@ import org.springframework.util.SerializationUtils;
  * @author utkarsh
  *
  */
-public class CookieUtils {
+public class CookieUtil {
 	public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
 
