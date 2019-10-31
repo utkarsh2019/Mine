@@ -5,11 +5,32 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
+import { setCurrentUser, getCurrentUser } from "../utils/UserStorageUtil";
 
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+
+    this.setUserFields = this.setUserFields.bind(this);
+  }
+
   logout = () => {
     deleteCookies();
     window.location.replace("/");
+  };
+
+  setUserFields = (user) => {
+    document.getElementById("name").value = user.name;
+    document.getElementById("email").value = user.email;
+
+    document.getElementById("num").innerHTML = user.noOfSearches;
+
+    let pref = user.categoryPreferences.split(",");
+    document.getElementById("item1").innerHTML = pref[0];
+    document.getElementById("item2").innerHTML = pref[1];
+    document.getElementById("item3").innerHTML = pref[2];
+    document.getElementById("item4").innerHTML = pref[3];
+    document.getElementById("item5").innerHTML = pref[4];
   };
 
   load = () => {
@@ -24,23 +45,18 @@ export default class Profile extends Component {
         Authorization: type + " " + token
       }
     })
-      .then(function(response) {
-        document.getElementById("name").innerHTML =
-          "Name: " + response.data.responseObject.name;
-        document.getElementById("email").innerHTML =
-          "Email: " + response.data.responseObject.email;
-        document.getElementById("num").innerHTML =
-          "Number of Searches Displayed: " +
-          response.data.responseObject.noOfSearches;
-
-        let pref = response.data.responseObject.categoryPreferences.split(",");
-        document.getElementById("item1").innerHTML = pref[0];
-        document.getElementById("item2").innerHTML = pref[1];
-        document.getElementById("item3").innerHTML = pref[2];
-        document.getElementById("item4").innerHTML = pref[3];
-        document.getElementById("item5").innerHTML = pref[4];
+      .then(response => {
+        setCurrentUser(
+          response.data.responseObject.name,
+          response.data.responseObject.email,
+          response.data.responseObject.profilePicUrl,
+          response.data.responseObject.provider,
+          response.data.responseObject.noOfSearches,
+          response.data.responseObject.categoryPreferences
+        );
+        this.setUserFields(getCurrentUser());
       })
-      .catch(function(error) {
+      .catch(error => {
         alert(error);
       });
   };
