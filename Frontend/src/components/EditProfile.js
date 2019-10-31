@@ -29,6 +29,10 @@ export default class Edit extends Component {
           response.data.responseObject.name;
         document.getElementById("email").value =
           response.data.responseObject.email;
+        
+        if(response.data.responseObject.profilePicUrl != null){
+          document.getElementById("profileImage").src = response.data.responseObject.profilePicUrl;
+        }
 
         if (response.data.responseObject.noOfSearches == 1) {
           document.getElementById("inlineRadio1").checked = true;
@@ -186,6 +190,8 @@ export default class Edit extends Component {
                       src={require("./../img/profile.png")}
                       height="75"
                       width="75"
+                      class="rounded-circle"
+                      id = "profileImage"
                     ></img>
                     <a class="align-right" href="/editimage">
                       Edit

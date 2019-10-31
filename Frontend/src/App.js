@@ -14,7 +14,8 @@ import Trending from "./components/Trending";
 import Search from "./components/Search";
 import ForgotPasswordUpdate from "./components/VerifyPassword";
 import VerifyAccount from "./components/VerifyAccount";
-import EditPassword from "./components/ChangePassword";
+import EditPassword from "./components/EditPassword";
+import EditImage from "./components/EditImage";
 
 
 export default class App extends Component {
