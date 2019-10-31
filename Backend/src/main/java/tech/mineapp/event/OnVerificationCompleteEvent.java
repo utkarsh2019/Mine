@@ -11,6 +11,7 @@ import tech.mineapp.entity.UserEntity;
  * @author utkarsh
  *
  */
+@SuppressWarnings("serial")
 @Data
 public class OnVerificationCompleteEvent extends ApplicationEvent {
 	private UserEntity user;

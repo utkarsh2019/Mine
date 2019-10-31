@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author utkarsh
  *
  */
+@SuppressWarnings("serial")
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadRequestException extends RuntimeException {
 	public BadRequestException(String message) {

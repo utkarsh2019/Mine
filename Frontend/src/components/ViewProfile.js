@@ -2,30 +2,20 @@ import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/Profile.css";
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
+import { API_BASE_URL } from "../constants/Constants";
+import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class Profile extends Component {
   logout = () => {
-    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    deleteCookies();
     window.location.replace("/");
   };
 
   load = () => {
-    if(document.cookie.indexOf('token') == -1){
-      window.location.replace('/')
-    }
-    let cookie = document.cookie.split(";");
-    let cookie1 = cookie[0].split("=");
-    let cookie2 = cookie[1].split("=");
-    let type, token;
-    if (cookie1[0] === "tokenType") {
-      type = cookie1[1];
-      token = cookie2[1];
-    } else {
-      type = cookie2[1];
-      token = cookie1[1];
-    }
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
 
     axios({
       method: "get",
@@ -56,17 +46,9 @@ export default class Profile extends Component {
   };
 
   deleteAccount = () => {
-    let cookie = document.cookie.split(";");
-    let cookie1 = cookie[0].split("=");
-    let cookie2 = cookie[1].split("=");
-    let type, token;
-    if (cookie1[0] === "tokenType") {
-      type = cookie1[1];
-      token = cookie2[1];
-    } else {
-      type = cookie2[1];
-      token = cookie1[1];
-    }
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
 
     axios({
       method: "delete",
@@ -76,10 +58,7 @@ export default class Profile extends Component {
       }
     })
       .then(function(response) {
-        document.cookie =
-          "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-        document.cookie =
-          "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+        deleteCookies();
         window.location.replace("login");
       })
       .catch(function(error) {
@@ -88,6 +67,9 @@ export default class Profile extends Component {
   };
 
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
     return (
       <div className="Profile" onLoad={this.load}>
         <div>

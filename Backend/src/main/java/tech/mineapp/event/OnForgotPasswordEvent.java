@@ -14,6 +14,7 @@ import tech.mineapp.entity.UserEntity;
  * @author utkarsh
  *
  */
+@SuppressWarnings("serial")
 @Data
 public class OnForgotPasswordEvent extends ApplicationEvent {
 	private UserEntity user;
