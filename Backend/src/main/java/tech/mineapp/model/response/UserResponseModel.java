@@ -14,6 +14,6 @@ public class UserResponseModel implements ResponseModel {
 	private String name;
 	private String categoryPreferences;
 	private int noOfSearches;
-	private String profilePicURL;
+	private String profilePicUrl;
 	private AuthProvider provider;
 }
