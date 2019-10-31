@@ -5,6 +5,8 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
+import tech.mineapp.config.ApiPropertiesConfig;
+
 /**
  * @author utkarsh
  *
@@ -14,15 +16,18 @@ public class VimeoController {
 	
 	private RestTemplate restTemplate;
 	
+	private ApiPropertiesConfig apiProperties;
+	
 	@Autowired
-    public VimeoController(RestTemplateBuilder builder) {
+    public VimeoController(RestTemplateBuilder builder, ApiPropertiesConfig apiProperties) {
         this.restTemplate = builder.build();
+        this.apiProperties = apiProperties;
     }
 	
 	public VimeoResponseModel vimeoVideoSearch(String query, int noOfSearches) {
 		String vimeoDataUrl
 		  = "https://api.vimeo.com/videos?" +
-				  "access_token=822488738e9c2b7fc073f29121966e75" +
+				  "access_token=" + apiProperties.getVimeo().getAccessToken() +
 				  "&query=" + query +
 				  "&per_page=" + noOfSearches;
 		VimeoResponseModel response
