@@ -12,6 +12,13 @@ export default class VerifyPassword extends Component {
     this.update = this.update.bind(this);
   }
 
+  checkEnterUpdate = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.update();
+    }
+  };
+
   update() {
     let token = getUrlParameter("token", this.props.location.search);
     let pass = document.getElementById("passwordinput").value;
@@ -55,6 +62,7 @@ export default class VerifyPassword extends Component {
                       class="form-control"
                       id="passwordinput"
                       placeholder="Enter Password"
+                      onKeyUp={this.checkEnterUpdate}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -66,6 +74,7 @@ export default class VerifyPassword extends Component {
                       class="form-control"
                       id="confirmpasswordinput"
                       placeholder="Re-enter Password"
+                      onKeyUp={this.checkEnterUpdate}
                     ></input>
                   </div>
 

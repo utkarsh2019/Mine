@@ -229,6 +229,10 @@ render() {
     )
   };
 
+  componentDidMount() {
+    this.setUserFields(getCurrentUserField("profilePicUrl"));
+  };
+
   componentDidUpdate() {
     this.setUserFields(getCurrentUserField("profilePicUrl"));
   };

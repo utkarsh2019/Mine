@@ -14,6 +14,13 @@ export default class EditProfile extends Component {
     this.setUserFields = this.setUserFields.bind(this);
   }
 
+  checkEnterLogin = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.login();
+    }
+  };
+
   setUserFields = (user) => {
     document.getElementById("name").value = user.name;
     document.getElementById("email").value = user.email;
@@ -154,11 +161,11 @@ export default class EditProfile extends Component {
                 <div className="col-sm-8">
                   <div class="form-group">
                     <label for="nameinput">Name</label>
-                    <input type="text" class="form-control" id="name"></input>
+                    <input type="text" class="form-control" id="name" onKeyUp={this.checkEnterUpdate}></input>
                   </div>
                   <div class="form-group">
                     <label for="emailinput">Email address</label>
-                    <input type="email" class="form-control" id="email"></input>
+                    <input type="email" class="form-control" id="email" onKeyUp={this.checkEnterUpdate}></input>
                   </div>
                   <div class="form-group">
                     <label for="passwordinput" align="right">

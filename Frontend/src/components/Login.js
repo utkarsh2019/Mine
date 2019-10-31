@@ -13,6 +13,13 @@ export default class Login extends Component {
     this.setUser = this.setUser.bind(this);
   }
 
+  checkEnterLogin = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.login();
+    }
+  };
+
   setUser = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
@@ -100,6 +107,7 @@ export default class Login extends Component {
                       class="form-control"
                       id="emailinput"
                       placeholder="name@example.com"
+                      onKeyUp={this.checkEnterLogin}
                     ></input>
                   </div>
 
@@ -110,6 +118,7 @@ export default class Login extends Component {
                       class="form-control"
                       id="passwordinput"
                       placeholder="Enter Password"
+                      onKeyUp={this.checkEnterLogin}
                     ></input>
                   </div>
                   <a href={"/forgotpassword"}>Forgot password?</a>
