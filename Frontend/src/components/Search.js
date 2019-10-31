@@ -28,6 +28,7 @@ export default class Search extends Component {
       document.body.appendChild(script);
     });
   }
+  
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);

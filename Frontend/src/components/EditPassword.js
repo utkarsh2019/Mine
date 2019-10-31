@@ -7,6 +7,14 @@ import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class EditPassword extends Component {
+
+  checkEnterUpdate = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.update();
+    }
+  };
+
   update() {
     let jwt = getJwtToken();
     let type = jwt[0];
@@ -62,6 +70,7 @@ export default class EditPassword extends Component {
                       class="form-control"
                       id="passwordinput"
                       placeholder="Enter Password"
+                      onKeyUp={this.checkEnterUpdate}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -73,6 +82,7 @@ export default class EditPassword extends Component {
                       class="form-control"
                       id="confirmpasswordinput"
                       placeholder="Re-enter Password"
+                      onKeyUp={this.checkEnterUpdate}
                     ></input>
                   </div>
 

@@ -10,12 +10,18 @@ import { getCurrentUser, setCurrentUser } from "../utils/UserStorageUtil";
 export default class EditProfile extends Component {
   constructor(props) {
     super(props);
-
+    
     this.setUserFields = this.setUserFields.bind(this);
   }
 
-  setUserFields = () => {
-    let user = getCurrentUser();
+  checkEnterLogin = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.login();
+    }
+  };
+
+  setUserFields = (user) => {
     document.getElementById("name").value = user.name;
     document.getElementById("email").value = user.email;
 
@@ -98,7 +104,7 @@ export default class EditProfile extends Component {
     }
     
     return (
-      <div className="Edit" onLoad={this.setUserFields()}>
+      <div className="Edit">
         <div>
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
@@ -155,11 +161,11 @@ export default class EditProfile extends Component {
                 <div className="col-sm-8">
                   <div class="form-group">
                     <label for="nameinput">Name</label>
-                    <input type="text" class="form-control" id="name"></input>
+                    <input type="text" class="form-control" id="name" onKeyUp={this.checkEnterUpdate}></input>
                   </div>
                   <div class="form-group">
                     <label for="emailinput">Email address</label>
-                    <input type="email" class="form-control" id="email"></input>
+                    <input type="email" class="form-control" id="email" onKeyUp={this.checkEnterUpdate}></input>
                   </div>
                   <div class="form-group">
                     <label for="passwordinput" align="right">
@@ -362,4 +368,8 @@ export default class EditProfile extends Component {
     }
     return flag == 0;
   };
+
+  componentDidMount() {
+    this.setUserFields(getCurrentUser());
+  }
 }

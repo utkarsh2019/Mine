@@ -9,6 +9,13 @@ export default class Signup extends Component {
     super(props);
   }
 
+  checkEnterRegister = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.register();
+    }
+  };
+
   register = () => {
     let userdata = {};
     userdata.email = document.getElementById("emailinput").value;
@@ -73,6 +80,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="nameinput"
                       placeholder="Enter name"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -82,6 +90,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="emailinput"
                       placeholder="name@example.com"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -91,6 +100,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="passwordinput"
                       placeholder="Enter Password"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -100,6 +110,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="confirmpasswordinput"
                       placeholder="Re-enter Password"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="text-center">
