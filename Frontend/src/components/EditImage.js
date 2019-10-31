@@ -7,7 +7,7 @@ import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import { API_BASE_URL } from "../constants/Constants";
 import { getCurrentUserField, setCurrentUser } from "../utils/UserStorageUtil";
-;
+
 export default class EditImage extends Component {
 
 constructor(props){
@@ -24,8 +24,11 @@ constructor(props){
 }
 
 setUserFields = (profilePicUrl) => {
-  if(profilePicUrl != null){
+  if (profilePicUrl != null) {
     document.getElementById("profileImage").src = profilePicUrl;
+  }
+  else {
+    document.getElementById("profileImage").src = require("../images/profile.png");
   }
 };
 
@@ -124,7 +127,7 @@ render() {
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">
             <img
-              src={require("./../images/minelogo.png")}
+              src={require("../images/minelogo.png")}
               width="50"
               height="50"
               class="d-inline-block"
@@ -174,7 +177,7 @@ render() {
               <div className="col-sm-8">
                 <div class="form-group" align="center">
                   <img
-                    src={require("./../images/profile.png")}
+                    src={require("../images/profile.png")}
                     height="200"
                     width="200"
                     class="rounded-circle"
@@ -230,10 +233,6 @@ render() {
   };
 
   componentDidMount() {
-    this.setUserFields(getCurrentUserField("profilePicUrl"));
-  };
-
-  componentDidUpdate() {
     this.setUserFields(getCurrentUserField("profilePicUrl"));
   };
 }

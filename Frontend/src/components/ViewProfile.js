@@ -12,6 +12,7 @@ export default class Profile extends Component {
     super(props);
 
     this.setUserFields = this.setUserFields.bind(this);
+    this.loadUser = this.loadUser.bind(this);
   }
 
   logout = () => {
@@ -38,7 +39,7 @@ export default class Profile extends Component {
     document.getElementById("item5").innerHTML = pref[4];
   };
 
-  load = () => {
+  loadUser = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
@@ -92,7 +93,7 @@ export default class Profile extends Component {
       return redirectToHome(this.props.location);
     }
     return (
-      <div className="Profile" onLoad={this.load}>
+      <div className="Profile">
         <div>
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
@@ -158,8 +159,8 @@ export default class Profile extends Component {
                   <h5>MY PROFILE</h5>
                 </div>
                 <div className="col-sm-8">
-                  <p id="name">Name:Name of the User</p>
-                  <p id="email">Email:Email Address of the User</p>
+                  <p id="name">Name:</p>
+                  <p id="email">Email:</p>
                   <hr></hr>
                   <img
                     src={require("./../images/profile.png")}
@@ -247,5 +248,9 @@ export default class Profile extends Component {
         </footer>
       </div>
     );
+  }
+
+  componentDidMount() {
+    this.loadUser()
   }
 }

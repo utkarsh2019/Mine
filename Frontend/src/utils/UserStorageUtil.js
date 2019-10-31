@@ -4,6 +4,9 @@ export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearche
     if (profilePicUrl != undefined && profilePicUrl != null) {
         localStorage.setItem("profilePicUrl", profilePicUrl);
     }
+    else {
+        localStorage.removeItem("profilePicUrl");
+    }
     localStorage.setItem("provider", provider);
     localStorage.setItem("noOfSearches", noOfSearches);
     localStorage.setItem("categoryPreferences", categoryPreferences);
