@@ -10,12 +10,11 @@ import { getCurrentUser, setCurrentUser } from "../utils/UserStorageUtil";
 export default class EditProfile extends Component {
   constructor(props) {
     super(props);
-
+    
     this.setUserFields = this.setUserFields.bind(this);
   }
 
-  setUserFields = () => {
-    let user = getCurrentUser();
+  setUserFields = (user) => {
     document.getElementById("name").value = user.name;
     document.getElementById("email").value = user.email;
 
@@ -98,7 +97,7 @@ export default class EditProfile extends Component {
     }
     
     return (
-      <div className="Edit" onLoad={this.setUserFields()}>
+      <div className="Edit">
         <div>
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
@@ -362,4 +361,8 @@ export default class EditProfile extends Component {
     }
     return flag == 0;
   };
+
+  componentDidMount() {
+    this.setUserFields(getCurrentUser());
+  }
 }

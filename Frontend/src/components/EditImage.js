@@ -119,7 +119,7 @@ render() {
     return redirectToHome(this.props.location);
   } 
     return (
-      <div className="Edit" onLoad={this.setUserFields(getCurrentUserField("profilePicUrl"))}>
+      <div className="Edit">
       <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">
@@ -227,5 +227,9 @@ render() {
       </footer>
     </div>
     )
-};
+  };
+
+  componentDidUpdate() {
+    this.setUserFields(getCurrentUserField("profilePicUrl"));
+  };
 }
