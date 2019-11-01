@@ -14,16 +14,19 @@ export default class SearchItem extends Component {
                 <div class="card">
                     <a href={this.props.url}>
                         <img src={this.props.imageUrl} alt="Avatar" class="imageStyle"></img>
+                        </a>
                         <div class="container">
-                            <h4><b>{this.props.name}</b></h4> 
-                            <p>{this.props.description}</p> 
+                            <a href={this.props.url}>
+                                <h4 id="stoponeline"><b>{this.props.name}</b></h4> 
+                            </a>
+                            Description:
+                            <div id="infodescription">{this.props.description}</div> 
                         </div>
-                    </a>
                 </div>
             );
         }
         return (
-            <div class="card">
+            <div class="withoutimagecard">
                 <a href={this.props.url}>
                     <div class="container">
                         <h4><b>{this.props.name}</b></h4> 
