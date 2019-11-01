@@ -26,4 +26,16 @@
     .align-right{
         float: right;
     }
-    
+    #editcancelbutton{
+        margin-left:1%;
+    }
+
+    #buttoncontain{
+        display: flex;
+        justify-content: center;
+  
+    }
+
+    footer{
+        background-color:black;
+    }

@@ -157,8 +157,8 @@ export default class Search extends Component {
         </div>
 
         <body className="dashboard">
-          <div class="row">
-            <div class="col" id="searchclass">
+          <div class="row" >
+            <div class="col searchclass" >
               <form class="form-inline">
                 <input
                   id="searchbar"
@@ -169,7 +169,7 @@ export default class Search extends Component {
                 ></input>
               </form>
             </div>
-            <div class="col-md-auto" id="searchclass">
+            <div class="col-md-auto searchclass" >
               <div class="dropdown">
                 <button
                   id="categoriesdrop"
@@ -180,7 +180,7 @@ export default class Search extends Component {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  Categories
+                Categories              
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" href="#">
@@ -201,7 +201,7 @@ export default class Search extends Component {
                 </div>
               </div>
             </div>
-            <div class="col col-lg-2" id="searchclass">
+            <div class="col col-lg-2 searchclass" >
               <form class="form-inline">
                 <button
                   class="btn btn-outline-success my-2 my-sm-0"
