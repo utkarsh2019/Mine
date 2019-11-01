@@ -14,7 +14,10 @@
       width: 100%;
       
   }
-  
+  .apilogo{
+    width:100px;
+    height:100px;
+  }
   .results{
       padding-top:50px;
       margin:2% auto;

@@ -6,7 +6,7 @@ import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import { getCurrentUserField, setSearchCategory } from "../utils/UserStorageUtil";
 import SearchList from "./SearchList";
-import { API_BASE_URL } from "../constants/Constants";
+import { API_BASE_URL, API_IMAGES } from "../constants/Constants";
 import axios from "axios";
 
 export default class Search extends Component {
@@ -60,9 +60,11 @@ export default class Search extends Component {
   
   setSearchApi = (value, key) => {
     let searches = this.state.searchResult;
+   
     searches.push(
       <div>
-        <h3>{key}</h3>
+        <img class="apilogo" src={require("./../images/"+key+"logo.png")}></img>
+        {/* <h3>{key}</h3> */}
         <SearchList searchItems={value}/>
       </div>
     );
