@@ -122,11 +122,11 @@ export default class Search extends Component {
     this.initializeCategories();
   }
 
-  render() {
+  render () {
 
-    // if (!checkUserLoggedIn()) {
-    //   return redirectToHome(this.props.location);
-    // }
+    if (!checkUserLoggedIn()) {
+     return redirectToHome(this.props.location);
+    }
 
     return (
       <div>
