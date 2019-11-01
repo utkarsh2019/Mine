@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-
 import "../css/bootstrap.css";
 import "../css/search.css";
 import { checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
+import { getCurrentUserField } from "../utils/UserStorageUtil";
 
 export default class Search extends Component {
   componentDidMount() {
@@ -27,6 +27,18 @@ export default class Search extends Component {
       script.async = true;
       document.body.appendChild(script);
     });
+
+    let userPref = getCurrentUserField("categoryPreferences");
+    let i;
+    let pref = userPref.split(",");
+    for(i=0; i<pref.length; i++){
+      let listItem = document.createElement("a");
+      listItem.innerHTML = pref[i];
+      listItem.className = "dropdown-item";
+      listItem.id = "item"+i;
+      document.getElementById("dd").appendChild(listItem);
+    }
+
   }
   
   render() {
@@ -125,22 +137,7 @@ export default class Search extends Component {
                 >
                   Categories
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">
-                    Movies
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    TV Shows
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Music
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Books
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Social
-                  </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dd">
                 </div>
               </div>
             </div>
