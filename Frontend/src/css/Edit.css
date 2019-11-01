@@ -26,4 +26,32 @@
     .align-right{
         float: right;
     }
+    .dual-list .list-group {
+        margin-top: 8px;
+    }
+
+    .list-left li, .list-right li {
+        cursor: pointer;
+    }
+
+    .list-arrows {
+        padding-top: 100px;
+    }
+
+    .list-arrows button {
+        margin-bottom: 20px;
+    }
     
+    .editcancelbutton{
+        margin-left:1%;
+    }
+
+    #buttoncontain{
+        display: flex;
+        justify-content: center;
+  
+    }
+
+    footer{
+        background-color:black;
+    }

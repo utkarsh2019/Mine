@@ -37,7 +37,7 @@ public class FileUploadController {
 	@PutMapping("/user/me/pic")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<ContainerResponseModel> storeFile(@CurrentUser UserPrincipal userPrincipal,
-					@RequestParam("file") MultipartFile file) {
+					@RequestParam(name = "file") MultipartFile file) {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("PUT");

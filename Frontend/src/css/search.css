@@ -1,5 +1,8 @@
 
-  #searchclass{
+  .dashboard{
+      background-color:rgb(3, 23, 34);
+  }
+  .searchclass{
       padding-left: 3%;
       padding-top:2%;
       margin-top:10px;
@@ -9,11 +12,22 @@
   }
   #categoriesdrop{
       width: 100%;
+      
+  }
+  .apilogo{
+    width:100px;
+    height:100px;
   }
   .results{
+      padding-top:50px;
       margin:2% auto;
-      height: 600px;
-      background-color: white;
+      height: 100%;
+      color: white;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),url("https://images.pexels.com/photos/953214/pexels-photo-953214.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&fbclid=IwAR0R_YxnylxRa0tsBU3uSkZ85NPKdjozVbzi5ne7gvycNdHsl-_KDgw6mHk");
+
+  }
+  #searchbar{
+      width:80%;
   }
   .results h5{
       padding-top: 250px;
@@ -82,3 +96,4 @@
       padding:3% 2%;
       color:white;
   }
+  

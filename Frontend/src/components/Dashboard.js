@@ -1,16 +1,22 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/dashboard.css";
+import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class Dashboard extends Component {
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+
     return (
       <div>
         <div>
           <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid fixed-top">
             <a class="navbar-brand" href="#">
               <img
-                src={require("./../img/minelogo.png")}
+                src={require("./../images/minelogo.png")}
                 width="50"
                 height="50"
                 class="d-inline-block"
