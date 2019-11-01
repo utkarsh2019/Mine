@@ -25,12 +25,13 @@ export default class Search extends Component {
 
   checkEnterSearch = (evt) => {
     if (evt.keyCode === 13) {
-      evt.preventDefault();
-      this.searchQuery();
+      // evt.preventDefault();
+      this.searchQuery(evt);
     }
   };
 
-  searchQuery = () => {
+  searchQuery = (evt) => {
+    evt.preventDefault();
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
@@ -49,7 +50,7 @@ export default class Search extends Component {
       }
     })
       .then(response => {
-       console.log(response);
+       this.setSearchResult(response.data.responseObject);
       })
       .catch(error => {
         alert(error);
@@ -125,9 +126,9 @@ export default class Search extends Component {
 
   render () {
 
-    if (!checkUserLoggedIn()) {
-     return redirectToHome(this.props.location);
-    }
+    // if (!checkUserLoggedIn()) {
+    //  return redirectToHome(this.props.location);
+    // }
 
     return (
       <div>
@@ -228,7 +229,6 @@ export default class Search extends Component {
               <form class="form-inline">
                 <button
                   class="btn btn-outline-success my-2 my-sm-0"
-                  type="submit"
                   onClick={this.searchQuery}
                 >
                   Search

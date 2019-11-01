@@ -79,19 +79,19 @@ deletePic(){
   let type = jwt[0];
   let token = jwt[1];
 
-    axios({
-      method: "delete",
-      url: API_BASE_URL + "/user/me/pic",
-      headers: {
-        Authorization: type + " " + token
-      }
+  axios({
+    method: "delete",
+    url: API_BASE_URL + "/user/me/pic",
+    headers: {
+      Authorization: type + " " + token
+    }
+  })
+    .then(response => {
+      this.reloadUser();
     })
-      .then(response => {
-        this.reloadUser();
-      })
-      .catch(error => {
-        alert(error);
-      });
+    .catch(error => {
+      alert(error);
+    });
 };
 
 upload(){
