@@ -32,11 +32,16 @@ export default class Profile extends Component {
     }
 
     let pref = user.categoryPreferences.split(",");
-    document.getElementById("item1").innerHTML = pref[0];
-    document.getElementById("item2").innerHTML = pref[1];
-    document.getElementById("item3").innerHTML = pref[2];
-    document.getElementById("item4").innerHTML = pref[3];
-    document.getElementById("item5").innerHTML = pref[4];
+
+    let i;
+    for(i=0; i<pref.length; i++){
+      let listItem = document.createElement("li");
+      listItem.innerHTML = pref[i];
+      listItem.className = "list-group-item";
+      listItem.id = "item"+i;
+      document.getElementById("categories").appendChild(listItem);
+    }
+
   };
 
   loadUser = () => {
@@ -180,22 +185,8 @@ export default class Profile extends Component {
                   <p>
                     <b>Order of Categories</b>
                   </p>
-                  <ul class="list-group">
-                    <li class="list-group-item" id="item1">
-                      Movies
-                    </li>
-                    <li class="list-group-item" id="item2">
-                      Music
-                    </li>
-                    <li class="list-group-item" id="item3">
-                      Social
-                    </li>
-                    <li class="list-group-item" id="item4">
-                      Text
-                    </li>
-                    <li class="list-group-item" id="item5">
-                      Audio
-                    </li>
+                  <ul class="list-group" id="categories">
+                    
                   </ul>
                   <hr></hr>
                   <p id="num">
