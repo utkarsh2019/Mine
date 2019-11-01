@@ -1,37 +1,109 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-
 import "../css/bootstrap.css";
 import "../css/search.css";
-import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
+import { getCurrentUserField } from "../utils/UserStorageUtil";
+import SearchList from "./SearchList";
+import { API_BASE_URL } from "../constants/Constants";
+import axios from "axios";
 
 export default class Search extends Component {
-  componentDidMount() {
-    //An array of assets
-    let scripts = [
-      { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
-      {
-        src:
-          "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchResult: []
+    };
+    this.searchQuery = this.searchQuery.bind(this);
+    this.setSearchResult = this.setSearchResult.bind(this);
+    this.setSearchApi = this.setSearchApi.bind(this);
+    this.setCategories = this.setCategories.bind(this);
+  }
+
+  searchQuery = (category) => {
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+
+    let query = document.getElementById("searchbar").value;
+    axios({
+      method: "post",
+      url: API_BASE_URL + "/search/"+category,
+      headers: {
+        Authorization: type + " " + token
       },
-      {
-        src:
-          "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      data: {
+        query: query
       }
-    ];
-    //Append the script element on each iteration
-    scripts.map(item => {
-      const script = document.createElement("script");
-      script.src = item.src;
-      script.async = true;
-      document.body.appendChild(script);
-    });
+    })
+      .then(response => {
+        this.setSearchResult(response.data.responseObject);
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
   
-  render() {
+  setSearchApi = (value, key) => {
+    let searches = this.state.searchResult;
+    searches.push(
+      <div>
+        <h3>{key}</h3>
+        <SearchList searchItems={value}/>
+      </div>
+    );
+    this.setState({searchResult: searches});
+  }
+
+  setSearchResult = (responseObject) => {
+    let responseObjectMap = new Map(Object.entries(responseObject));
+    responseObjectMap.forEach((value, key) => {
+      this.setSearchApi(value, key);
+    });
+  }
+
+  componentDidMount() {
+     //An array of assets
+     let scripts = [
+       { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
+       {
+         src:
+           "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+       },
+       {
+         src:
+           "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+       }
+     ];
+     //Append the script element on each iteration
+     scripts.map(item => {
+       const script = document.createElement("script");
+       script.src = item.src;
+       script.async = true;
+       document.body.appendChild(script);
+     });
+    this.setCategories();
+  }
+
+  setCategories = () => {
+    let userPref = getCurrentUserField("categoryPreferences");
+    let i;
+    let pref = userPref.split(",");
+    for(i=0; i<pref.length; i++){
+      let listItem = document.createElement("a");
+      listItem.innerHTML = pref[i];
+      listItem.className = "dropdown-item";
+      listItem.id = "item"+i;
+      document.getElementById("dd").appendChild(listItem);
+    }
+  }
+
+  render () {
+
     if (!checkUserLoggedIn()) {
-      return redirectToHome(this.props.location);
+     return redirectToHome(this.props.location);
     }
 
     return (
@@ -125,22 +197,7 @@ export default class Search extends Component {
                 >
                   Categories
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">
-                    Movies
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    TV Shows
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Music
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Books
-                  </a>
-                  <a class="dropdown-item" href="#">
-                    Social
-                  </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dd">
                 </div>
               </div>
             </div>
@@ -157,8 +214,8 @@ export default class Search extends Component {
           </div>
 
           <div class="container-fluid results">
-            <div class="text-center">
-              <h5>Search results displayed here</h5>
+            <div class="text-center"> 
+              {this.state.searchResult}
             </div>
           </div>
           <footer>
@@ -170,6 +227,7 @@ export default class Search extends Component {
             </div>
           </footer>
         </body>
+        
       </div>
     );
   }

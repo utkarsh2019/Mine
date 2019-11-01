@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { file } from "@babel/types";
+//import { file } from "@babel/types";
 import { exact } from "prop-types";
 import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";

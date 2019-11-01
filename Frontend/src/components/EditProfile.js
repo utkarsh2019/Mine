@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUser} from "../utils/UserStorageUtil";
+import { getCurrentUser, getCurrentUserField} from "../utils/UserStorageUtil";
 
 export default class EditProfile extends Component {
   constructor(props) {
@@ -120,26 +120,38 @@ export default class EditProfile extends Component {
     }
 
     let pref = user.categoryPreferences.split(",");
-
     let len = pref.length;
     let i;
-
     for(i=0; i< len; i++){
       this.additemsToList(pref[i], "Needed");
     }
-
     if(!pref.includes("video")){
       this.additemsToList("video", "Available");
     }
-
     if(!pref.includes("movie")){
       this.additemsToList("movie", "Available");
     }
-
     if(!pref.includes("tvseries")){
       this.additemsToList("tvseries", "Available");
     }
+
+    if(user.provider === 'google' || user.provider === 'facebook'){
+      document.getElementById("name").disabled = true;
+      document.getElementById("email").disabled = true;
+      document.getElementById("changePasswordRedirect").href = "#";
+      document.getElementById("changeImageRedirect").href = "#";
+    }
+
   };
+
+  checkRedirect = () => {
+
+    let provider = getCurrentUserField("provider");
+
+    if(document.getElementById("changePasswordRedirect").href === "#" && document.getElementById("changeImageRedirect").href === "#"){
+      alert("You are logged in through your "+provider+ "account");
+    }
+  }
 
   updateInfo = () => {
     let jwt = getJwtToken();
@@ -266,7 +278,7 @@ export default class EditProfile extends Component {
                     <label for="passwordinput" align="right">
                       Password
                     </label>
-                    <a class="align-right" href="/editpassword">
+                    <a class="align-right" href="/editpassword" id="changePasswordRedirect" onClick={this.checkRedirect}>
                       Change Password
                     </a>
                   </div>
@@ -279,7 +291,7 @@ export default class EditProfile extends Component {
                       class="rounded-circle"
                       id = "profileImage"
                     ></img>
-                    <a class="align-right" href="/editimage">
+                    <a class="align-right" href="/editimage" id="changeImageRedirect" onClick={this.checkRedirect}>
                       Edit
                     </a>
                   </div>
