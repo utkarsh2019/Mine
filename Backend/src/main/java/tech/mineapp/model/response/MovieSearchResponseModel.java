@@ -6,6 +6,6 @@ import tech.mineapp.search.SearchItem;
 import java.util.List;
 
 @Data
-public class TVSeriesResponseModel implements ResponseModel {
-    private List<SearchItem> TVMaze;
+public class MovieSearchResponseModel implements ResponseModel{
+    private List<SearchItem> TMDb;
 }

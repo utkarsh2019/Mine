@@ -10,47 +10,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.model.response.TVSeriesResponseModel;
+import tech.mineapp.model.response.MovieSearchResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
-import tech.mineapp.service.TVSearchService;
+import tech.mineapp.service.MovieSearchService;
 import tech.mineapp.service.UserService;
 
 /**
- * Controller for TVSearchInputs
+ * Controller for Movie Searches
  *
  * @author amolmoses
  */
 @RestController
-public class TVSeriesController {
+public class MovieSearchController {
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    private TVSearchService TVSearchService;
+    private MovieSearchService movieSearchService;
 
-    private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MovieSearchController.class);
 
-    @PostMapping("/search/tvseries")
+    @PostMapping("/search/movies")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> searchTVSeries(@CurrentUser UserPrincipal userPrincipal,
-                                            @RequestBody SearchRequestModel searchRequestModel) {
+    public ResponseEntity<?> searchMovies(@CurrentUser UserPrincipal userPrincipal,
+                                          @RequestBody SearchRequestModel searchRequest) {
 
         ContainerResponseModel response = new ContainerResponseModel();
 
         response.setVerb("POST");
-        response.setEndpoint("/search/tvseries");
+        response.setEndpoint("/search/movies");
 
         try {
             int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
 
-            TVSeriesResponseModel tvseriesResponse = new TVSeriesResponseModel();
-            tvseriesResponse.setTVMaze(TVSearchService.searchTVMaze(searchRequestModel.getQuery(),
+            MovieSearchResponseModel moviesResponse = new MovieSearchResponseModel();
+            moviesResponse.setTMDb(movieSearchService.searchTMDb(searchRequest.getQuery(),
                     noOfSearches));
 
             response.setStatus("SUCCESS");
-            response.setResponseObject(tvseriesResponse);
+            response.setResponseObject(moviesResponse);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -61,5 +61,4 @@ public class TVSeriesController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-
 }
