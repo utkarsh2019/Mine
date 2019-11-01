@@ -43,5 +43,9 @@
 
 #stoponeline{
     white-space: nowrap; overflow: scroll;
+    color:black;
 }
 
+#hyperlinksearch{
+    color:black;
+}

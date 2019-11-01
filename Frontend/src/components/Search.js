@@ -214,10 +214,8 @@ export default class Search extends Component {
           </div>
 
           <div class="container-fluid results">
-            <div class="text-center">
-              <div id="abc">
-                {this.state.searchResult}
-              </div>
+            <div class="text-center"> 
+              {this.state.searchResult}
             </div>
           </div>
           <footer>
