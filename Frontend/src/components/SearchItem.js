@@ -29,7 +29,7 @@ export default class SearchItem extends Component {
             <div class="withoutimagecard">
                 <a href={this.props.url}>
                     <div class="container">
-                        <h4><b>{this.props.name}</b></h4> 
+                        <h4 id="hyperlinksearch"><b>{this.props.name}</b></h4> 
                         <p>{this.props.description}</p> 
                     </div>
                 </a>
