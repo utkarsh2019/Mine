@@ -27,8 +27,8 @@ public class RandomLongGeneratorTests {
 
         assertThat(
                 "Both the Ids should have the same length",
-                firstId,
-                equalTo(secondId)
+                ("" + firstId).length(),
+                equalTo(("" + secondId).length())
         );
     }
 }

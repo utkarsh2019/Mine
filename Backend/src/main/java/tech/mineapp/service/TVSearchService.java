@@ -1,5 +1,6 @@
 package tech.mineapp.service;
 
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import tech.mineapp.search.SearchItem;
@@ -19,7 +20,7 @@ public class TVSearchService {
         return Arrays.stream(tvMazeController.TVMazeSearch(query, numOfSearches))
                 .map(response -> new SearchItem(
                         response.getShow().getName(),
-                        response.getShow().getSummary(),
+                        Jsoup.parse(response.getShow().getSummary()).text(),
                         response.getShow().getOfficialSite(),
                         response.getShow().getImage().getMedium()
                 )).collect(Collectors.toList());
