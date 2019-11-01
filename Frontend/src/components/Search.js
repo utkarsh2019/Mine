@@ -38,7 +38,6 @@ export default class Search extends Component {
 
     let searchQuery = document.getElementById("searchbar").value;
     let category = getCurrentUserField("searchCategory");
-    this.setState({searchResult: []});
     
     axios({
       method: "post",
@@ -51,7 +50,8 @@ export default class Search extends Component {
       }
     })
       .then(response => {
-       this.setSearchResult(response.data.responseObject);
+        this.setState({searchResult: []});
+        this.setSearchResult(response.data.responseObject);
       })
       .catch(error => {
         alert(error);
