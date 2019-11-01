@@ -153,6 +153,10 @@ export default class EditProfile extends Component {
     }
   }
 
+  cancelEdit = () => {
+    window.location.replace("/profile");
+  }
+  
   updateInfo = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
@@ -397,7 +401,7 @@ export default class EditProfile extends Component {
               <br></br>
               <br></br>
 
-              <div className="row">
+              <div className="row" id="buttoncontain">
                 <button
                   type="button"
                   class="btn btn-primary"
@@ -405,7 +409,16 @@ export default class EditProfile extends Component {
                 >
                   Update
                 </button>
+                <button
+                id="editcancelbutton"
+                  type="button"
+                  class="btn btn-danger"
+                  onClick={this.cancelEdit}
+                >
+                  Cancel
+                </button>
               </div>
+
               <br></br>
               <br></br>
             </div>

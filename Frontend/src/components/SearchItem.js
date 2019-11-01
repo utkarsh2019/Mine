@@ -17,7 +17,7 @@ export default class SearchItem extends Component {
                         </a>
                         <div class="container">
                             <a href={this.props.url}>
-                                <h4 id="stoponeline"><b>{this.props.name}</b></h4> 
+                                <h6 id="stoponeline"><b>{this.props.name}</b></h6> 
                             </a>
                             Description:
                             <div id="infodescription">{this.props.description}</div> 

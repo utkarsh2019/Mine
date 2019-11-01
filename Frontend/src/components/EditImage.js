@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import axios from "axios";
+import "../css/Edit.css";
 //import { file } from "@babel/types";
 import { exact } from "prop-types";
 import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
@@ -31,7 +32,9 @@ setUserFields = (profilePicUrl) => {
     document.getElementById("profileImage").src = require("../images/profile.png");
   }
 };
-
+backtoProfile = () => {
+  window.location.replace("/profile");
+}
 reloadUser = () => {
   let jwt = getJwtToken();
   let type = jwt[0];
@@ -215,6 +218,15 @@ render() {
                   >
                     Delete
                   </button>
+                  
+                <button
+                id="editcancelbutton"
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={this.backtoProfile}
+                >
+                  Back
+                </button>
           </div>
           <br></br>
           <br></br>
