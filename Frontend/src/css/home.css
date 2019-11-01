@@ -101,9 +101,9 @@ h1 {
   border-color: rgba(0,0,0,0.0) !important;
 }
 
-footer {
-	padding:3% 2%;
-	color:white;
+.footer {
+	
+  color: white;
 }
 
 #loaderid{

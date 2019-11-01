@@ -172,7 +172,7 @@ export default class Login extends Component {
           </div>
         </div>
         <footer>
-          <div class="footer text-center">
+          <div class="loginfooter text-center">
             <p>
               Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
               Tewari

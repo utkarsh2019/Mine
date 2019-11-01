@@ -36,12 +36,18 @@
  
 }
 
-footer {
-	height: auto;
-	color:black;
-	vertical-align: middle;
-	background-color: rgba(0, 0, 0, 0.04);
-	padding: 1% 1%;
+.loginfooter {
+	
+	height:auto;
+padding:2% 2%;
+    position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+    
 }
 
 

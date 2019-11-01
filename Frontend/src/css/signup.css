@@ -36,11 +36,16 @@
  
 }
 
-.footer {
-	height: auto;
-	color:white;
-	vertical-align: middle;
-	padding: 1% 1%;
+.signupfooter {
+	height:auto;
+padding:2% 2%;
+    position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
 }
 
 
