@@ -5,14 +5,28 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUser, setCurrentUser } from "../utils/UserStorageUtil";
+import { getCurrentUser} from "../utils/UserStorageUtil";
 
 export default class EditProfile extends Component {
   constructor(props) {
     super(props);
     
     this.setUserFields = this.setUserFields.bind(this);
+    this.select = this.select.bind(this);
+    this.deselect = this.deselect.bind(this);
+    this.additemsToList = this.additemsToList.bind(this);
   }
+
+  additemsToList(li, ulID){
+    let listItem = document.createElement("li");
+    listItem.innerHTML = li;
+    listItem.className = "list-group-item";
+    listItem.id = li;
+    listItem.addEventListener('click', this.select.bind());
+    listItem.addEventListener('dblclick', this.deselect.bind());
+    document.getElementById(ulID).appendChild(listItem);
+}
+
 
   checkEnterLogin = (evt) => {
     if(evt.keyCode === 13) {
@@ -20,6 +34,72 @@ export default class EditProfile extends Component {
       this.login();
     }
   };
+
+  select(evt) {
+    let i =  evt.target.id;
+    document.getElementById(i).style.backgroundColor = '#5DBCD2';
+  }
+
+  deselect(evt) {
+    let i = evt.target.id;
+    document.getElementById(i).style.backgroundColor ='white';
+  }
+
+  moveLeft() {
+    let items = document.getElementById("Needed").getElementsByTagName("li");
+    if(items.length == 0){
+      alert('Needed Entertainment List is Empty!');
+    }
+
+    var compareHex = (hex) => {
+      var hexString = document.createElement('div')
+      hexString.style.backgroundColor = `${hex}`
+      return hexString.style.backgroundColor
+    }
+
+    let move= [];  
+
+    let i;
+    for(i=0; i<items.length; i++){
+      if(items[i].style.backgroundColor === compareHex("#5DBCD2")){
+        move.push(items[i].id);
+        document.getElementById("Needed").removeChild(items[i]);
+      }
+    }
+
+    let j; 
+    for(j=0; j<move.length; j++){
+      this.additemsToList(move[j], "Available");
+    }
+  }
+
+  moveRight() {
+    let items = document.getElementById("Available").getElementsByTagName("li");
+    if(items.length == 0){
+      alert('Available Entertainment List is Empty!');
+    }
+
+    var compareHex = (hex) => {
+      var hexString = document.createElement('div')
+      hexString.style.backgroundColor = `${hex}`
+      return hexString.style.backgroundColor
+    }
+
+    let move= [];  
+
+    let i;
+    for(i=0; i<items.length; i++){
+      if(items[i].style.backgroundColor === compareHex("#5DBCD2")){
+        move.push(items[i].id);
+        document.getElementById("Available").removeChild(items[i]);
+      }
+    }
+
+    let j; 
+    for(j=0; j<move.length; j++){
+      this.additemsToList(move[j], "Needed");
+    }
+  }
 
   setUserFields = (user) => {
     document.getElementById("name").value = user.name;
@@ -40,11 +120,25 @@ export default class EditProfile extends Component {
     }
 
     let pref = user.categoryPreferences.split(",");
-    document.getElementById("preferenceInput1").value = pref[0];
-    document.getElementById("preferenceInput2").value = pref[1];
-    document.getElementById("preferenceInput3").value = pref[2];
-    document.getElementById("preferenceInput4").value = pref[3];
-    document.getElementById("preferenceInput5").value = pref[4];
+
+    let len = pref.length;
+    let i;
+
+    for(i=0; i< len; i++){
+      this.additemsToList(pref[i], "Needed");
+    }
+
+    if(!pref.includes("video")){
+      this.additemsToList("video", "Available");
+    }
+
+    if(!pref.includes("movie")){
+      this.additemsToList("movie", "Available");
+    }
+
+    if(!pref.includes("tvseries")){
+      this.additemsToList("tvseries", "Available");
+    }
   };
 
   updateInfo = () => {
@@ -52,16 +146,19 @@ export default class EditProfile extends Component {
     let type = jwt[0];
     let token = jwt[1];
 
-    let categoryPref =
-      document.getElementById("preferenceInput1").value +
-      "," +
-      document.getElementById("preferenceInput2").value +
-      "," +
-      document.getElementById("preferenceInput3").value +
-      "," +
-      document.getElementById("preferenceInput4").value +
-      "," +
-      document.getElementById("preferenceInput5").value;
+
+    let items = document.getElementById("Needed").getElementsByTagName("li");
+    let i;
+
+    if(items.length === 0){
+        alert('Please select at least one Category!');
+        return;
+    }
+
+    let pref = "";
+    for(i=0; i<items.length; i++){
+      pref += items[i].id + ",";
+    }
 
     let num;
     if (document.getElementById("inlineRadio1").checked == true) {
@@ -74,7 +171,6 @@ export default class EditProfile extends Component {
       num = 7;
     }
 
-    if (this.updateInfoRender()) {
       axios({
         method: "put",
         url: API_BASE_URL + "/user/me",
@@ -85,7 +181,7 @@ export default class EditProfile extends Component {
           email: document.getElementById("email").value,
           name: document.getElementById("name").value,
           profilePicUrl: null,
-          categoryPreferences: categoryPref,
+          categoryPreferences: pref,
           noOfSearches: num
         }
       })
@@ -95,7 +191,6 @@ export default class EditProfile extends Component {
         .catch(function(error) {
           alert(error);
         });
-    }
   };
 
   render() {
@@ -197,52 +292,35 @@ export default class EditProfile extends Component {
                 </div>
                 <div className="col-sm-8">
                   <p>
-                    <b>Option of the following categories:</b> Movies, Music,
-                    Social, Text, Audio
+                    <b>Categories:</b> 
                   </p>
-                  <p>Please input each category as a preference only once.</p>
-                  <form>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput1"
-                        placeholder="First Preference"
-                      ></input>
+                  <p>Please arrange in the order of preference needed.</p>
+
+                  <div class="row">
+
+                    <div class="dual-list list-left col-md-5">
+                        <div class="well text-right">
+                            <p>Available Entertainment</p>
+                            <ul class="list-group" id="Available">
+                            </ul>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput2"
-                        placeholder="Second Preference"
-                      ></input>
+
+                    <div class="list-arrows col-md-1 text-center">
+                        <button class="btn btn-default btn-sm move-right" onClick={()=>{this.moveRight()}}><span>&#62;</span></button>
+                        <button class="btn btn-default btn-sm move-left" onClick={()=>{this.moveLeft()}}><span>&#60;</span></button>
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput3"
-                        placeholder="Third Preference"
-                      ></input>
+
+                    <div class="dual-list list-right col-md-5">
+                        <div class="well">
+                        <p>Needed Entertainment</p>
+                            <ul class="list-group" id="Needed">
+                            </ul>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput4"
-                        placeholder="Fourth Preference"
-                      ></input>
+
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput5"
-                        placeholder="Fifth Preference"
-                      ></input>
-                    </div>
-                  </form>
+
 
                   <hr></hr>
                   <div class="row">
@@ -335,39 +413,6 @@ export default class EditProfile extends Component {
     );
   }
 
-  updateInfoRender = () => {
-    const prefcategories = ["movies", "music", "social", "text", "audio"];
-
-    let firstPref = document.getElementById("preferenceInput1").value;
-    firstPref = firstPref.toLowerCase();
-    let secondPref = document.getElementById("preferenceInput2").value;
-    secondPref = secondPref.toLowerCase();
-    let thirdPref = document.getElementById("preferenceInput3").value;
-    thirdPref = thirdPref.toLowerCase();
-    let fourthPref = document.getElementById("preferenceInput4").value;
-    fourthPref = fourthPref.toLowerCase();
-    let fifthPref = document.getElementById("preferenceInput5").value;
-    fifthPref = fifthPref.toLowerCase();
-
-    let prefinputs = [firstPref, secondPref, thirdPref, fourthPref, fifthPref];
-    let prefset = new Set(prefinputs);
-    let flag = 0;
-    prefinputs.forEach(input => {
-      if (!prefcategories.includes(input)) {
-        flag = 1;
-      }
-    });
-    if (flag == 1) {
-      alert("Not a valid category, please input valid category inputs");
-    }
-    if (prefset.size != prefinputs.length) {
-      flag = 2;
-    }
-    if (flag == 2) {
-      alert("Error! Only one category per preference please!");
-    }
-    return flag == 0;
-  };
 
   componentDidMount() {
     this.setUserFields(getCurrentUser());
