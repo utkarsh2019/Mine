@@ -38,7 +38,8 @@ export default class Search extends Component {
 
     let searchQuery = document.getElementById("searchbar").value;
     let category = getCurrentUserField("searchCategory");
-
+    this.setState({searchResult: []});
+    
     axios({
       method: "post",
       url: API_BASE_URL + "/search/" + category,

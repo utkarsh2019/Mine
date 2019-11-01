@@ -1,5 +1,6 @@
 package tech.mineapp.service;
 
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.mineapp.config.ApiPropertiesConfig;
@@ -28,7 +29,7 @@ public class MovieSearchService {
                 .limit(numOfSearches)
                 .map(response -> new SearchItem(
                         response.getOriginal_title(),
-                        response.getOverview(),
+                        Jsoup.parse(response.getOverview()).text(),
                         "https://www.google.com/search?q=" +
                                 searchQueryParser.parseSpaceDeLimitedQueries(query),
                         apiPropertiesConfig.getTmdb().getImageUrl()
