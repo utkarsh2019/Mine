@@ -21,11 +21,12 @@ export default class Search extends Component {
     this.setSearchApi = this.setSearchApi.bind(this);
   }
 
-  searchQuery = (query, category) => {
+  searchQuery = (category) => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
 
+    let query = document.getElementById("searchbar").value;
     axios({
       method: "post",
       url: API_BASE_URL + "/search/"+category,
@@ -82,7 +83,7 @@ export default class Search extends Component {
     //   script.async = true;
     //   document.body.appendChild(script);
     // });
-    this.searchQuery("horror","video");
+    this.searchQuery("video");
   }
 
   render() {
