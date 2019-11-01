@@ -1,0 +1,51 @@
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 500px;
+    height:300px;
+}
+.withoutimagecard {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 500px;
+    height:200px;
+}
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+    padding: 2px 16px;
+}
+
+.imageStyle {
+    width:100px;
+    height:100px;
+}
+
+#displaycard{
+    background-color: white;
+}
+
+#searchitemdisplayunit{
+    margin:3% 0%;
+    overflow-x:scroll;
+    overflow-y:hidden;
+    width: 100%;
+}
+
+#infodescription{
+    overflow-y:scroll;
+    outline: 1px solid rgba(8, 0, 0, 0.829);
+    background-color: rgba(247, 247, 247);
+    height:100px;
+}
+
+#stoponeline{
+    white-space: nowrap; overflow: scroll;
+    color:black;
+}
+
+#hyperlinksearch{
+    color:black;
+}
