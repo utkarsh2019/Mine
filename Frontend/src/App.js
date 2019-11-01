@@ -60,8 +60,6 @@ export default class App extends Component {
             render={(props) => <EditPassword authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/editimage"
             render={(props) => <EditImage authenticated={this.state.authenticated} {...props} />}></Route>
-          <Route path="/searchlist"
-            render={(props) => <SearchList authenticated={this.state.authenticated} {...props} />}></Route>
           <Route component={NotFound}></Route>
         </Switch>
       </div>

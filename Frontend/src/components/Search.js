@@ -4,7 +4,7 @@ import "../css/bootstrap.css";
 import "../css/search.css";
 import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUserField } from "../utils/UserStorageUtil";
+import { getCurrentUserField, setSearchCategory } from "../utils/UserStorageUtil";
 import SearchList from "./SearchList";
 import { API_BASE_URL } from "../constants/Constants";
 import axios from "axios";
@@ -19,18 +19,27 @@ export default class Search extends Component {
     this.searchQuery = this.searchQuery.bind(this);
     this.setSearchResult = this.setSearchResult.bind(this);
     this.setSearchApi = this.setSearchApi.bind(this);
-    this.setCategories = this.setCategories.bind(this);
+    this.setCategory = this.setCategory.bind(this);
+    this.checkEnterSearch = this.checkEnterSearch.bind(this);
   }
 
-  searchQuery = (category) => {
+  checkEnterSearch = (evt) => {
+    if (evt.keyCode === 13) {
+      evt.preventDefault();
+      this.searchQuery();
+    }
+  };
+
+  searchQuery = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
 
     let query = document.getElementById("searchbar").value;
+    let category = getCurrentUserField("searchCategory");
     axios({
       method: "post",
-      url: API_BASE_URL + "/search/"+category,
+      url: API_BASE_URL + "/search/" + category,
       headers: {
         Authorization: type + " " + token
       },
@@ -44,7 +53,7 @@ export default class Search extends Component {
       .catch(error => {
         alert(error);
       });
-  }
+  };
   
   setSearchApi = (value, key) => {
     let searches = this.state.searchResult;
@@ -55,40 +64,16 @@ export default class Search extends Component {
       </div>
     );
     this.setState({searchResult: searches});
-  }
+  };
 
   setSearchResult = (responseObject) => {
     let responseObjectMap = new Map(Object.entries(responseObject));
     responseObjectMap.forEach((value, key) => {
       this.setSearchApi(value, key);
     });
-  }
+  };
 
-  componentDidMount() {
-    // //An array of assets
-    // let scripts = [
-    //   { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
-    //   {
-    //     src:
-    //       "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    //   },
-    //   {
-    //     src:
-    //       "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    //   }
-    // ];
-    // //Append the script element on each iteration
-    // scripts.map(item => {
-    //   const script = document.createElement("script");
-    //   script.src = item.src;
-    //   script.async = true;
-    //   document.body.appendChild(script);
-    // });
-    this.setCategories();
-    this.searchQuery("video");
-  }
-
-  setCategories = () => {
+  initializeCategories = () => {
     let userPref = getCurrentUserField("categoryPreferences");
     let i;
     let pref = userPref.split(",");
@@ -97,8 +82,44 @@ export default class Search extends Component {
       listItem.innerHTML = pref[i];
       listItem.className = "dropdown-item";
       listItem.id = "item"+i;
+      listItem.onclick = this.setCategory.bind(this);
       document.getElementById("dd").appendChild(listItem);
     }
+    let category = getCurrentUserField("searchCategory");
+    if (category === null || !pref.includes(category)) {
+      setSearchCategory(document.getElementById("item0").innerHTML);
+    }
+    document.getElementById('categoriesdrop').innerHTML = category;
+  };
+
+  setCategory = (evt) => {
+    evt.preventDefault();
+    let val = evt.target.id;
+    setSearchCategory(document.getElementById(val).innerHTML);
+    document.getElementById('categoriesdrop').innerHTML = getCurrentUserField("searchCategory");
+  }
+
+  componentDidMount() {
+    //An array of assets
+    let scripts = [
+      { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
+      {
+        src:
+          "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      },
+      {
+        src:
+          "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      }
+    ];
+    //Append the script element on each iteration
+    scripts.map(item => {
+      const script = document.createElement("script");
+      script.src = item.src;
+      script.async = true;
+      document.body.appendChild(script);
+    });
+    this.initializeCategories();
   }
 
   render() {
@@ -182,6 +203,7 @@ export default class Search extends Component {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  onKeyUp={this.checkEnterSearch}
                 ></input>
               </form>
             </div>
@@ -191,7 +213,6 @@ export default class Search extends Component {
                   id="categoriesdrop"
                   class="btn btn-secondary dropdown-toggle"
                   type="button"
-                  id="dropdownMenuButton"
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
@@ -207,6 +228,7 @@ export default class Search extends Component {
                 <button
                   class="btn btn-outline-success my-2 my-sm-0"
                   type="submit"
+                  onClick={this.searchQuery}
                 >
                   Search
                 </button>

@@ -12,6 +12,10 @@ export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearche
     localStorage.setItem("categoryPreferences", categoryPreferences);
 }
 
+export function setSearchCategory(category) {
+    localStorage.setItem("searchCategory", category);
+}
+
 export function getCurrentUser() {
     return {
         "name": localStorage.getItem("name"),
