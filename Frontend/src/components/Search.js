@@ -65,27 +65,26 @@ export default class Search extends Component {
   }
 
   componentDidMount() {
-    // //An array of assets
-    // let scripts = [
-    //   { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
-    //   {
-    //     src:
-    //       "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    //   },
-    //   {
-    //     src:
-    //       "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    //   }
-    // ];
-    // //Append the script element on each iteration
-    // scripts.map(item => {
-    //   const script = document.createElement("script");
-    //   script.src = item.src;
-    //   script.async = true;
-    //   document.body.appendChild(script);
-    // });
+     //An array of assets
+     let scripts = [
+       { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
+       {
+         src:
+           "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+       },
+       {
+         src:
+           "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+       }
+     ];
+     //Append the script element on each iteration
+     scripts.map(item => {
+       const script = document.createElement("script");
+       script.src = item.src;
+       script.async = true;
+       document.body.appendChild(script);
+     });
     this.setCategories();
-    this.searchQuery("video");
   }
 
   setCategories = () => {
@@ -101,11 +100,11 @@ export default class Search extends Component {
     }
   }
 
-  render() {
+  render () {
 
-    // if (!checkUserLoggedIn()) {
-    //   return redirectToHome(this.props.location);
-    // }
+    if (!checkUserLoggedIn()) {
+     return redirectToHome(this.props.location);
+    }
 
     return (
       <div>
