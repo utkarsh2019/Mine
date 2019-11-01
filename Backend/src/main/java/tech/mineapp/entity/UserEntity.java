@@ -2,6 +2,7 @@ package tech.mineapp.entity;
 
 import lombok.Data;
 import tech.mineapp.constants.AuthProvider;
+import tech.mineapp.constants.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,14 +12,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
-import static tech.mineapp.constants.Constants.ApplicationConstants.userIdLength;
-
 /**
  * Entity representing persistent storage
  * of user information
  *
  * @author amolmoses, utkarsh
  */
+@SuppressWarnings("serial")
 @Data
 @Entity
 @Table(name = "Users")
@@ -49,10 +49,16 @@ public class UserEntity implements Serializable {
     private AuthProvider provider;
     
     @NotNull
-    private int noOfPreviousSearches = 3;
+    private int noOfSearches = 3;
 
-    @NotNull
-    private String categoryPreferences; // TODO: Re-think storing of user preferences
+    @Enumerated(EnumType.STRING)
+    private Category preference1;
+    
+    @Enumerated(EnumType.STRING)
+    private Category preference2;
+    
+    @Enumerated(EnumType.STRING)
+    private Category preference3;
     
     private String providerId;
 }

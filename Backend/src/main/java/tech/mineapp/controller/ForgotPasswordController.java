@@ -1,28 +1,22 @@
 package tech.mineapp.controller;
 
-import java.util.Calendar;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import tech.mineapp.entity.ForgotPasswordEntity;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.event.OnForgotPasswordEvent;
-import tech.mineapp.event.OnVerificationCompleteEvent;
-import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.ForgotPasswordRequestModel;
 import tech.mineapp.model.request.PasswordUpdateRequestModel;
-import tech.mineapp.model.request.SignupRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.repository.UserRepository;
 import tech.mineapp.service.ForgotPasswordService;
 import tech.mineapp.service.UserService;
 
@@ -34,10 +28,7 @@ import tech.mineapp.service.UserService;
 public class ForgotPasswordController {
 	
 	@Autowired
-	private ForgotPasswordService fpService;
-	
-	@Autowired
-	private UserRepository userRepository;
+	private ForgotPasswordService forgotPasswordService;
 	
 	@Autowired
 	private UserService userService;
@@ -47,6 +38,8 @@ public class ForgotPasswordController {
 	
     @Autowired
     ApplicationEventPublisher eventPublisher;
+    
+	private static final Logger logger = LoggerFactory.getLogger(ForgotPasswordController.class);
 	
 	@PostMapping("/forgotPassword")
 	public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequestModel forgotPasswordRequest,
@@ -58,22 +51,28 @@ public class ForgotPasswordController {
 		response.setEndpoint("/forgotPassword");
 
 		try {
+			UserEntity user = userService.findUserByEmail(forgotPasswordRequest.getEmail());
 			
-			if (!userService.checkVerificationByEmail(forgotPasswordRequest.getEmail())) {
+			if (!userService.checkVerification(user)) {
 	     		response.setStatus("FAIL");
 	     		response.setErrorMessage("Unverified user.");
 	     		return ResponseEntity.badRequest().body(response);
 	     	}
-			UserEntity user = userRepository.findUserByEmail(forgotPasswordRequest.getEmail())
-	                .orElseThrow(() -> new ResourceNotFoundException("User", "email", forgotPasswordRequest.getEmail()));
+			
+			if (!userService.isLocalUser(user)) {
+				response.setStatus("FAIL");
+	     		response.setErrorMessage("Not a local user.");
+	     		return ResponseEntity.badRequest().body(response);
+			}
+			
 			eventPublisher.publishEvent(new OnForgotPasswordEvent(user, request.getLocale(), request.getContextPath()));
 			response.setStatus("SUCCESS");
 
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}
@@ -89,31 +88,31 @@ public class ForgotPasswordController {
 		response.setEndpoint("/verify/password");
 		
 		try {
-		    ForgotPasswordEntity fpToken = fpService.getForgotPasswordToken(token);
-		    if (fpToken == null) {
+		    
+		    if (forgotPasswordService.tokenExists(token)) {
 		    	response.setStatus("FAIL");
-	     		response.setErrorMessage("Null token.");
+	     		response.setErrorMessage("Bad token.");
 	     		return ResponseEntity.badRequest().body(response);
 		    }
-		     
-		    UserEntity user = fpToken.getUser();
-		    Calendar cal = Calendar.getInstance();
-		    if ((fpToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+		    
+		    if (forgotPasswordService.isExpired(token)) {
 		    	response.setStatus("FAIL");
 	     		response.setErrorMessage("Expired token.");
 	     		return ResponseEntity.badRequest().body(response);
 		    } 
 		    
-		    fpService.deleteForgotPasswordToken(user);
-		    user.setPassword(passwordEncoder.encode(passwordUpdateRequest.getPassword())); 
-		    userRepository.save(user);
+		    userService.updateUserPassword(
+		    		forgotPasswordService.getUserByToken(token), 
+		    		passwordEncoder.encode(passwordUpdateRequest.getPassword()));
+		    forgotPasswordService.deleteToken(token);
+		    
 		    response.setStatus("SUCCESS");
 	
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
 
 			return ResponseEntity.badRequest().body(response);
 		}

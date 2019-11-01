@@ -2,29 +2,29 @@ import React, { Component } from "react";
 import "../css/forgotpassword.css";
 import "../css/bootstrap.css";
 import axios from "axios";
+import { API_BASE_URL } from "../constants/Constants";
+import { getUrlParameter } from "../utils/UrlUtil"
 
-export default class ForgotPasswordUpdate extends Component {
+export default class VerifyPassword extends Component {
   constructor(props) {
     super(props);
 
     this.update = this.update.bind(this);
   }
-  getUrlParameter(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
 
-    var results = regex.exec(this.props.location.search);
-    return results === null
-      ? ""
-      : decodeURIComponent(results[1].replace(/\+/g, " "));
-  }
+  checkEnterUpdate = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.update();
+    }
+  };
 
   update() {
-    let token = this.getUrlParameter("token");
+    let token = getUrlParameter("token", this.props.location.search);
     let pass = document.getElementById("passwordinput").value;
     axios({
       method: "post",
-      url: "http://api.mineapp.tech/verify/password?token=" + token,
+      url: API_BASE_URL + "/verify/password?token=" + token,
       data: {
         password: pass
       }
@@ -45,7 +45,7 @@ export default class ForgotPasswordUpdate extends Component {
             <div class="col">
               <img
                 class="center-block"
-                src={require("../img/minelogo.png")}
+                src={require("../images/minelogo.png")}
               ></img>
             </div>
 
@@ -62,6 +62,7 @@ export default class ForgotPasswordUpdate extends Component {
                       class="form-control"
                       id="passwordinput"
                       placeholder="Enter Password"
+                      onKeyUp={this.checkEnterUpdate}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -73,6 +74,7 @@ export default class ForgotPasswordUpdate extends Component {
                       class="form-control"
                       id="confirmpasswordinput"
                       placeholder="Re-enter Password"
+                      onKeyUp={this.checkEnterUpdate}
                     ></input>
                   </div>
 

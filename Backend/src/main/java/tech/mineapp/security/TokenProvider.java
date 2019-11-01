@@ -14,7 +14,6 @@ import tech.mineapp.config.AppPropertiesConfig;
  * @author utkarsh
  *
  */
-
 @Service
 public class TokenProvider {
 

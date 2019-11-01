@@ -2,12 +2,19 @@ import React, { Component } from "react";
 import "../css/signup.css";
 import "../css/bootstrap.css";
 import axios from "axios";
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from "./../constants";
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "../constants/Constants";
 
 export default class Signup extends Component {
   constructor(props) {
     super(props);
   }
+
+  checkEnterRegister = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.register();
+    }
+  };
 
   register = () => {
     let userdata = {};
@@ -34,7 +41,7 @@ export default class Signup extends Component {
 
     axios({
       method: "post",
-      url: "http://api.mineapp.tech/auth/signup",
+      url: API_BASE_URL + "/auth/signup",
       data: {
         email: userdata.email,
         name: userdata.name,
@@ -57,7 +64,7 @@ export default class Signup extends Component {
             <div class="col">
               <img
                 class="center-block"
-                src={require("../img/minelogo.png")}
+                src={require("../images/minelogo.png")}
               ></img>
             </div>
 
@@ -73,6 +80,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="nameinput"
                       placeholder="Enter name"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -82,6 +90,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="emailinput"
                       placeholder="name@example.com"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -91,6 +100,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="passwordinput"
                       placeholder="Enter Password"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="form-group">
@@ -100,6 +110,7 @@ export default class Signup extends Component {
                       class="form-control"
                       id="confirmpasswordinput"
                       placeholder="Re-enter Password"
+                      onKeyUp={this.checkEnterRegister}
                     ></input>
                   </div>
                   <div class="text-center">
@@ -120,7 +131,7 @@ export default class Signup extends Component {
                     href={GOOGLE_AUTH_URL}
                   >
                     <img
-                      src={require("../img/google-logo.png")}
+                      src={require("../images/google-logo.png")}
                       width="25px"
                       height="25px"
                       alt="Google"
@@ -132,7 +143,7 @@ export default class Signup extends Component {
                     href={FACEBOOK_AUTH_URL}
                   >
                     <img
-                      src={require("../img/fb-logo.png")}
+                      src={require("../images/fb-logo.png")}
                       width="25px"
                       height="25px"
                       alt="Facebook"

@@ -2,88 +2,163 @@ import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/Edit.css";
 import axios from "axios";
+import { API_BASE_URL } from "../constants/Constants";
+import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
+import { getCurrentUser} from "../utils/UserStorageUtil";
 
-export default class Edit extends Component {
-  logout = () => {
-    document.cookie = "accessToken= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    document.cookie = "tokenType= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    window.location.replace("/");
+export default class EditProfile extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.setUserFields = this.setUserFields.bind(this);
+    this.select = this.select.bind(this);
+    this.deselect = this.deselect.bind(this);
+    this.additemsToList = this.additemsToList.bind(this);
+  }
+
+  additemsToList(li, ulID){
+    let listItem = document.createElement("li");
+    listItem.innerHTML = li;
+    listItem.className = "list-group-item";
+    listItem.id = li;
+    listItem.addEventListener('click', this.select.bind());
+    listItem.addEventListener('dblclick', this.deselect.bind());
+    document.getElementById(ulID).appendChild(listItem);
+}
+
+
+  checkEnterLogin = (evt) => {
+    if(evt.keyCode === 13) {
+      evt.preventDefault();
+      this.login();
+    }
   };
 
-  load = () => {
-    if(document.cookie.indexOf('token') == -1){
-      window.location.replace('/')
-    }
-    let cookie = document.cookie.split(";");
-    let cookie1 = cookie[0].split("=");
-    let cookie2 = cookie[1].split("=");
-    let type, token;
-    if (cookie1[0] === "tokenType") {
-      type = cookie1[1];
-      token = cookie2[1];
-    } else {
-      type = cookie2[1];
-      token = cookie1[1];
+  select(evt) {
+    let i =  evt.target.id;
+    document.getElementById(i).style.backgroundColor = '#5DBCD2';
+  }
+
+  deselect(evt) {
+    let i = evt.target.id;
+    document.getElementById(i).style.backgroundColor ='white';
+  }
+
+  moveLeft() {
+    let items = document.getElementById("Needed").getElementsByTagName("li");
+    if(items.length == 0){
+      alert('Needed Entertainment List is Empty!');
     }
 
-    axios({
-      method: "get",
-      url: "http://api.mineapp.tech/user/me",
-      headers: {
-        Authorization: type + " " + token
+    var compareHex = (hex) => {
+      var hexString = document.createElement('div')
+      hexString.style.backgroundColor = `${hex}`
+      return hexString.style.backgroundColor
+    }
+
+    let move= [];  
+
+    let i;
+    for(i=0; i<items.length; i++){
+      if(items[i].style.backgroundColor === compareHex("#5DBCD2")){
+        move.push(items[i].id);
+        document.getElementById("Needed").removeChild(items[i]);
       }
-    })
-      .then(function(response) {
-        document.getElementById("name").value =
-          response.data.responseObject.name;
-        document.getElementById("email").value =
-          response.data.responseObject.email;
+    }
 
-        if (response.data.responseObject.noOfPreviousSearches == 1) {
-          document.getElementById("inlineRadio1").checked = true;
-        } else if (response.data.responseObject.noOfPreviousSearches == 3) {
-          document.getElementById("inlineRadio2").checked = true;
-        } else if (response.data.responseObject.noOfPreviousSearches == 5) {
-          document.getElementById("inlineRadio3").checked = true;
-        } else if (response.data.responseObject.noOfPreviousSearches == 7) {
-          document.getElementById("inlineRadio3").checked = true;
-        }
+    let j; 
+    for(j=0; j<move.length; j++){
+      this.additemsToList(move[j], "Available");
+    }
+  }
 
-        let pref = response.data.responseObject.categoryPreferences.split(",");
-        document.getElementById("preferenceInput1").value = pref[0];
-        document.getElementById("preferenceInput2").value = pref[1];
-        document.getElementById("preferenceInput3").value = pref[2];
-        document.getElementById("preferenceInput4").value = pref[3];
-        document.getElementById("preferenceInput5").value = pref[4];
-      })
-      .catch(function(error) {
-        alert(error);
-      });
+  moveRight() {
+    let items = document.getElementById("Available").getElementsByTagName("li");
+    if(items.length == 0){
+      alert('Available Entertainment List is Empty!');
+    }
+
+    var compareHex = (hex) => {
+      var hexString = document.createElement('div')
+      hexString.style.backgroundColor = `${hex}`
+      return hexString.style.backgroundColor
+    }
+
+    let move= [];  
+
+    let i;
+    for(i=0; i<items.length; i++){
+      if(items[i].style.backgroundColor === compareHex("#5DBCD2")){
+        move.push(items[i].id);
+        document.getElementById("Available").removeChild(items[i]);
+      }
+    }
+
+    let j; 
+    for(j=0; j<move.length; j++){
+      this.additemsToList(move[j], "Needed");
+    }
+  }
+
+  setUserFields = (user) => {
+    document.getElementById("name").value = user.name;
+    document.getElementById("email").value = user.email;
+
+    if (user.noOfSearches == 1) {
+      document.getElementById("inlineRadio1").checked = true;
+    } else if (user.noOfSearches == 3) {
+      document.getElementById("inlineRadio3").checked = true;
+    } else if (user.noOfSearches == 5) {
+      document.getElementById("inlineRadio3").checked = true;
+    } else if (user.noOfSearches == 7) {
+      document.getElementById("inlineRadio4").checked = true;
+    }
+       
+    if(user.profilePicUrl != null){
+      document.getElementById("profileImage").src = user.profilePicUrl;
+    }
+
+    let pref = user.categoryPreferences.split(",");
+
+    let len = pref.length;
+    let i;
+
+    for(i=0; i< len; i++){
+      this.additemsToList(pref[i], "Needed");
+    }
+
+    if(!pref.includes("video")){
+      this.additemsToList("video", "Available");
+    }
+
+    if(!pref.includes("movie")){
+      this.additemsToList("movie", "Available");
+    }
+
+    if(!pref.includes("tvseries")){
+      this.additemsToList("tvseries", "Available");
+    }
   };
 
   updateInfo = () => {
-    let cookie = document.cookie.split(";");
-    let cookie1 = cookie[0].split("=");
-    let cookie2 = cookie[1].split("=");
-    let type, token;
-    if (cookie1[0] === "tokenType") {
-      type = cookie1[1];
-      token = cookie2[1];
-    } else {
-      type = cookie2[1];
-      token = cookie1[1];
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+
+
+    let items = document.getElementById("Needed").getElementsByTagName("li");
+    let i;
+
+    if(items.length === 0){
+        alert('Please select at least one Category!');
+        return;
     }
 
-    let categoryPref =
-      document.getElementById("preferenceInput1").value +
-      "," +
-      document.getElementById("preferenceInput2").value +
-      "," +
-      document.getElementById("preferenceInput3").value +
-      "," +
-      document.getElementById("preferenceInput4").value +
-      "," +
-      document.getElementById("preferenceInput5").value;
+    let pref = "";
+    for(i=0; i<items.length; i++){
+      pref += items[i].id + ",";
+    }
 
     let num;
     if (document.getElementById("inlineRadio1").checked == true) {
@@ -96,10 +171,9 @@ export default class Edit extends Component {
       num = 7;
     }
 
-    if (this.updateInfoRender()) {
       axios({
         method: "put",
-        url: "http://api.mineapp.tech/user/me",
+        url: API_BASE_URL + "/user/me",
         headers: {
           Authorization: type + " " + token
         },
@@ -107,8 +181,8 @@ export default class Edit extends Component {
           email: document.getElementById("email").value,
           name: document.getElementById("name").value,
           profilePicUrl: null,
-          categoryPreferences: categoryPref,
-          noOfPreviousSearches: num
+          categoryPreferences: pref,
+          noOfSearches: num
         }
       })
         .then(function(response) {
@@ -117,17 +191,20 @@ export default class Edit extends Component {
         .catch(function(error) {
           alert(error);
         });
-    }
   };
 
   render() {
+    if (! checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+    
     return (
-      <div className="Edit" onLoad={this.load}>
+      <div className="Edit">
         <div>
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">
               <img
-                src={require("./../img/minelogo.png")}
+                src={require("./../images/minelogo.png")}
                 width="50"
                 height="50"
                 class="d-inline-block"
@@ -179,11 +256,11 @@ export default class Edit extends Component {
                 <div className="col-sm-8">
                   <div class="form-group">
                     <label for="nameinput">Name</label>
-                    <input type="text" class="form-control" id="name"></input>
+                    <input type="text" class="form-control" id="name" onKeyUp={this.checkEnterUpdate}></input>
                   </div>
                   <div class="form-group">
                     <label for="emailinput">Email address</label>
-                    <input type="email" class="form-control" id="email"></input>
+                    <input type="email" class="form-control" id="email" onKeyUp={this.checkEnterUpdate}></input>
                   </div>
                   <div class="form-group">
                     <label for="passwordinput" align="right">
@@ -196,9 +273,11 @@ export default class Edit extends Component {
                   <hr></hr>
                   <div class="form-group">
                     <img
-                      src={require("./../img/profile.png")}
+                      src={require("./../images/profile.png")}
                       height="75"
                       width="75"
+                      class="rounded-circle"
+                      id = "profileImage"
                     ></img>
                     <a class="align-right" href="/editimage">
                       Edit
@@ -213,52 +292,35 @@ export default class Edit extends Component {
                 </div>
                 <div className="col-sm-8">
                   <p>
-                    <b>Option of the following categories:</b> Movies, Music,
-                    Social, Text, Audio
+                    <b>Categories:</b> 
                   </p>
-                  <p>Please input each category as a preference only once.</p>
-                  <form>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput1"
-                        placeholder="First Preference"
-                      ></input>
+                  <p>Please arrange in the order of preference needed.</p>
+
+                  <div class="row">
+
+                    <div class="dual-list list-left col-md-5">
+                        <div class="well text-right">
+                            <p>Available Entertainment</p>
+                            <ul class="list-group" id="Available">
+                            </ul>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput2"
-                        placeholder="Second Preference"
-                      ></input>
+
+                    <div class="list-arrows col-md-1 text-center">
+                        <button class="btn btn-default btn-sm move-right" onClick={()=>{this.moveRight()}}><span>&#62;</span></button>
+                        <button class="btn btn-default btn-sm move-left" onClick={()=>{this.moveLeft()}}><span>&#60;</span></button>
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput3"
-                        placeholder="Third Preference"
-                      ></input>
+
+                    <div class="dual-list list-right col-md-5">
+                        <div class="well">
+                        <p>Needed Entertainment</p>
+                            <ul class="list-group" id="Needed">
+                            </ul>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput4"
-                        placeholder="Fourth Preference"
-                      ></input>
+
                     </div>
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="preferenceInput5"
-                        placeholder="Fifth Preference"
-                      ></input>
-                    </div>
-                  </form>
+
 
                   <hr></hr>
                   <div class="row">
@@ -351,37 +413,8 @@ export default class Edit extends Component {
     );
   }
 
-  updateInfoRender = () => {
-    const prefcategories = ["movies", "music", "social", "text", "audio"];
 
-    let firstPref = document.getElementById("preferenceInput1").value;
-    firstPref = firstPref.toLowerCase();
-    let secondPref = document.getElementById("preferenceInput2").value;
-    secondPref = secondPref.toLowerCase();
-    let thirdPref = document.getElementById("preferenceInput3").value;
-    thirdPref = thirdPref.toLowerCase();
-    let fourthPref = document.getElementById("preferenceInput4").value;
-    fourthPref = fourthPref.toLowerCase();
-    let fifthPref = document.getElementById("preferenceInput5").value;
-    fifthPref = fifthPref.toLowerCase();
-
-    let prefinputs = [firstPref, secondPref, thirdPref, fourthPref, fifthPref];
-    let prefset = new Set(prefinputs);
-    let flag = 0;
-    prefinputs.forEach(input => {
-      if (!prefcategories.includes(input)) {
-        flag = 1;
-      }
-    });
-    if (flag == 1) {
-      alert("Not a valid category, please input valid category inputs");
-    }
-    if (prefset.size != prefinputs.length) {
-      flag = 2;
-    }
-    if (flag == 2) {
-      alert("Error! Only one category per preference please!");
-    }
-    return flag == 0;
-  };
+  componentDidMount() {
+    this.setUserFields(getCurrentUser());
+  }
 }

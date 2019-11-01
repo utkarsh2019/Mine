@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 
 import "../css/bootstrap.css";
 import "../css/search.css";
+import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToHome } from "../utils/RedirectUtil";
 
 export default class Search extends Component {
   componentDidMount() {
@@ -26,7 +28,12 @@ export default class Search extends Component {
       document.body.appendChild(script);
     });
   }
+  
   render() {
+    if (!checkUserLoggedIn()) {
+      return redirectToHome(this.props.location);
+    }
+
     return (
       <div>
         <script
@@ -48,7 +55,7 @@ export default class Search extends Component {
           <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid fixed-top">
             <a class="navbar-brand" href="#">
               <img
-                src={require("./../img/minelogo.png")}
+                src={require("./../images/minelogo.png")}
                 width="50"
                 height="50"
                 class="d-inline-block"

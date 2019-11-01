@@ -3,15 +3,21 @@ import "../css/home.css";
 import "../css/bootstrap.css";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { redirectToDashboard } from "../utils/RedirectUtil";
 
 export default class Home extends Component {
   render() {
+    if (checkUserLoggedIn()) {
+      return redirectToDashboard(this.props.location);
+    }
+
     return (
       <div className="App">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top container-fluid">
           <a class="navbar-brand" href="#">
             <img
-              src={require("./../img/minelogo.png")}
+              src={require("./../images/minelogo.png")}
               width="50"
               height="50"
               class="d-inline-block"
@@ -75,7 +81,7 @@ export default class Home extends Component {
           <img
             id="logoimg"
             class="center-block"
-            src={require("../img/minelogo.png")}
+            src={require("../images/minelogo.png")}
           ></img>
         </div>
 
@@ -106,7 +112,7 @@ export default class Home extends Component {
               <div class="col-6">
                 <div class="card">
                   <img
-                    src={require("../img/pooja.jpg")}
+                    src={require("../images/pooja.jpg")}
                     class="card-img-top"
                     alt="..."
                   ></img>
@@ -119,7 +125,7 @@ export default class Home extends Component {
               <div class="col-6">
                 <div class="card">
                   <img
-                    src={require("../img/shivangi.jpg")}
+                    src={require("../images/shivangi.jpg")}
                     class="card-img-top"
                     alt="..."
                   ></img>
@@ -134,7 +140,7 @@ export default class Home extends Component {
               <div class="col-6">
                 <div class="card">
                   <img
-                    src={require("../img/amol.jpg")}
+                    src={require("../images/amol.jpg")}
                     class="card-img-top"
                     alt="..."
                   ></img>
@@ -147,7 +153,7 @@ export default class Home extends Component {
               <div class="col-6">
                 <div class="card">
                   <img
-                    src={require("../img/utkarsh.jpg")}
+                    src={require("../images/utkarsh.jpg")}
                     class="card-img-top"
                     alt="..."
                   ></img>
@@ -165,7 +171,7 @@ export default class Home extends Component {
           <div class="card-group">
             <div class="card">
               <img
-                src={require("../img/phone.png")}
+                src={require("../images/phone.png")}
                 class="card-img-top"
                 alt="..."
               ></img>
@@ -175,7 +181,7 @@ export default class Home extends Component {
             </div>
             <div class="card">
               <img
-                src={require("../img/mail.png")}
+                src={require("../images/mail.png")}
                 class="card-img-top"
                 alt="..."
               ></img>
@@ -185,7 +191,7 @@ export default class Home extends Component {
             </div>
             <div class="card">
               <img
-                src={require("../img/location.png")}
+                src={require("../images/location.png")}
                 class="card-img-top"
                 alt="..."
               ></img>
