@@ -32,7 +32,7 @@ public class MovieSearchController {
 
     private static final Logger logger = LoggerFactory.getLogger(MovieSearchController.class);
 
-    @PostMapping("/search/movies")
+    @PostMapping("/search/movie")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> searchMovies(@CurrentUser UserPrincipal userPrincipal,
                                           @RequestBody SearchRequestModel searchRequest) {
@@ -40,7 +40,7 @@ public class MovieSearchController {
         ContainerResponseModel response = new ContainerResponseModel();
 
         response.setVerb("POST");
-        response.setEndpoint("/search/movies");
+        response.setEndpoint("/search/movie");
 
         try {
             int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
