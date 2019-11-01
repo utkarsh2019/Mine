@@ -6,8 +6,8 @@ import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import { getCurrentUserField, setSearchCategory } from "../utils/UserStorageUtil";
 import SearchList from "./SearchList";
-import { API_BASE_URL } from "../constants/Constants";
 import axios from "axios";
+import { API_BASE_URL } from "../constants/Constants";
 
 export default class Search extends Component {
 
@@ -35,24 +35,40 @@ export default class Search extends Component {
     let type = jwt[0];
     let token = jwt[1];
 
-    let query = document.getElementById("searchbar").value;
+    let searchQuery = document.getElementById("searchbar").value;
     let category = getCurrentUserField("searchCategory");
-    axios({
-      method: "post",
-      url: API_BASE_URL + "/search/" + category,
+
+    axios.post(API_BASE_URL + "/search/" + category, {
+      query: searchQuery
+    }, {
       headers: {
         Authorization: type + " " + token
-      },
-      data: {
-        query: query
       }
     })
-      .then(response => {
-        this.setSearchResult(response.data.responseObject);
-      })
-      .catch(error => {
-        alert(error);
-      });
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+  //   axios({
+  //     method: "post",
+  //     url: API_BASE_URL + "/search/" + category,
+  //     headers: {
+  //       Authorization: type + " " + token
+  //     },
+  //     data: {
+  //       query: searchQuery
+  //     }
+  //   })
+  //     .then(response => {
+  //      console.log(response);
+  //     })
+  //     .catch(error => {
+  //       alert(error);
+  //     });
   };
   
   setSearchApi = (value, key) => {
