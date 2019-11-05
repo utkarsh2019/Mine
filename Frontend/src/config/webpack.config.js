@@ -4,8 +4,8 @@ module.exports = {
    context: __dirname,
    entry: './src/index.js',
    output: {
-      path: path.resolve( __dirname, 'dist' ),
-      filename: 'main.js',
+      path: path.resolve( __dirname, 'src' ),
+      filename: 'index.js',
       publicPath: '/',
    },
    devServer: {
@@ -14,7 +14,7 @@ module.exports = {
    module: {
       rules: [
          {
-            test: /\.js$/,
+            test: /\.(js|jsx)$/,
             use: 'babel-loader',
          },
          {
