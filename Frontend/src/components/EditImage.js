@@ -233,7 +233,7 @@ render() {
         </div>
         </body>
       <footer>
-        <div class="footer text-center">
+        <div class="editfooter text-center">
           <p>
             Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
             Tewari

@@ -176,7 +176,7 @@ export default class Home extends Component {
                 alt="..."
               ></img>
               <div class="card-body">
-                <h5 class="card-title">+1 765-432-3345</h5>
+                <h5 class="card-title">+1 734-846-6033</h5>
               </div>
             </div>
             <div class="card">
@@ -186,7 +186,7 @@ export default class Home extends Component {
                 alt="..."
               ></img>
               <div class="card-body">
-                <h5 class="card-title">admin@mine.com</h5>
+                <h5 class="card-title">mineapp.tech@gmail.com</h5>
               </div>
             </div>
             <div class="card">
