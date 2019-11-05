@@ -19,7 +19,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "webpack-dev-server": "webpack-dev-server",
+    "dev": "webpack-dev-server --mode=development",
+    "prod": "webpack --mode=production"
   },
   "eslintConfig": {
     "extends": "react-app"
