@@ -53,7 +53,7 @@ public class VideoSearchService {
 		for (VimeoSearchItem item : response.getData()) {
 			searches.add(new SearchItem(
 					item.getName(),
-					Jsoup.parse(item.getDescription()).text(),
+					item.getDescription(),
 					item.getLink(),
 					item.getPictures().getSizes()[0].getLink()));
 		}

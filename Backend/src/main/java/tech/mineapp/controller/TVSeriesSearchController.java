@@ -22,7 +22,7 @@ import tech.mineapp.service.UserService;
  * @author amolmoses
  */
 @RestController
-public class TVSeriesController {
+public class TVSeriesSearchController {
 
     @Autowired
     private UserService userService;
