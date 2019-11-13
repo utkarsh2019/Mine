@@ -35,7 +35,6 @@ public class RedditController {
 	
 	public RedditResponseModel redditWrittenSearch(String query, int noOfSearches) {
 		HttpHeaders headers = new HttpHeaders();
-//		setRedditOauthToken();
 //		System.out.println(accessToken);
 		headers.set("Authorization", "Bearer " + "-3jJrAo_v_kP8OBbUlzGlgdiNkQk");
 		
@@ -61,7 +60,8 @@ public class RedditController {
 		
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		String redditOauthUrl = "https://www.reddit.com/api/v1/access_token";
-		ResponseEntity<RedditOauthResponseModel> response = restTemplate.exchange(redditOauthUrl, HttpMethod.POST, entity, RedditOauthResponseModel.class);
+		ResponseEntity<RedditOauthResponseModel> response
+		  = restTemplate.exchange(redditOauthUrl, HttpMethod.POST, entity, RedditOauthResponseModel.class);
 		accessToken = response.getBody().getAccess_token();
 	}
 }

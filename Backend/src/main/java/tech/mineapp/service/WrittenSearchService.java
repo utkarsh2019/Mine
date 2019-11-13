@@ -22,6 +22,7 @@ public class WrittenSearchService {
 	private RedditController redditController;
 	
 	public List<SearchItem> searchReddit(String query, int noOfSearches) {
+		redditController.setRedditOauthToken();
 		RedditResponseModel response = redditController.redditWrittenSearch(query, noOfSearches);
 		List<SearchItem> searches = new ArrayList<SearchItem>();
 		for (RedditSearchItem item : response.getData().getChildren()) {
