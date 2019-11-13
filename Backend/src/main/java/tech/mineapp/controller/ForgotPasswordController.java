@@ -89,7 +89,7 @@ public class ForgotPasswordController {
 		
 		try {
 		    
-		    if (forgotPasswordService.tokenExists(token)) {
+		    if (!forgotPasswordService.tokenExists(token)) {
 		    	response.setStatus("FAIL");
 	     		response.setErrorMessage("Bad token.");
 	     		return ResponseEntity.badRequest().body(response);

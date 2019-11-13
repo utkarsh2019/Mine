@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../css/forgotpassword.css";
+import "../css/Edit.css";
 import "../css/bootstrap.css";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
@@ -14,7 +14,9 @@ export default class EditPassword extends Component {
       this.update();
     }
   };
-
+  backtoProfile = () => {
+    window.location.replace("/profile");
+  }
   update() {
     let jwt = getJwtToken();
     let type = jwt[0];
@@ -47,15 +49,52 @@ export default class EditPassword extends Component {
     }
     
     return (
+      
+      <div className="">
+      <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="#">
+            <img
+              src={require("../images/minelogo.png")}
+              width="50"
+              height="50"
+              class="d-inline-block"
+              alt=""
+            ></img>
+            Mine
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a href={"/dashboard"} class="nav-item nav-link">
+                Dashboard
+              </a>
+              <a href={"/trending"} class="nav-item nav-link">
+                Trending
+              </a>
+              <a href={"/search"} class="nav-item nav-link">
+                Search
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <body>
       <div>
         <div class="container-fluid">
           <div class="row regcontain" id="regid">
-            <div class="col">
-              <img
-                class="center-block"
-                src={require("../images/minelogo.png")}
-              ></img>
-            </div>
+            
 
             <div class="col">
               <div class="forgotpassword">
@@ -93,20 +132,32 @@ export default class EditPassword extends Component {
                   >
                     Update
                   </button>
+                  <button
+                id="editcancelbutton"
+                  type="button"
+                  class="btn btn-danger"
+                  onClick={this.backtoProfile}
+                >
+                  Cancel
+                </button>
                 </form>
               </div>
             </div>
           </div>
         </div>
-        <footer>
-          <div class="footer text-center">
-            <p>
-              Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
-              Tewari
-            </p>
-          </div>
-        </footer>
       </div>
+        
+        
+        </body>
+      <footer>
+        <div class="editfooter text-center">
+          <p>
+            Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
+            Tewari
+          </p>
+        </div>
+      </footer>
+    </div>
     );
   }
 

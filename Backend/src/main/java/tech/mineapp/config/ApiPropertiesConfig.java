@@ -14,6 +14,7 @@ public class ApiPropertiesConfig {
 	private final GoogleApi google = new GoogleApi();
 	private final VimeoApi vimeo = new VimeoApi();
 	private final CloudinaryApi cloudinary = new CloudinaryApi();
+	private final TmdbApi tmdb = new TmdbApi();
 	
 	@Data
 	public static class GoogleApi {
@@ -30,5 +31,11 @@ public class ApiPropertiesConfig {
 		private String apiKey;
 		private String apiSecret;
 		private String cloudName;
+	}
+
+	@Data
+	public static class TmdbApi {
+		private String apiKey;
+		private String imageUrl;
 	}
 }

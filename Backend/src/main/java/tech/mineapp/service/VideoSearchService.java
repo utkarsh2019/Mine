@@ -3,6 +3,7 @@ package tech.mineapp.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class VideoSearchService {
 		for (YoutubeSearchItem item : response.getItems()) {
 			searches.add(new SearchItem(
 					item.getSnippet().getTitle(),
-					item.getSnippet().getDescription(),
+					Jsoup.parse(item.getSnippet().getDescription()).text(),
 					"https://www.youtube.com/watch?v=" + item.getId().getVideoId(),
 					item.getSnippet().getThumbnails().getHigh().getUrl()));
 		}
@@ -52,7 +53,7 @@ public class VideoSearchService {
 		for (VimeoSearchItem item : response.getData()) {
 			searches.add(new SearchItem(
 					item.getName(),
-					item.getDescription(),
+					Jsoup.parse(item.getDescription()).text(),
 					item.getLink(),
 					item.getPictures().getSizes()[0].getLink()));
 		}

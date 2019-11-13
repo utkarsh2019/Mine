@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import axios from "axios";
+import "../css/Edit.css";
 //import { file } from "@babel/types";
 import { exact } from "prop-types";
 import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
@@ -31,7 +32,9 @@ setUserFields = (profilePicUrl) => {
     document.getElementById("profileImage").src = require("../images/profile.png");
   }
 };
-
+backtoProfile = () => {
+  window.location.replace("/profile");
+}
 reloadUser = () => {
   let jwt = getJwtToken();
   let type = jwt[0];
@@ -76,19 +79,19 @@ deletePic(){
   let type = jwt[0];
   let token = jwt[1];
 
-    axios({
-      method: "delete",
-      url: API_BASE_URL + "/user/me/pic",
-      headers: {
-        Authorization: type + " " + token
-      }
+  axios({
+    method: "delete",
+    url: API_BASE_URL + "/user/me/pic",
+    headers: {
+      Authorization: type + " " + token
+    }
+  })
+    .then(response => {
+      this.reloadUser();
     })
-      .then(response => {
-        this.reloadUser();
-      })
-      .catch(error => {
-        alert(error);
-      });
+    .catch(error => {
+      alert(error);
+    });
 };
 
 upload(){
@@ -215,13 +218,22 @@ render() {
                   >
                     Delete
                   </button>
+                  
+                <button
+                id="editcancelbutton"
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={this.backtoProfile}
+                >
+                  Back
+                </button>
           </div>
           <br></br>
           <br></br>
         </div>
         </body>
       <footer>
-        <div class="footer text-center">
+        <div class="editfooter text-center">
           <p>
             Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
             Tewari

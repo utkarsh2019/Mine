@@ -1,5 +1,6 @@
 
-  #searchclass{
+  
+  .searchclass{
       padding-left: 3%;
       padding-top:2%;
       margin-top:10px;
@@ -9,11 +10,25 @@
   }
   #categoriesdrop{
       width: 100%;
+      
+  }
+  .apilogo{
+    width:100px;
+    height:100px;
   }
   .results{
-      margin:2% auto;
+      padding-top:50px;
+    padding-bottom:100px;
+      margin-top: 2%;
+      margin-bottom: 7%;
       height: 100%;
-      background-color: white;
+      min-height:700px;
+      color: white;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),url("https://images.pexels.com/photos/953214/pexels-photo-953214.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&fbclid=IwAR0R_YxnylxRa0tsBU3uSkZ85NPKdjozVbzi5ne7gvycNdHsl-_KDgw6mHk");
+
+  }
+  #searchbar{
+      width:80%;
   }
   .results h5{
       padding-top: 250px;
@@ -21,10 +36,7 @@
   }
   
   /*TRENDING.HTML CODE*/
-  .trending{
-      height:600px;
-      background-color: white;
-  }
+  
   nav .navsignlog{
       margin: 2px 4px;
   }
@@ -41,11 +53,6 @@
       height: 250px;
       width: 250px;
       opacity: 100%;
-  }
-  .about {
-      height: auto;
-      background-color: white;
-      padding: 10% 10%;
   }
   
   h1 {
@@ -78,7 +85,16 @@
   }
   
   
-  footer {
-      padding:3% 2%;
-      color:white;
+  .searchfooter {
+    height:auto;
+    padding:3% 2%;
+        position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: black;
+      color: white;
+      text-align: center;
   }
+  
+  

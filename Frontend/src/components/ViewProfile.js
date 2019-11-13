@@ -230,7 +230,7 @@ export default class Profile extends Component {
         </body>
 
         <footer>
-          <div class="footer text-center">
+          <div class="profilefooter text-center">
             <p>
               Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
               Tewari
