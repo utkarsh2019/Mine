@@ -70,29 +70,22 @@ h1 {
 }
 .team {
 	height: auto;
-	background-color: black;
 	color: white;
 	padding: 10% 10%;
 }
-
-.team img{
-	height: 300px;
-	width:285px;
+#teamimg{
+  height: 150px;
+  width:150px;
+  margin-left:34%;
 }
 .card-body{
-	color:black;
-}
-.card {
-  margin: 0 auto; /* Added */
-  float: none; /* Added */
-  margin-bottom: 10px; /* Added */
-  width: 18rem;
+  color:black;
 }
 
 .contact{
 	height: auto;
   background-color: rgb(33, 161, 170);
-  color: white;
+  color: rgb(59, 59, 59);
 	padding:10% 10%;
 }
 
@@ -101,13 +94,19 @@ h1 {
   border-color: rgba(0,0,0,0.0) !important;
 }
 
-.footer {
-	
+#homefooter {
   color: white;
+  padding:3%;
 }
 
 #loaderid{
   background-color: #000000;
   height: 800px;
   width: 100%;
+}
+#conimg{
+  height:100px;
+  width:100px;
+  margin-left:35%;
+  margin-top:15%;
 }

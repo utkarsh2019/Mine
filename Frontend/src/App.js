@@ -16,7 +16,6 @@ import VerifyPassword from "./components/VerifyPassword";
 import VerifyAccount from "./components/VerifyAccount";
 import EditPassword from "./components/EditPassword";
 import EditImage from "./components/EditImage";
-import SearchList from "./components/SearchList";
 
 export default class App extends Component {
 

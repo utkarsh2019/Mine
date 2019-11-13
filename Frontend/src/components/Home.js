@@ -110,10 +110,11 @@ export default class Home extends Component {
           <div class="container">
             <div class="row">
               <div class="col-6">
-                <div class="card">
+                <div class="card" id="teamcard">
                   <img
                     src={require("../images/pooja.jpg")}
                     class="card-img-top"
+                    id="teamimg"
                     alt="..."
                   ></img>
                   <div class="card-body">
@@ -123,10 +124,11 @@ export default class Home extends Component {
                 </div>
               </div>
               <div class="col-6">
-                <div class="card">
+                <div class="card" id="teamcard">
                   <img
                     src={require("../images/shivangi.jpg")}
                     class="card-img-top"
+                    id="teamimg"
                     alt="..."
                   ></img>
                   <div class="card-body">
@@ -138,10 +140,11 @@ export default class Home extends Component {
             </div>
             <div class="row">
               <div class="col-6">
-                <div class="card">
+                <div class="card" id="teamcard">
                   <img
                     src={require("../images/amol.jpg")}
                     class="card-img-top"
+                    id="teamimg"
                     alt="..."
                   ></img>
                   <div class="card-body">
@@ -151,10 +154,11 @@ export default class Home extends Component {
                 </div>
               </div>
               <div class="col-6">
-                <div class="card">
+                <div class="card" id="teamcard">
                   <img
                     src={require("../images/utkarsh.jpg")}
                     class="card-img-top"
+                    id="teamimg"
                     alt="..."
                   ></img>
                   <div class="card-body">
@@ -173,6 +177,7 @@ export default class Home extends Component {
               <img
                 src={require("../images/phone.png")}
                 class="card-img-top"
+                id="conimg"
                 alt="..."
               ></img>
               <div class="card-body">
@@ -183,6 +188,7 @@ export default class Home extends Component {
               <img
                 src={require("../images/mail.png")}
                 class="card-img-top"
+                id="conimg"
                 alt="..."
               ></img>
               <div class="card-body">
@@ -193,6 +199,7 @@ export default class Home extends Component {
               <img
                 src={require("../images/location.png")}
                 class="card-img-top"
+                id="conimg"
                 alt="..."
               ></img>
               <div class="card-body">
@@ -204,7 +211,7 @@ export default class Home extends Component {
           </div>
         </div>
         <footer>
-          <div class="footer text-center">
+          <div class="text-center" id="homefooter">
             <p>
               Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
               Tewari
