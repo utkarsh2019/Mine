@@ -2,6 +2,8 @@ package tech.mineapp.search.TVMaze.objects;
 
 import org.junit.Test;
 
+import tech.mineapp.search.tvmaze.objects.Show;
+
 import static org.junit.Assert.assertEquals;
 
 public class ShowTests {

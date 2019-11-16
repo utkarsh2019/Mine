@@ -1,5 +1,8 @@
 package tech.mineapp.search.reddit;
 
+import java.nio.charset.Charset;
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -52,7 +55,10 @@ public class RedditController {
 	public void setRedditOauthToken() {
 		HttpHeaders headers = new HttpHeaders();
 //		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		headers.set("Authorization", "Basic V21kV09ZVHhGZmtjWnc6NXpMX0d1WVFEUnU5blJsMGJKazNNMUVJbUxV");
+		String auth = apiProperties.getReddit().getClientId() + ":" + apiProperties.getReddit().getClientSecret();
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+        String authHeader = "Basic " + new String( encodedAuth );
+		headers.set("Authorization", authHeader);
 //		headers.setBasicAuth(apiProperties.getReddit().getClientId(), apiProperties.getReddit().getClientSecret());
 		
 //		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

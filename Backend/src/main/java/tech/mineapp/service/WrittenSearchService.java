@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tech.mineapp.search.SearchItem;
-import tech.mineapp.search.reddit.RedditController;
-import tech.mineapp.search.reddit.RedditResponseModel;
-import tech.mineapp.search.reddit.objects.RedditSearchItem;
+import tech.mineapp.search.google.GoogleBookResponseModel;
+import tech.mineapp.search.google.GoogleController;
+import tech.mineapp.search.google.objects.GoogleBookSearchItem;
 
 /**
  * @author utkarsh
@@ -18,19 +18,20 @@ import tech.mineapp.search.reddit.objects.RedditSearchItem;
 @Service
 public class WrittenSearchService {
 	
-	@Autowired
-	private RedditController redditController;
+	@Autowired 
+	private GoogleController googleController;
 	
-	public List<SearchItem> searchReddit(String query, int noOfSearches) {
-		redditController.setRedditOauthToken();
-		RedditResponseModel response = redditController.redditWrittenSearch(query, noOfSearches);
+	public List<SearchItem> searchGoogle(String query, int noOfSearches) {
+		GoogleBookResponseModel response = googleController.googleBookWrittenSearch(query, noOfSearches);
 		List<SearchItem> searches = new ArrayList<SearchItem>();
-		for (RedditSearchItem item : response.getData().getChildren()) {
+		for (GoogleBookSearchItem item : response.getItems()) {
 			searches.add(new SearchItem(
-					item.getData().getTitle(),
+					item.getVolumeInfo().getTitle(),
+					item.getVolumeInfo().getDescription(),
+					item.getVolumeInfo().getPreviewLink(),
+					item.getVolumeInfo().getImageLinks().getThumbnail(),
 					null,
-					"https://www.reddit.com" + item.getData().getPermalink(),
-					item.getData().getThumbnail()));
+					null));
 		}
 		return searches;
 	}

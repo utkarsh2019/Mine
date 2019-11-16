@@ -1,4 +1,4 @@
-package tech.mineapp.search.TVMaze;
+package tech.mineapp.search.tvmaze;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

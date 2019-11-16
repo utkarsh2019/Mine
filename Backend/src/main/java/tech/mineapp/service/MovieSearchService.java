@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.mineapp.config.ApiPropertiesConfig;
 import tech.mineapp.search.SearchItem;
-import tech.mineapp.search.TMDb.TMDbController;
+import tech.mineapp.search.tmdb.TMDbController;
 import tech.mineapp.util.SearchQueryParser;
 
 import java.util.Arrays;
@@ -33,7 +33,9 @@ public class MovieSearchService {
                         "https://www.google.com/search?q=" +
                                 searchQueryParser.parseSpaceDeLimitedQueries(query),
                         apiPropertiesConfig.getTmdb().getImageUrl()
-                                + response.getPoster_path()
+                                + response.getPoster_path(),
+                                null,
+                                null
                 )).collect(Collectors.toList());
     }
 }

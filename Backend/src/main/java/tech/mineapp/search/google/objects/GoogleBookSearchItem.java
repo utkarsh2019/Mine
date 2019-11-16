@@ -1,4 +1,4 @@
-package tech.mineapp.search.youtube.objects;
+package tech.mineapp.search.google.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,8 +10,6 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Snippet {
-	private String title;
-	private String description;
-	private Thumbnail thumbnails;
+public class GoogleBookSearchItem {
+	private VolumeInfo volumeInfo;
 }

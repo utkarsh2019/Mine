@@ -10,6 +10,6 @@ import tech.mineapp.search.SearchItem;
  *
  */
 @Data
-public class WrittenSearchResponseModel implements ResponseModel {
-	private List<SearchItem> google;
+public class EventSearchResponseModel implements ResponseModel {
+	public List<SearchItem> seatgeek;
 }

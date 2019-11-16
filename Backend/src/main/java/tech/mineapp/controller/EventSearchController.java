@@ -11,44 +11,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.model.response.WrittenSearchResponseModel;
+import tech.mineapp.model.response.EventSearchResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
+import tech.mineapp.service.EventSearchService;
 import tech.mineapp.service.UserService;
-import tech.mineapp.service.WrittenSearchService;
 
 /**
  * @author utkarsh
  *
  */
 @RestController
-public class WrittenSearchController {
+public class EventSearchController {
 	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
-	private WrittenSearchService writtenSearchService;
+	private EventSearchService eventSearchService;
 
 	private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
 	
-	@PostMapping("/search/written")
+	@PostMapping("/search/event")
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> searchWritten(@CurrentUser UserPrincipal userPrincipal,
 												@RequestBody SearchRequestModel searchRequest) {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("POST");
-		response.setEndpoint("/search/written");
+		response.setEndpoint("/search/event");
 		
 		try {
 			int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
 			
-			WrittenSearchResponseModel writtenSearchResponse = new WrittenSearchResponseModel();
-			writtenSearchResponse.setGoogle(writtenSearchService.searchGoogle(searchRequest.getQuery(), noOfSearches));
+			EventSearchResponseModel eventSearchResponse = new EventSearchResponseModel();
+			eventSearchResponse.setSeatgeek(eventSearchService.searchSeatgeek(searchRequest.getQuery(), noOfSearches));
 			
 			response.setStatus("SUCCESS");
-			response.setResponseObject(writtenSearchResponse);
+			response.setResponseObject(eventSearchResponse);
 			
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {			

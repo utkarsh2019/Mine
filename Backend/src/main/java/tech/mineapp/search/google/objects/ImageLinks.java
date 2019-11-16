@@ -1,4 +1,4 @@
-package tech.mineapp.search.youtube.objects;
+package tech.mineapp.search.google.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,6 +10,6 @@ import lombok.Data;
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Id {
-	private String videoId;
+public class ImageLinks {
+	private String thumbnail;
 }

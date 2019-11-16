@@ -16,6 +16,7 @@ public class ApiPropertiesConfig {
 	private final CloudinaryApi cloudinary = new CloudinaryApi();
 	private final TmdbApi tmdb = new TmdbApi();
 	private final RedditApi reddit = new RedditApi();
+	private final SeatgeekApi seatgeek = new SeatgeekApi();
 	
 	@Data
 	public static class GoogleApi {
@@ -42,6 +43,12 @@ public class ApiPropertiesConfig {
 	
 	@Data
 	public static class RedditApi {
+		private String clientId;
+		private String clientSecret;
+	}
+	
+	@Data
+	public static class SeatgeekApi {
 		private String clientId;
 		private String clientSecret;
 	}
