@@ -8,11 +8,61 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      statisticResult: {"video": ["example1", "example2", "example3"], 
-      "movies":["mexample1", "mexample2", "mexample3"]}
+      statisticResult: []
     };
-    
+    this.searchQuery = this.searchQuery.bind(this);
+    this.setSearchResult = this.setSearchResult.bind(this);
+    this.setSearchApi = this.setSearchApi.bind(this);
+    //this.setCategory = this.setCategory.bind(this);
   }
+  searchQuery = (evt) => {
+    /*evt.preventDefault();
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+
+    let searchQuery = document.getElementById("searchbar").value;
+    let category = getCurrentUserField("searchCategory");*/
+    
+    /*axios({
+      method: "post",
+      url: API_BASE_URL + "/search/" + category,
+      headers: {
+        Authorization: type + " " + token
+      },
+      data: {
+        query: searchQuery
+      }
+    })
+  .then(response => {*/
+        this.setState({statisticResult: []});
+        this.setSearchResult(
+          {"video": ["example1", "example2", "example3"], 
+        "movies": ["mexample1", "mexample2", "mexample3"]}
+        );
+      {/*}})
+      .catch(error => {
+        alert(error);
+      });*/}
+  };
+  setSearchResult = (responseObject) => {
+    let responseObjectMap = new Map(Object.entries(responseObject));
+    responseObjectMap.forEach((value, key) => {
+      this.setSearchApi(value, key);
+    });
+  };
+
+  setSearchApi = (value, key) => {
+    let statistics = this.state.statisticResult;
+   
+    statistics.push(
+      <div>
+        <StatisticList statisticItems={value}/>
+      </div>
+    );
+    this.setState({statisticResult: statistics});
+  };
+
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
@@ -74,7 +124,7 @@ export default class Dashboard extends Component {
             <div class="container">
               <div class="row">
                 <div class="col-sm" id="dashtabcol">
-                  <button type="button" class="btn btn-info" id="dashtab">Previous Searches</button>
+                  <button type="button" onClick={this.searchQuery} class="btn btn-info" id="dashtab">Previous Searches</button>
                 </div>
                 <div class="col-sm" id="dashtabcol">
                   <button type="button" class="btn btn-info" id="dashtab">Most Frequent Searches</button>
@@ -85,10 +135,9 @@ export default class Dashboard extends Component {
               
               <div class="container-fluid results">
                 <div class="text-center"> 
-                  {/*{this.state.dashboardResult}*/}
-                  <h6>Videos</h6>
-                  <StatisticList statisticItems={this.state.statisticResult.video}/>
-
+                  {this.state.statisticResult}
+                 {/*} <StatisticList statisticItems={this.state.statisticResult.video}/>
+                  <StatisticList statisticItems={this.state.statisticResult.movies}/>*/}
                 </div>
               </div>
             </div>

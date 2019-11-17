@@ -12,13 +12,8 @@ export default class StatisticList extends Component {
             statisticItems.forEach(item => {
                 items.push(
                     <li class="list-group-item">
-
-                <StatisticItem 
-                    name={item} 
-                   // description={item.description} 
-                    //url={item.url} 
-                   // imageUrl={item.imageUrl} 
-                   /* displayImage={(item.imageUrl != null && item.imageUrl != undefined)}*//></li>); 
+                        <StatisticItem name={item} />
+                    </li>); 
             });
         }
         return (
