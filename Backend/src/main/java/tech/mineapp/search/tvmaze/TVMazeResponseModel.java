@@ -1,9 +1,8 @@
-package tech.mineapp.search.TVMaze;
+package tech.mineapp.search.tvmaze;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Builder;
 import lombok.Data;
-import tech.mineapp.search.TVMaze.objects.Show;
+import tech.mineapp.search.tvmaze.objects.Show;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -1,4 +1,4 @@
-package tech.mineapp.search.youtube;
+package tech.mineapp.search.google;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -12,14 +12,14 @@ import tech.mineapp.config.ApiPropertiesConfig;
  *
  */
 @Controller
-public class YoutubeController {
+public class GoogleController {
 	
 	private RestTemplate restTemplate;
 	
 	private ApiPropertiesConfig apiProperties;
 	
 	@Autowired
-    public YoutubeController(RestTemplateBuilder builder, ApiPropertiesConfig apiProperties) {
+    public GoogleController(RestTemplateBuilder builder, ApiPropertiesConfig apiProperties) {
         this.restTemplate = builder.build();
         this.apiProperties = apiProperties;
     }
@@ -34,6 +34,17 @@ public class YoutubeController {
 				  "&maxResults=" + noOfSearches;
 		YoutubeResponseModel response
 		  = restTemplate.getForObject(youtubeDataUrl, YoutubeResponseModel.class);
+		return response;
+	}
+	
+	public GoogleBookResponseModel googleBookWrittenSearch(String query, int noOfSearches) {
+		String googleBookDataUrl
+		 = "https://www.googleapis.com/books/v1/volumes?" + 
+		   "orderBy=relevance" + 
+		   "&maxResults=" + noOfSearches + 
+		   "&q=" + query;
+		GoogleBookResponseModel response
+		 = restTemplate.getForObject(googleBookDataUrl, GoogleBookResponseModel.class);
 		return response;
 	}
 }

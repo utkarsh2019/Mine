@@ -1,4 +1,4 @@
-package tech.mineapp.search.TVMaze.objects;
+package tech.mineapp.search.tvmaze.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

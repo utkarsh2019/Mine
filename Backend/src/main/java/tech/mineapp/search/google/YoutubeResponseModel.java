@@ -1,9 +1,9 @@
-package tech.mineapp.search.youtube;
+package tech.mineapp.search.google;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
-import tech.mineapp.search.youtube.objects.YoutubeSearchItem;
+import tech.mineapp.search.google.objects.YoutubeSearchItem;
 
 /**
  * @author utkarsh

@@ -1,4 +1,4 @@
-package tech.mineapp.search.youtube.objects;
+package tech.mineapp.search.google.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
