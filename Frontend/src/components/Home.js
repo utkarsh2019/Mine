@@ -209,6 +209,9 @@ export default class Home extends Component {
               </div>
             </div>
           </div>
+          <br></br>
+          <br></br>
+          <h5><a href={"/feedback"}>Click Here to Submit your Feedback!</a></h5>
         </div>
         <footer>
           <div class="text-center" id="homefooter">
