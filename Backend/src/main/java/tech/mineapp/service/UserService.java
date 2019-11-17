@@ -168,7 +168,7 @@ public class UserService implements UserDetailsService {
 	
 	public String convertToCategoryPreferences(UserEntity user) throws Exception {
 		String categoryPreferences = "";
-		for (int i=1; i <= 3; i++) {
+		for (int i=1; i <= 6; i++) {
 			Category pref = (Category) user.getClass()
 							  .getMethod("getPreference"+i)
 							  .invoke(user);
