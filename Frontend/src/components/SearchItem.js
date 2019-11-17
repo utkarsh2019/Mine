@@ -25,7 +25,7 @@ export default class SearchItem extends Component {
                 </div>
             );
         }
-        if(this.props.displayEvent){
+        if(this.props.datetime){
             return (
                 <div class="card">
                         <div class="container">
@@ -35,7 +35,7 @@ export default class SearchItem extends Component {
                             Info:
                             <div id="infodescription">{this.props.description}</div> 
                             Date and Time:
-                            <div id="eventdatetime">{this.props.datatime}</div> 
+                            <div id="eventdatetime">{this.props.datetime}</div> 
                         </div>
                 </div>
             );

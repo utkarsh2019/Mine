@@ -3,8 +3,16 @@ import "../css/bootstrap.css";
 import "../css/dashboard.css";
 import { checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-
+import StatisticList from "./StatisticList";
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      statisticResult: {"video": ["example1", "example2", "example3"], 
+      "movies":["mexample1", "mexample2", "mexample3"]}
+    };
+    
+  }
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
@@ -61,12 +69,26 @@ export default class Dashboard extends Component {
         </div>
 
         <body className="dashboard">
+        
           <div class="container-fluid trending">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm" id="dashtabcol">
+                  <button type="button" class="btn btn-info" id="dashtab">Previous Searches</button>
+                </div>
+                <div class="col-sm" id="dashtabcol">
+                  <button type="button" class="btn btn-info" id="dashtab">Most Frequent Searches</button>
+                </div>
+              </div>
+            </div>
             <div class="text-center">
-              <h5>This is the dashboard.</h5>
+              
               <div class="container-fluid results">
                 <div class="text-center"> 
-                  {this.state.dashboardResult}
+                  {/*{this.state.dashboardResult}*/}
+                  <h6>Videos</h6>
+                  <StatisticList statisticItems={this.state.statisticResult.video}/>
+
                 </div>
               </div>
             </div>

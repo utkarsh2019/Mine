@@ -14,3 +14,25 @@
         height:600px;
         background-color: white;
     }    
+    #displayStyle{
+        text-align: left;
+        padding: 0% 0%;
+        color:black;
+    }
+    
+    #dashtab{
+        margin-right:2%;
+        margin-left: 2%;
+        border: 2px white solid;
+        background-color:white;
+        color:rgb(7, 170, 156);
+    }
+    #dashtab:hover{
+        margin-right:2%;
+        margin-left: 2%;
+        border: 2px white solid;
+        color:black;
+
+    }
+
+    
