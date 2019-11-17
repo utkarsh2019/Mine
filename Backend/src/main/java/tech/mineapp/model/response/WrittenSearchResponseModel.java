@@ -11,6 +11,6 @@ import tech.mineapp.search.SearchItem;
  */
 @Data
 public class WrittenSearchResponseModel implements ResponseModel {
-	private List<SearchItem> google;
+	private List<SearchItem> googlebooks;
 	private List<SearchItem> newsapi;
 }

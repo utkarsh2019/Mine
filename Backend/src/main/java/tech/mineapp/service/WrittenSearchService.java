@@ -27,7 +27,7 @@ public class WrittenSearchService {
 	@Autowired 
 	private NewsApiController newsApiController;
 	
-	public List<SearchItem> searchGoogle(String query, int noOfSearches) {
+	public List<SearchItem> searchGoogleBooks(String query, int noOfSearches) {
 		GoogleBookResponseModel response = googleController.googleBookWrittenSearch(query, noOfSearches);
 		List<SearchItem> searches = new ArrayList<SearchItem>();
 		for (GoogleBookSearchItem item : response.getItems()) {
