@@ -64,6 +64,11 @@ export default class Dashboard extends Component {
           <div class="container-fluid trending">
             <div class="text-center">
               <h5>This is the dashboard.</h5>
+              <div class="container-fluid results">
+                <div class="text-center"> 
+                  {this.state.dashboardResult}
+                </div>
+              </div>
             </div>
           </div>
           <footer>

@@ -25,6 +25,21 @@ export default class SearchItem extends Component {
                 </div>
             );
         }
+        if(this.props.displayEvent){
+            return (
+                <div class="card">
+                        <div class="container">
+                            <a href={this.props.url}>
+                                <h6 id="stoponeline"><b>{this.props.name}</b></h6> 
+                            </a>
+                            Info:
+                            <div id="infodescription">{this.props.description}</div> 
+                            Date and Time:
+                            <div id="eventdatetime">{this.props.datatime}</div> 
+                        </div>
+                </div>
+            );
+        }
         return (
             <div class="withoutimagecard">
                 <a href={this.props.url}>
