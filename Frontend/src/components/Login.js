@@ -11,6 +11,15 @@ export default class Login extends Component {
     super(props);
 
     this.setUser = this.setUser.bind(this);
+    this.state = {
+      showPopup: false
+    };
+  }
+
+  togglePopup(){
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
   }
 
   checkEnterLogin = (evt) => {
@@ -53,7 +62,7 @@ export default class Login extends Component {
      userdata.email = document.getElementById("emailinput").value;
     }
     else{
-      alert("Please Enter your EmailId");
+      
     }
     if(document.getElementById("passwordinput").value != ""){
       userdata.password = document.getElementById("passwordinput").value;
@@ -76,10 +85,20 @@ export default class Login extends Component {
         window.location.replace("/dashboard");
       })
       .catch(error => {
-        if(document.getElementById("passwordinput").value != "" && document.getElementById("emailinput").value != ""){
-          alert("Please Check your EmailId or Password");
-        }
-      });
+          let err = error.response.data.message;
+          //alert(error.response.data.errorMessage) -- This one for unverified user
+          this.togglePopup();
+          {this.state.showPopup ?  
+            <Popup  
+                  confirm='False'
+                  header="Login Unsucessfull!"
+                  text={err}
+                  action ={this.deleteAccount.bind(this)}
+                  closePopup={this.togglePopup.bind(this)}  
+            />   
+            : null  
+          }      
+        });
   };
 
   render() {

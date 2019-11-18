@@ -52,7 +52,7 @@ export default class App extends Component {
             render={(props) => <Trending authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/search"
             render={(props) => <Search authenticated={this.state.authenticated} {...props} />}></Route>
-          <Route path="/forgotpasswordupdate"
+          <Route path="/verifyPassword"
             render={(props) => <VerifyPassword authenticated={this.state.authenticated} {...props} />}></Route>
           <Route path="/verifyaccount"
             render={(props) => <VerifyAccount authenticated={this.state.authenticated} {...props} />}></Route>
