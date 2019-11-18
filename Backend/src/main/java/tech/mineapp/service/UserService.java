@@ -159,7 +159,7 @@ public class UserService implements UserDetailsService {
 				.getMethod("setPreference"+i, Category.class)
 				.invoke(user, Category.valueOf(preferences[i-1].trim()));
 		}
-		for(; i <= 3; i++) {
+		for(; i <= Category.values().length; i++) {
 			user.getClass()
 			.getMethod("setPreference"+i, Category.class)
 			.invoke(user, new Object[] {null});
@@ -168,7 +168,7 @@ public class UserService implements UserDetailsService {
 	
 	public String convertToCategoryPreferences(UserEntity user) throws Exception {
 		String categoryPreferences = "";
-		for (int i=1; i <= 6; i++) {
+		for (int i=1; i <= Category.values().length; i++) {
 			Category pref = (Category) user.getClass()
 							  .getMethod("getPreference"+i)
 							  .invoke(user);

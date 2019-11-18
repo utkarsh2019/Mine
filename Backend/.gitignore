@@ -40,4 +40,4 @@ build/
 pictures/
 
 ### SSH Key ###
-src/main/resources/keystore.p12
+src/main/resources/mineappcert.p12
