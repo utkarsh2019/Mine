@@ -4,9 +4,9 @@ import "../css/bootstrap.css";
 import "../css/search.css";
 import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUserField, setSearchCategory } from "../utils/UserStorageUtil";
+import { getCurrentUserField, setSearchCategory, getByValue } from "../utils/UserStorageUtil";
 import SearchList from "./SearchList";
-import { API_BASE_URL, API_IMAGES } from "../constants/Constants";
+import { API_BASE_URL, API_IMAGES, CATEGORY_TYPES } from "../constants/Constants";
 import axios from "axios";
 
 export default class Search extends Component {
@@ -37,7 +37,7 @@ export default class Search extends Component {
     let token = jwt[1];
 
     let searchQuery = document.getElementById("searchbar").value;
-    let category = getCurrentUserField("searchCategory");
+    let category = getByValue(CATEGORY_TYPES,getCurrentUserField("searchCategory"));
     
     axios({
       method: "post",
@@ -246,7 +246,7 @@ export default class Search extends Component {
             </div>
           </div>
           <footer>
-            <div class="searchfooter text-center">
+            <div id="searchfooter">
               <p>
                 Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
                 Tewari

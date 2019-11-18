@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/Edit.css";
 import axios from "axios";
-import { API_BASE_URL } from "../constants/Constants";
+import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import { getCurrentUser, getCurrentUserField} from "../utils/UserStorageUtil";
@@ -122,19 +122,16 @@ export default class EditProfile extends Component {
     let pref = user.categoryPreferences.split(",");
     let len = pref.length;
     let i;
+    
     for(i=0; i< len; i++){
       this.additemsToList(pref[i], "Needed");
     }
-    if(!pref.includes("video")){
-      this.additemsToList("video", "Available");
-    }
-    if(!pref.includes("movie")){
-      this.additemsToList("movie", "Available");
-    }
-    if(!pref.includes("tvseries")){
-      this.additemsToList("tvseries", "Available");
-    }
 
+    CATEGORY_TYPES.forEach((value, key) => {
+      if(!pref.includes(value)){
+        this.additemsToList(value, "Available");
+      }
+    });
     if(user.provider === 'google' || user.provider === 'facebook'){
       document.getElementById("name").disabled = true;
       document.getElementById("email").disabled = true;
