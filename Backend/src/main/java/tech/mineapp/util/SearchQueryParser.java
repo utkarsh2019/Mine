@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-import static java.util.Arrays.stream;
-
 /**
  * Parses input searche query
  *

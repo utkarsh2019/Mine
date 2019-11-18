@@ -7,5 +7,8 @@ package tech.mineapp.constants;
 public enum Category {
 	video,
 	movie,
-	tvseries
+	tvseries,
+	written,
+	event,
+	audio
 }

@@ -64,7 +64,6 @@ export default class Search extends Component {
     searches.push(
       <div>
         <img class="apilogo" src={require("./../images/"+key+"logo.png")}></img>
-        {/* <h3>{key}</h3> */}
         <SearchList searchItems={value}/>
       </div>
     );
