@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://api.mineapp.tech";
+export const API_BASE_URL = "https://api.mineapp.tech";
 export const ACCESS_TOKEN = "accessToken";
 
 export const OAUTH2_REDIRECT_URI = "http://mineapp.tech/oauth2/redirect"
@@ -13,3 +13,12 @@ export const API_IMAGES = {
     "tmdb": "./../images/minelogo.png",
     "tvmaze": "./../images/minelogo.png"
 }
+
+export const CATEGORY_TYPES = new Map([
+    ["video", "Videos"],
+    ["movie", "Movies"],
+    ["tvseries", "TV Series"],
+    ["written", "Books/Articles"],
+    ["event", "Events"],
+    ["audio", "Music"]
+])

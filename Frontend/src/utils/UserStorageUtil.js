@@ -1,3 +1,5 @@
+import { CATEGORY_TYPES } from "../constants/Constants";
+
 export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearches, categoryPreferences) {
     localStorage.setItem("name", name);
     localStorage.setItem("email", email);
@@ -9,7 +11,15 @@ export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearche
     }
     localStorage.setItem("provider", provider);
     localStorage.setItem("noOfSearches", noOfSearches);
-    localStorage.setItem("categoryPreferences", categoryPreferences);
+    let categoryPref = categoryPreferences.split(",");
+    let categoryPrefString = "";
+    for(let i=0; i < categoryPref.length; i++){
+        if (i != 0) {
+            categoryPrefString += ",";
+        }
+        categoryPrefString += CATEGORY_TYPES.get(categoryPref[i]);
+    }
+    localStorage.setItem("categoryPreferences", categoryPrefString);
 }
 
 export function setSearchCategory(category) {
@@ -33,4 +43,12 @@ export function getCurrentUserField(field) {
 
 export function clearCurrentUser() {
     localStorage.clear();
+}
+
+export function getByValue(map, searchValue) {
+    for (let [key, value] of map.entries()) {
+        if (value === searchValue) {
+            return key;
+        }
+    }
 }
