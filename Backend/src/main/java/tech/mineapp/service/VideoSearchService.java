@@ -11,12 +11,12 @@ import tech.mineapp.search.SearchItem;
 import tech.mineapp.search.dailymotion.DailyMotionController;
 import tech.mineapp.search.dailymotion.DailyMotionResponseModel;
 import tech.mineapp.search.dailymotion.objects.DailyMotionSearchItem;
+import tech.mineapp.search.google.GoogleController;
+import tech.mineapp.search.google.YoutubeResponseModel;
+import tech.mineapp.search.google.objects.YoutubeSearchItem;
 import tech.mineapp.search.vimeo.VimeoController;
 import tech.mineapp.search.vimeo.VimeoResponseModel;
 import tech.mineapp.search.vimeo.objects.VimeoSearchItem;
-import tech.mineapp.search.youtube.YoutubeController;
-import tech.mineapp.search.youtube.YoutubeResponseModel;
-import tech.mineapp.search.youtube.objects.YoutubeSearchItem;
 
 /**
  * @author utkarsh
@@ -26,7 +26,7 @@ import tech.mineapp.search.youtube.objects.YoutubeSearchItem;
 public class VideoSearchService {
 
 	@Autowired
-	private YoutubeController youtubeController;
+	private GoogleController youtubeController;
 	
 	@Autowired
 	private VimeoController vimeoController;
@@ -42,7 +42,9 @@ public class VideoSearchService {
 					item.getSnippet().getTitle(),
 					Jsoup.parse(item.getSnippet().getDescription()).text(),
 					"https://www.youtube.com/watch?v=" + item.getId().getVideoId(),
-					item.getSnippet().getThumbnails().getHigh().getUrl()));
+					item.getSnippet().getThumbnails().getHigh().getUrl(),
+					null,
+					null));
 		}
 		return searches;
 	}
@@ -53,9 +55,11 @@ public class VideoSearchService {
 		for (VimeoSearchItem item : response.getData()) {
 			searches.add(new SearchItem(
 					item.getName(),
-					Jsoup.parse(item.getDescription()).text(),
+					item.getDescription(),
 					item.getLink(),
-					item.getPictures().getSizes()[0].getLink()));
+					item.getPictures().getSizes()[0].getLink(),
+					null,
+					null));
 		}
 		return searches;
 	}
@@ -68,6 +72,8 @@ public class VideoSearchService {
 					item.getTitle(),
 					null,
 					"https://www.dailymotion.com/video/" + item.getId(),
+					null,
+					null,
 					null));
 		}
 		return searches;

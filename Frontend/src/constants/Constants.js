@@ -13,3 +13,12 @@ export const API_IMAGES = {
     "tmdb": "./../images/minelogo.png",
     "tvmaze": "./../images/minelogo.png"
 }
+
+export const CATEGORY_TYPES = new Map([
+    ["video", "Videos"],
+    ["movie", "Movies"],
+    ["tvseries", "TV Series"],
+    ["written", "Books/Articles"],
+    ["event", "Events"],
+    ["audio", "Music"]
+])

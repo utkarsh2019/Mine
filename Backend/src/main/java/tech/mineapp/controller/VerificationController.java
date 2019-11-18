@@ -35,7 +35,7 @@ public class VerificationController {
 		ContainerResponseModel response = new ContainerResponseModel();
 		
 		response.setVerb("POST");
-		response.setEndpoint("/verify/confirm");
+		response.setEndpoint("/verify/account");
 		
 		try {
 			if (!tokenService.tokenExists(token)) {

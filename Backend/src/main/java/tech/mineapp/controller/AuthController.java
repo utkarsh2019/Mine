@@ -66,20 +66,28 @@ public class AuthController {
      		return ResponseEntity.badRequest().body(response);
      	}
     	
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        
-        String token = tokenProvider.createToken(authentication);
-        
-        response.setStatus("SUCCESS");
-        response.setResponseObject(new AuthResponseModel(token));
-        return ResponseEntity.ok(response);
+ 		try {
+	        Authentication authentication = authenticationManager.authenticate(
+	                new UsernamePasswordAuthenticationToken(
+	                        loginRequest.getEmail(),
+	                        loginRequest.getPassword()
+	                )
+	        );
+	
+	        SecurityContextHolder.getContext().setAuthentication(authentication);
+	        
+	        String token = tokenProvider.createToken(authentication);
+	        
+	        response.setStatus("SUCCESS");
+	        response.setResponseObject(new AuthResponseModel(token));
+	        return ResponseEntity.ok(response);
+ 		} catch(Exception e) {
+ 			response.setStatus("FAIL");
+			response.setErrorMessage(e.getMessage());
+			logger.error(e.getMessage());
+			
+			return ResponseEntity.badRequest().body(response);
+ 		}
     }
     
     @PostMapping("/signup")

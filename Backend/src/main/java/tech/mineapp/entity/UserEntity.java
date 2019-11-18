@@ -60,5 +60,14 @@ public class UserEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private Category preference3;
     
+    @Enumerated(EnumType.STRING)
+    private Category preference4;
+    
+    @Enumerated(EnumType.STRING)
+    private Category preference5;
+    
+    @Enumerated(EnumType.STRING)
+    private Category preference6;
+    
     private String providerId;
 }
