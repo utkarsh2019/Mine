@@ -25,6 +25,21 @@ export default class SearchItem extends Component {
                 </div>
             );
         }
+        if(this.props.venue){
+            return (
+                <div class="withoutimagecard">
+                        <div class="container">
+                            <a href={this.props.url}>
+                                <h6 id="stoponeline"><b>{this.props.name}</b></h6> 
+                            </a>
+                            Venue:
+                            <div id="infodescription">{this.props.venue}</div> 
+                            Date and Time:
+                            <div id="eventdatetime">{this.props.datetime}</div> 
+                        </div>
+                </div>
+            );
+        }
         return (
             <div class="withoutimagecard">
                 <a href={this.props.url}>
