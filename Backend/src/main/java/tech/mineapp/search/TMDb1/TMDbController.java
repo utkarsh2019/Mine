@@ -1,4 +1,4 @@
-package tech.mineapp.search.tmdb;
+package tech.mineapp.search.TMDb1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
