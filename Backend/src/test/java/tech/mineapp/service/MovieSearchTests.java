@@ -9,9 +9,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import tech.mineapp.config.ApiPropertiesConfig;
 import tech.mineapp.search.SearchItem;
-import tech.mineapp.search.TMDb.TMDbController;
-import tech.mineapp.search.TMDb.TMDbResponseModel;
-import tech.mineapp.search.TMDb.objects.TMDbResponseItem;
+import tech.mineapp.search.tmdb.TMDbController;
+import tech.mineapp.search.tmdb.TMDbResponseModel;
+import tech.mineapp.search.tmdb.objects.TMDbResponseItem;
 import tech.mineapp.util.SearchQueryParser;
 import tech.mineapp.config.ApiPropertiesConfig.TmdbApi;
 
