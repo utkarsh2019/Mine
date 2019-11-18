@@ -8,10 +8,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import tech.mineapp.search.SearchItem;
-import tech.mineapp.search.TVMaze.TVMazeController;
-import tech.mineapp.search.TVMaze.TVMazeResponseModel;
-import tech.mineapp.search.TVMaze.objects.Image;
-import tech.mineapp.search.TVMaze.objects.Show;
+import tech.mineapp.search.tvmaze.TVMazeController;
+import tech.mineapp.search.tvmaze.TVMazeResponseModel;
+import tech.mineapp.search.tvmaze.objects.Image;
+import tech.mineapp.search.tvmaze.objects.Show;
 
 import java.util.List;
 
@@ -89,12 +89,14 @@ public class TVSearchServiceTests {
 
         TVMazeResponseModel[] testResponses = { responseModel };
 
-        SearchItem searchItem = new SearchItem(
-                test_name,
-                test_summary,
-                test_official_site,
-                medium_test_image
-        );
+//        SearchItem searchItem = new SearchItem(
+//                test_name,
+//                test_summary,
+//                test_official_site,
+//                medium_test_image,
+//                null,
+//                null
+//        );
 
         when(tvMazeController.TVMazeSearch(eq(testQuery), eq(testNumOfQuery))).thenReturn(testResponses);
 

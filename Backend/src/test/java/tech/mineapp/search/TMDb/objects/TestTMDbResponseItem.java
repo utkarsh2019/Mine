@@ -2,6 +2,8 @@ package tech.mineapp.search.TMDb.objects;
 
 import org.junit.Test;
 
+import tech.mineapp.search.tmdb.objects.TMDbResponseItem;
+
 import static org.junit.Assert.assertEquals;
 
 public class TestTMDbResponseItem {

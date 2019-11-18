@@ -146,6 +146,9 @@ public class UserService implements UserDetailsService {
 		user.setPreference1(Category.video);
 		user.setPreference2(Category.movie);
 		user.setPreference3(Category.tvseries);
+		user.setPreference4(Category.written);
+		user.setPreference5(Category.event);
+		user.setPreference6(Category.audio);
 	}
 	
 	public void updatePreferences(UserEntity user, String categoryPreferences) throws Exception {
@@ -165,7 +168,7 @@ public class UserService implements UserDetailsService {
 	
 	public String convertToCategoryPreferences(UserEntity user) throws Exception {
 		String categoryPreferences = "";
-		for (int i=1; i <= 3; i++) {
+		for (int i=1; i <= 6; i++) {
 			Category pref = (Category) user.getClass()
 							  .getMethod("getPreference"+i)
 							  .invoke(user);
