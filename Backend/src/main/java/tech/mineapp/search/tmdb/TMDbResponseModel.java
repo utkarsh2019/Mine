@@ -1,4 +1,4 @@
-package tech.mineapp.search.TMDb1;
+package tech.mineapp.search.tmdb;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
