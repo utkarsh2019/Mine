@@ -45,7 +45,8 @@ public class WrittenSearchController {
 			int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
 			
 			WrittenSearchResponseModel writtenSearchResponse = new WrittenSearchResponseModel();
-			writtenSearchResponse.setGoogle(writtenSearchService.searchGoogle(searchRequest.getQuery(), noOfSearches));
+			writtenSearchResponse.setGooglebooks(writtenSearchService.searchGoogleBooks(searchRequest.getQuery(), noOfSearches));
+			writtenSearchResponse.setNewsapi(writtenSearchService.searchNewsApi(searchRequest.getQuery(), noOfSearches));
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(writtenSearchResponse);

@@ -17,6 +17,7 @@ public class ApiPropertiesConfig {
 	private final TmdbApi tmdb = new TmdbApi();
 	private final RedditApi reddit = new RedditApi();
 	private final SeatgeekApi seatgeek = new SeatgeekApi();
+	private final NewsApi newsapi = new NewsApi();
 	
 	@Data
 	public static class GoogleApi {
@@ -51,5 +52,10 @@ public class ApiPropertiesConfig {
 	public static class SeatgeekApi {
 		private String clientId;
 		private String clientSecret;
+	}
+	
+	@Data
+	public static class NewsApi {
+		private String apikey;
 	}
 }
