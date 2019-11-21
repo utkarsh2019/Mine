@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUser, getCurrentUserField} from "../utils/UserStorageUtil";
+import { getCurrentUser, getCurrentUserField, getByValue} from "../utils/UserStorageUtil";
 
 export default class EditProfile extends Component {
   constructor(props) {
@@ -169,8 +169,8 @@ export default class EditProfile extends Component {
     }
 
     let pref = "";
-    for(i=0; i<items.length; i++){
-      pref += items[i].id + ",";
+    for(i=0; i < items.length; i++){
+      pref += getByValue(CATEGORY_TYPES, items[i].id) + ",";
     }
 
     let num;
