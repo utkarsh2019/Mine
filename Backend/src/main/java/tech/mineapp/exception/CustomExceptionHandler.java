@@ -24,15 +24,24 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		ContainerResponseModel response = new ContainerResponseModel();
     	
     	response.setVerb("POST");
-    	response.setEndpoint("/auth/login");
+    	response.setEndpoint(request.getDescription(false).substring(4));
     	response.setStatus("FAIL");
 		response.setErrorMessage(ex.getMessage());
         return new ResponseEntity(response, HttpStatus.NOT_FOUND);
     }
- 
+	
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        
-        return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+    	ContainerResponseModel response = new ContainerResponseModel();
+    	response.setVerb("POST");
+    	response.setEndpoint(request.getDescription(false).substring(4));
+    	response.setStatus("FAIL");
+    	if (ex.getLocalizedMessage().contains("must be a well-formed email address")) {
+    		response.setErrorMessage("Must be a well-formed email address");
+    	}
+    	else {
+    		response.setErrorMessage("Invalid request");
+    	}
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class TVSearchService {
+public class TVSeriesSearchService {
 
     @Autowired
     private TVMazeController tvMazeController;

@@ -13,7 +13,7 @@ import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.TVSeriesResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
-import tech.mineapp.service.TVSearchService;
+import tech.mineapp.service.TVSeriesSearchService;
 import tech.mineapp.service.UserService;
 
 /**
@@ -28,7 +28,7 @@ public class TVSeriesSearchController {
     private UserService userService;
 
     @Autowired
-    private TVSearchService TVSearchService;
+    private TVSeriesSearchService TVSearchService;
 
     private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
 
