@@ -58,10 +58,14 @@
 #stoponeline{
     white-space: nowrap; overflow: scroll;
     color:black;
-
+    padding-top:1%;
 }
 
 #hyperlinksearch{
     color:black;
     
+}
+
+#infovenue{
+    color:black;
 }

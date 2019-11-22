@@ -85,7 +85,7 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <div class="container-fluid">
+        <div class="bodyLogin container-fluid">
           <div class="row regcontain" id="regid">
             <div class="col">
               <img
@@ -181,9 +181,5 @@ export default class Login extends Component {
         </footer>
       </div>
     );
-  }
-
-  componentDidMount() {
-    document.body.className = "bodyLogin";
   }
 }

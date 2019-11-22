@@ -15,6 +15,36 @@ export default class Dashboard extends Component {
     this.setSearchApi = this.setSearchApi.bind(this);
     //this.setCategory = this.setCategory.bind(this);
   }
+  searchFreqQuery = (evt) => {
+    /*evt.preventDefault();
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+
+    let searchQuery = document.getElementById("searchbar").value;
+    let category = getCurrentUserField("searchCategory");*/
+    
+    /*axios({
+      method: "post",
+      url: API_BASE_URL + "/search/" + category,
+      headers: {
+        Authorization: type + " " + token
+      },
+      data: {
+        query: searchQuery
+      }
+    })
+  .then(response => {*/
+      this.setState({statisticResult: []});
+        this.setSearchResult(
+          {"video": ["ex1", "ex2", "ex3"], 
+        "movies": ["mexample1", "mexample2", "mexample3"]}
+        );
+      /*}})
+      .catch(error => {
+        alert(error);
+      });*/
+  };
   searchQuery = (evt) => {
     /*evt.preventDefault();
     let jwt = getJwtToken();
@@ -35,15 +65,15 @@ export default class Dashboard extends Component {
       }
     })
   .then(response => {*/
-        this.setState({statisticResult: []});
+      this.setState({statisticResult: []});
         this.setSearchResult(
           {"video": ["example1", "example2", "example3"], 
         "movies": ["mexample1", "mexample2", "mexample3"]}
         );
-      {/*}})
+      /*}})
       .catch(error => {
         alert(error);
-      });*/}
+      });*/
   };
   setSearchResult = (responseObject) => {
     let responseObjectMap = new Map(Object.entries(responseObject));
@@ -70,7 +100,7 @@ export default class Dashboard extends Component {
 
     return (
       <div>
-        <div>
+        <div className="bodyDashboard">
           <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid fixed-top">
             <a class="navbar-brand" href="#">
               <img
@@ -118,39 +148,34 @@ export default class Dashboard extends Component {
           </nav>
         </div>
 
-        <body className="dashboard">
         
-          <div class="container-fluid trending">
-            <div class="container">
+            <div class="dashboard container-fluid">
               <div class="row">
                 <div class="col-sm" id="dashtabcol">
-                  <button type="button" onClick={this.searchQuery} class="btn btn-info" id="dashtab">Previous Searches</button>
+                  <button type="button" onClick={this.searchQuery} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
                 </div>
                 <div class="col-sm" id="dashtabcol">
-                  <button type="button" class="btn btn-info" id="dashtab">Most Frequent Searches</button>
+                  <button type="button" onClick={this.searchFreqQuery} class="btn btn-info dashtab" id="freqtab">Most Frequent Searches</button>
                 </div>
               </div>
             </div>
-            <div class="text-center">
-              
-              <div class="container-fluid results">
-                <div class="text-center"> 
-                  {this.state.statisticResult}
-                 {/*} <StatisticList statisticItems={this.state.statisticResult.video}/>
-                  <StatisticList statisticItems={this.state.statisticResult.movies}/>*/}
-                </div>
-              </div>
+          
+
+        <div class="text-center">
+          <div class="container-fluid dashboardresults">
+            <div class="text-center"> 
+              {this.state.statisticResult}
             </div>
           </div>
-          <footer>
-            <div class="footer text-center">
+        </div>
+        <footer>
+            <div class="dashboardfooter text-center">
               <p>
                 Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
                 Tewari
               </p>
             </div>
-          </footer>
-        </body>
+        </footer>
       </div>
     );
   }
