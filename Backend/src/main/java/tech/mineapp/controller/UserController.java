@@ -112,12 +112,6 @@ public class UserController {
 		try {
 			UserEntity user = userService.findUserById(userPrincipal.getUserId());
 			
-			if (!userService.checkVerification(user)) {
-	     		response.setStatus("FAIL");
-	     		response.setErrorMessage("Unverified user.");
-	     		return ResponseEntity.badRequest().body(response);
-	     	}
-			
 			verificationTokenService.deleteTokensByUser(user);
 			forgotPasswordService.deleteTokensByUser(user);
 			userService.deleteUser(userPrincipal.getUserId());
