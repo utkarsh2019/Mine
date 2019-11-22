@@ -59,15 +59,14 @@ public class AuthController {
     	
     	response.setVerb("POST");
     	response.setEndpoint("/auth/login");
+    	
+    	if (!userService.checkVerificationByEmail(loginRequest.getEmail()) ) {
+     		response.setStatus("FAIL");
+     		response.setErrorMessage("Unverified user.");
+     		return ResponseEntity.badRequest().body(response);
+     	}
     	    	
  		try {
- 			
- 	 		if (!userService.checkVerificationByEmail(loginRequest.getEmail()) ) {
- 	     		response.setStatus("FAIL");
- 	     		response.setErrorMessage("Unverified user.");
- 	     		return ResponseEntity.badRequest().body(response);
- 	     	}
-
 	        Authentication authentication = authenticationManager.authenticate(
 	                new UsernamePasswordAuthenticationToken(
 	                        loginRequest.getEmail(),
