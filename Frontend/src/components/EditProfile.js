@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUser, getCurrentUserField} from "../utils/UserStorageUtil";
+import { getCurrentUser, getCurrentUserField, getByValue} from "../utils/UserStorageUtil";
 
 export default class EditProfile extends Component {
   constructor(props) {
@@ -135,8 +135,8 @@ export default class EditProfile extends Component {
     if(user.provider === 'google' || user.provider === 'facebook'){
       document.getElementById("name").disabled = true;
       document.getElementById("email").disabled = true;
-      document.getElementById("changePasswordRedirect").href = "#";
-      document.getElementById("changeImageRedirect").href = "#";
+      document.getElementById("changePasswordRedirect").href = "";
+      document.getElementById("changeImageRedirect").href = "";
     }
 
   };
@@ -145,7 +145,7 @@ export default class EditProfile extends Component {
 
     let provider = getCurrentUserField("provider");
 
-    if(document.getElementById("changePasswordRedirect").href === "#" && document.getElementById("changeImageRedirect").href === "#"){
+    if(document.getElementById("changePasswordRedirect").href === "" && document.getElementById("changeImageRedirect").href === ""){
       alert("You are logged in through your "+provider+ "account");
     }
   }
@@ -169,8 +169,8 @@ export default class EditProfile extends Component {
     }
 
     let pref = "";
-    for(i=0; i<items.length; i++){
-      pref += items[i].id + ",";
+    for(i=0; i < items.length; i++){
+      pref += getByValue(CATEGORY_TYPES, items[i].id) + ",";
     }
 
     let num;

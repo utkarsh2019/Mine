@@ -11,10 +11,11 @@ export default class Login extends Component {
     super(props);
 
     this.setUser = this.setUser.bind(this);
+    
   }
 
   checkEnterLogin = (evt) => {
-    if(evt.keyCode === 13) {
+    if (evt.keyCode === 13) {
       evt.preventDefault();
       this.login();
     }
@@ -32,7 +33,7 @@ export default class Login extends Component {
         Authorization: type + " " + token
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         setCurrentUser(
           response.data.responseObject.name,
           response.data.responseObject.email,
@@ -42,50 +43,103 @@ export default class Login extends Component {
           response.data.responseObject.categoryPreferences
         );
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert(error);
       });
   };
 
+  onInputChange = (val) =>{
+    if(!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(val))){
+      let al = document.createElement("p");
+      al.style.color = "red";
+      al.innerHTML = "Please Enter a Email address";
+      al.id = "IncorrectAddress";
+      document.getElementById("emailForm").appendChild(al);
+    }
+  }
+
   login = () => {
     let userdata = {};
-    if(document.getElementById("emailinput").value != ""){
-     userdata.email = document.getElementById("emailinput").value;
+
+    //Checks if there was any error previously 
+    if (document.getElementById("emailinput").classList.contains("error")) {
+      document.getElementById("emailinput").className = document.getElementById("emailinput").className.replace(" error", "");
+      document.getElementById("emailForm").removeChild(document.getElementById("emailError"));
     }
-    else{
-      alert("Please Enter your EmailId");
+    if (document.getElementById("passwordinput").classList.contains("error")) {
+      document.getElementById("passwordinput").className = document.getElementById("passwordinput").className.replace(" error", "");
+      document.getElementById("passwordForm").removeChild(document.getElementById("passwordError"));
     }
-    if(document.getElementById("passwordinput").value != ""){
+
+    let element = !!document.getElementById("errorDetected");
+    let elementEmail = !!document.getElementById("IncorrectAddress");
+
+    if(element){
+      document.getElementById("loginMain").removeChild(document.getElementById("errorDetected"));
+    }
+
+    if(elementEmail){
+      document.getElementById("emailForm").removeChild(document.getElementById("IncorrectAddress"));
+    }
+
+    // Takes the input if exists else promts an error 
+    if (document.getElementById("emailinput").value != "") {
+      let email =  document.getElementById("emailinput").value;
+      this.onInputChange(email);
+      userdata.email = email;
+    }
+    else {
+      document.getElementById("emailinput").className = document.getElementById("emailinput").className + " error";
+      let al = document.createElement("p");
+      al.style.color = "Red";
+      al.innerHTML = "Please Enter your Email";
+      al.id = "emailError";
+      document.getElementById("emailForm").appendChild(al);
+    }
+
+
+    if (document.getElementById("passwordinput").value != "") {
       userdata.password = document.getElementById("passwordinput").value;
     }
-    else{
-      alert("Please Enter the your Password");
+    else {
+      document.getElementById("passwordinput").className = document.getElementById("passwordinput").className + " error";
+      let al = document.createElement("p");
+      al.style.color = "Red";
+      al.innerHTML = "Please Enter your Password";
+      al.id = "passwordError";
+      document.getElementById("passwordForm").appendChild(al);
     }
-  
-    axios({
-      method: "post",
-      url: API_BASE_URL + "/auth/login",
-      data: {
-        email: userdata.email,
-        password: userdata.password
-      }
-    })
-      .then(response => {
-        setCookies(response.data.responseObject.accessToken, response.data.responseObject.tokenType);
-        this.setUser();
-        window.location.replace("/dashboard");
-      })
-      .catch(error => {
-        if(document.getElementById("passwordinput").value != "" && document.getElementById("emailinput").value != ""){
-          alert("Please Check your EmailId or Password");
+
+    let email = !!document.getElementById("IncorrectAddress");
+
+    if (document.getElementById("passwordinput").value != "" && document.getElementById("emailinput").value != "" && !email) {
+      axios({
+        method: "post",
+        url: API_BASE_URL + "/auth/login",
+        data: {
+          email: userdata.email,
+          password: userdata.password
         }
-      });
+      })
+        .then(response => {
+          setCookies(response.data.responseObject.accessToken, response.data.responseObject.tokenType);
+          this.setUser();
+          window.location.replace("/dashboard");
+        })
+        .catch(error => {
+          let al = document.createElement("p");
+          al.style.color = "red";
+          al.innerHTML = error.response.data.errorMessage;
+          al.id = "errorDetected";
+          document.getElementById("loginMain").appendChild(al);
+        });
+    }
   };
 
-  render() {
+  render() {  
     return (
       <div>
-        <div class="container-fluid">
+        <div class="container-fluid" id="main">
           <div class="row regcontain" id="regid">
             <div class="col">
               <img
@@ -94,13 +148,15 @@ export default class Login extends Component {
               ></img>
             </div>
 
-            <div class="col">
+            <div class="col" >
               <div class="signup">
                 <form>
                   <h2>Login</h2>
                   <hr></hr>
 
-                  <div class="form-group">
+                  <div id="loginMain"></div>
+
+                  <div class="form-group" id="emailForm" >
                     <label for="usernameinput">Email</label>
                     <input
                       type="email"
@@ -111,7 +167,7 @@ export default class Login extends Component {
                     ></input>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group" id="passwordForm">
                     <label for="passwordinput">Password</label>
                     <input
                       type="password"
@@ -124,6 +180,7 @@ export default class Login extends Component {
                   <a href={"/forgotpassword"}>Forgot password?</a>
                   <br></br>
                   <br></br>
+                  
                   <div class="text-center">
                     <button
                       type="button"
