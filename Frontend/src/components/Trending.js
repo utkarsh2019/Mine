@@ -67,7 +67,7 @@ export default class Trending extends Component {
             </div>
           </div>
           <footer>
-            <div class="footer text-center">
+            <div class="text-center" id="trendingfooter">
               <p>
                 Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
                 Tewari

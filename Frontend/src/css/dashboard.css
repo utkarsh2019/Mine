@@ -1,38 +1,56 @@
-    
-    .dashboard{
+.dashboard{
     margin-top: 7%;
     text-align: center;
-    background-color: black;
+    background-color: white;
+    }    
+    .row{
+        background-color: white;
     }
-    
     .imgsize{
         display: inline-block;
         max-width: 20%;
         height: auto;
     }
-    .trending{
-        height:600px;
-        background-color: white;
-    }    
+       
     #displayStyle{
         text-align: left;
         padding: 0% 0%;
         color:black;
     }
     
-    #dashtab{
+    .dashtab{
         margin-right:2%;
         margin-left: 2%;
         border: 2px white solid;
         background-color:white;
         color:rgb(7, 170, 156);
     }
-    #dashtab:hover{
+
+    .dashtab:hover{
         margin-right:2%;
         margin-left: 2%;
         border: 2px white solid;
         color:black;
-
     }
 
+    .dashboardfooter{
+        height:auto;
+    padding:2% 2%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center; 
+    }
+
+    .dashboardresults{
+        padding-top:50px;
+        padding-bottom: 50px;
+        margin-top: 2%;
+        width: 100%;
+        height: 750px;
+        overflow-x:hidden;
+        overflow-y:scroll;
+        color: white;
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),url("https://images.pexels.com/photos/953214/pexels-photo-953214.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&fbclid=IwAR0R_YxnylxRa0tsBU3uSkZ85NPKdjozVbzi5ne7gvycNdHsl-_KDgw6mHk");
+    }
     

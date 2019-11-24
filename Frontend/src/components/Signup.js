@@ -59,7 +59,7 @@ export default class Signup extends Component {
   render() {
     return (
       <div>
-        <div class="container-fluid">
+        <div class="bodySignup container-fluid">
           <div class="row regcontain" id="regid">
             <div class="col">
               <img
@@ -168,11 +168,8 @@ export default class Signup extends Component {
           </div>
         </footer>
       </div>
+      
     );
-  }
-
-  componentDidMount() {
-    document.body.className = "bodySignup";
   }
 }
 

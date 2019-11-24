@@ -197,8 +197,8 @@ export default class Search extends Component {
           </nav>
         </div>
 
-        <body className="dashboard">
-          <div class="row" >
+        <body>
+          <div class="dashboard row" id="searchbarrow">
             <div class="col searchclass" >
               <form class="form-inline">
                 <input
@@ -245,15 +245,15 @@ export default class Search extends Component {
             </div>
           </div>
           <footer>
-            <div id="searchfooter">
+            <div class="text-center" id="searchfooter">
               <p>
                 Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
                 Tewari
               </p>
             </div>
           </footer>
-        </body>
         
+          </body>
       </div>
     );
   }

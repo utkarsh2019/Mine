@@ -28,7 +28,7 @@ export default class ForgotPassword extends Component {
   render() {
     return (
       <div>
-        <div class="container-fluid">
+        <div class="bodyForgotPassword container-fluid">
           <div class="row regcontain" id="regid">
             <div class="col">
               <img
@@ -66,7 +66,7 @@ export default class ForgotPassword extends Component {
           </div>
         </div>
         <footer>
-          <div class="footer text-center">
+          <div class="forgotpassfooter text-center">
             <p>
               Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
               Tewari
@@ -75,9 +75,5 @@ export default class ForgotPassword extends Component {
         </footer>
       </div>
     );
-  }
-
-  componentDidMount() {
-    document.body.className = "bodyForgotPassword";
   }
 }

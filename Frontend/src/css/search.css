@@ -1,12 +1,16 @@
 
-  
   .searchclass{
       padding-left: 3%;
       padding-top:2%;
       margin-top:10px;
+      background-color: white;
+  }
+  #searchbarrow{
+      background-color: white;
   }
   #searchbar{
       width:100%;
+      background-color: rgb(212, 212, 212);
   }
   #categoriesdrop{
       width: 100%;
