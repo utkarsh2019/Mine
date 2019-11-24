@@ -20,6 +20,8 @@ public class UserRequestModel {
 
 	private String categoryPreferences;
 	
+	private String apiList;
+	
 	private int noOfSearches;
 
 }

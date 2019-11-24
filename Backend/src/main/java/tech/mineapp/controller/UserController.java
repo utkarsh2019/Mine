@@ -53,6 +53,7 @@ public class UserController {
 					user,
 					userResponse);
 			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
+			userResponse.setApiList(userService.convertToApiList(user));
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -86,6 +87,7 @@ public class UserController {
 					user,
 					userResponse);
 			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
+			userResponse.setApiList(userService.convertToApiList(user));
 
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -112,15 +114,9 @@ public class UserController {
 		try {
 			UserEntity user = userService.findUserById(userPrincipal.getUserId());
 			
-			if (!userService.checkVerification(user)) {
-	     		response.setStatus("FAIL");
-	     		response.setErrorMessage("Unverified user.");
-	     		return ResponseEntity.badRequest().body(response);
-	     	}
-			
 			verificationTokenService.deleteTokensByUser(user);
 			forgotPasswordService.deleteTokensByUser(user);
-			userService.deleteUser(userPrincipal.getUserId());
+			userService.deleteUser(user);
 
 			response.setStatus("SUCCESS");
 
