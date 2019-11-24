@@ -53,6 +53,7 @@ public class UserController {
 					user,
 					userResponse);
 			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
+			userResponse.setApiList(userService.convertToApiList(user));
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -86,6 +87,7 @@ public class UserController {
 					user,
 					userResponse);
 			userResponse.setCategoryPreferences(userService.convertToCategoryPreferences(user));
+			userResponse.setApiList(userService.convertToApiList(user));
 
 			response.setStatus("SUCCESS");
 			response.setResponseObject(userResponse);
@@ -114,7 +116,7 @@ public class UserController {
 			
 			verificationTokenService.deleteTokensByUser(user);
 			forgotPasswordService.deleteTokensByUser(user);
-			userService.deleteUser(userPrincipal.getUserId());
+			userService.deleteUser(user);
 
 			response.setStatus("SUCCESS");
 

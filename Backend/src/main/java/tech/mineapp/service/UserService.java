@@ -88,7 +88,7 @@ public class UserService implements UserDetailsService {
 	     user.setNoOfSearches(3);	
 	     initializePreferences(user);
 	     UserEntity savedUser = userRepository.save(user);
-	     initializeApis(user);
+	     initializeApis(savedUser);
 	     return savedUser;
     }
     
@@ -104,7 +104,7 @@ public class UserService implements UserDetailsService {
 	    initializePreferences(user);
 	    user.setIsVerified(true);	     
 	    UserEntity savedUser = userRepository.save(user);
-	    initializeApis(user);
+	    initializeApis(savedUser);
 	    return savedUser;
     }
     
@@ -118,8 +118,9 @@ public class UserService implements UserDetailsService {
     	userRepository.save(user);
     }
     
-    public void deleteUser(Long userId) {
-    	userRepository.deleteByUserId(userId);
+    public void deleteUser(UserEntity user) {
+    	apiRepository.deleteByUser(user);
+    	userRepository.delete(user);
     }
     
     public UserEntity updateUser(Long userId, UserRequestModel userRequest) throws Exception {
