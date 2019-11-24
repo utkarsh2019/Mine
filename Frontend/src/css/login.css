@@ -31,6 +31,10 @@
   	padding-right: 3%;
 }
 
+.error {
+    border:1px solid red;
+}
+
 .loginfooter {
 	height:auto;
     padding:2% 2%;
