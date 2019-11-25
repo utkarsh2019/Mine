@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.mineapp.constants.Category;
 import tech.mineapp.model.response.ContainerResponseModel;
+import tech.mineapp.model.response.DummySearchResponseModel;
 import tech.mineapp.model.response.PreviousSearchResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
@@ -21,7 +22,7 @@ import tech.mineapp.service.UserService;
  * @author amolmoses
  */
 @RestController
-public class PreviousSearchController {
+public class UserSearchController {
 
     @Autowired
     private UserService userService;
@@ -33,7 +34,7 @@ public class PreviousSearchController {
 
     @GetMapping("/user/me/search/previous")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getPreviousSearches(@CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<?> getPreviousSearchesForUser(@CurrentUser UserPrincipal userPrincipal) {
         ContainerResponseModel response = new ContainerResponseModel();
 
         response.setVerb("GET");
@@ -60,5 +61,19 @@ public class PreviousSearchController {
 
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @GetMapping("/user/me/search/frequent")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getFrequentSearchesForUser(@CurrentUser UserPrincipal userPrincipal) {
+        ContainerResponseModel response = new ContainerResponseModel();
+
+        response.setVerb("GET");
+        response.setEndpoint("/user/me/search/previous");
+
+        response.setStatus("SUCCESS");
+        response.setResponseObject(new DummySearchResponseModel());
+
+        return ResponseEntity.ok(response);
     }
 }

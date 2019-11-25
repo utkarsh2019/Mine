@@ -28,7 +28,6 @@ public class SearchPersistenceService {
             throw new SQLException("No user found with the specified userId");
         }
 
-        
 
         SearchEntity searchEntity = new SearchEntity();
 
