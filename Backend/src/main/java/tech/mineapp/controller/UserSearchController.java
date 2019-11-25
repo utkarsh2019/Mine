@@ -45,8 +45,18 @@ public class UserSearchController {
 
             PreviousSearchResponseModel previousSearchResponseModel = new PreviousSearchResponseModel();
 
+            previousSearchResponseModel.setVideoSearches(previousSearchService.
+                    getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.video, noOfSearches));
+            previousSearchResponseModel.setTvSeriesSearches(previousSearchService.
+                    getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.tvseries, noOfSearches));
             previousSearchResponseModel.setMovieSearches(previousSearchService
                     .getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.movie, noOfSearches));
+            previousSearchResponseModel.setWrittenSearches(previousSearchService.
+                    getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.written, noOfSearches));
+            previousSearchResponseModel.setEventSearches(previousSearchService.
+                    getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.event, noOfSearches));
+            previousSearchResponseModel.setAudioSearches(previousSearchService.
+                    getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.audio, noOfSearches));
 
             response.setStatus("SUCCESS");
             response.setResponseObject(previousSearchResponseModel);

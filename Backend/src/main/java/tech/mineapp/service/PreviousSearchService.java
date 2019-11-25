@@ -9,6 +9,7 @@ import tech.mineapp.repository.SearchRepository;
 import tech.mineapp.repository.UserRepository;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,18 +25,18 @@ public class PreviousSearchService {
 
     public List<String> getPreviousSearchesForUserAndCategory(Long userId, Category category, int numOfSearches)
             throws SQLException {
+
         Optional<UserEntity> userByUserId = userRepository.findUserByUserId(userId);
         if (userByUserId.isEmpty()) {
             throw new SQLException("No user found with the specified userId");
         }
 
-        List<SearchEntity> previousSearches = searchRepository
+        return searchRepository
                 .findSearchEntitiesByUserAndCategoryOrderByLastModifiedDesc(userByUserId.get(), category)
-                .get();
-
-        return previousSearches.stream()
-                .limit(numOfSearches)
-                .map(SearchEntity::getQuery)
-                .collect(Collectors.toList());
+                .map(searchEntities -> searchEntities.stream()
+                                .limit(numOfSearches)
+                                .map(SearchEntity::getQuery)
+                                .collect(Collectors.toList()))
+                .orElseGet(Collections::emptyList);
     }
 }
