@@ -69,7 +69,7 @@ public class UserSearchController {
         ContainerResponseModel response = new ContainerResponseModel();
 
         response.setVerb("GET");
-        response.setEndpoint("/user/me/search/previous");
+        response.setEndpoint("/user/me/search/frequent");
 
         response.setStatus("SUCCESS");
         response.setResponseObject(new DummySearchResponseModel());

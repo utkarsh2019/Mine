@@ -7,7 +7,6 @@ import tech.mineapp.entity.SearchEntity;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.repository.SearchRepository;
 import tech.mineapp.repository.UserRepository;
-import tech.mineapp.search.SearchSnippet;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -23,7 +22,7 @@ public class PreviousSearchService {
     @Autowired
     private SearchRepository searchRepository;
 
-    public List<SearchSnippet> getPreviousSearchesForUserAndCategory(Long userId, Category category, int numOfSearches)
+    public List<String> getPreviousSearchesForUserAndCategory(Long userId, Category category, int numOfSearches)
             throws SQLException {
         Optional<UserEntity> userByUserId = userRepository.findUserByUserId(userId);
         if (userByUserId.isEmpty()) {
@@ -31,12 +30,12 @@ public class PreviousSearchService {
         }
 
         List<SearchEntity> previousSearches = searchRepository
-                .findSearchEntitiesByUserAndCategory(userByUserId.get(), category)
+                .findSearchEntitiesByUserAndCategoryOrderByLastModifiedDesc(userByUserId.get(), category)
                 .get();
 
         return previousSearches.stream()
                 .limit(numOfSearches)
-                .map(searchEntity -> new SearchSnippet(searchEntity.getQuery()))
+                .map(SearchEntity::getQuery)
                 .collect(Collectors.toList());
     }
 }
