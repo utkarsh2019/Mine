@@ -11,7 +11,7 @@ import java.util.List;
  * @author amolmoses
  */
 @Data
-public class PreviousSearchResponseModel implements ResponseModel {
+public class SearchStatisticsResponseModel implements ResponseModel {
     private List<String> videoSearches;
     private List<String> tvSeriesSearches;
     private List<String> movieSearches;

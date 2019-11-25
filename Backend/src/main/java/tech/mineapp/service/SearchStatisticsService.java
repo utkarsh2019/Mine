@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class PreviousSearchService {
+public class SearchStatisticsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -38,5 +38,23 @@ public class PreviousSearchService {
                                 .map(SearchEntity::getQuery)
                                 .collect(Collectors.toList()))
                 .orElseGet(Collections::emptyList);
+    }
+
+    public List<String> getFrequentSearchesForUserAndCategory(Long userId, Category category, int numOfSearches)
+        throws SQLException {
+
+        Optional<UserEntity> userByUserId = userRepository.findUserByUserId(userId);
+        if (userByUserId.isEmpty()) {
+            throw new SQLException("No user found with the specified userId");
+        }
+
+        return searchRepository
+                .findSearchEntitiesByUserAndCategoryOrderByNumOfSearchesDesc(userByUserId.get(), category)
+                .map(searchEntities -> searchEntities.stream()
+                        .limit(numOfSearches)
+                        .map(SearchEntity::getQuery)
+                        .collect(Collectors.toList()))
+                .orElseGet(Collections::emptyList);
+
     }
 }
