@@ -13,6 +13,11 @@
 
     
 }
+
+.error {
+    border:1px solid red;
+}
+
 .center-block{
 	display: block;
     margin-left: auto;

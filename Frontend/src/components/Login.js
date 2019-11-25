@@ -11,7 +11,7 @@ export default class Login extends Component {
     super(props);
 
     this.setUser = this.setUser.bind(this);
-    
+
   }
 
   checkEnterLogin = (evt) => {
@@ -48,11 +48,11 @@ export default class Login extends Component {
       });
   };
 
-  onInputChange = (val) =>{
-    if(!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(val))){
+  onInputChange = (val) => {
+    if (!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(val))) {
       let al = document.createElement("p");
       al.style.color = "red";
-      al.innerHTML = "Please Enter a Email address";
+      al.innerHTML = "Please Enter a valid email address";
       al.id = "IncorrectAddress";
       document.getElementById("emailForm").appendChild(al);
     }
@@ -74,17 +74,17 @@ export default class Login extends Component {
     let element = !!document.getElementById("errorDetected");
     let elementEmail = !!document.getElementById("IncorrectAddress");
 
-    if(element){
+    if (element) {
       document.getElementById("loginMain").removeChild(document.getElementById("errorDetected"));
     }
 
-    if(elementEmail){
+    if (elementEmail) {
       document.getElementById("emailForm").removeChild(document.getElementById("IncorrectAddress"));
     }
 
     // Takes the input if exists else promts an error 
     if (document.getElementById("emailinput").value != "") {
-      let email =  document.getElementById("emailinput").value;
+      let email = document.getElementById("emailinput").value;
       this.onInputChange(email);
       userdata.email = email;
     }
@@ -136,10 +136,10 @@ export default class Login extends Component {
     }
   };
 
-  render() {  
+  render() {
     return (
       <div>
-        <div class="bodyLogin container-fluid" id="main>
+        <div class="bodyLogin container-fluid" id="main">
           <div class="row regcontain" id="regid">
             <div class="col">
               <img
@@ -180,7 +180,7 @@ export default class Login extends Component {
                   <a href={"/forgotpassword"}>Forgot password?</a>
                   <br></br>
                   <br></br>
-                  
+
                   <div class="text-center">
                     <button
                       type="button"
