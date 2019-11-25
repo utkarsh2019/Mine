@@ -8,11 +8,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import tech.mineapp.constants.Category;
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.TVSeriesResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
+import tech.mineapp.service.SearchPersistenceService;
 import tech.mineapp.service.TVSearchService;
 import tech.mineapp.service.UserService;
 
@@ -29,6 +31,9 @@ public class TVSeriesSearchController {
 
     @Autowired
     private TVSearchService TVSearchService;
+
+    @Autowired
+    private SearchPersistenceService searchPersistenceService;
 
     private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
 
@@ -48,6 +53,8 @@ public class TVSeriesSearchController {
             TVSeriesResponseModel tvseriesResponse = new TVSeriesResponseModel();
             tvseriesResponse.setTVMaze(TVSearchService.searchTVMaze(searchRequestModel.getQuery(),
                     noOfSearches));
+            searchPersistenceService
+                    .persistSearchDetails(userPrincipal.getUserId(), Category.tvseries, searchRequestModel.getQuery());
 
             response.setStatus("SUCCESS");
             response.setResponseObject(tvseriesResponse);
