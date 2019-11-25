@@ -1,7 +1,6 @@
 package tech.mineapp.model.response;
 
 import lombok.Data;
-import tech.mineapp.search.SearchSnippet;
 
 import java.util.List;
 
@@ -13,10 +12,10 @@ import java.util.List;
  */
 @Data
 public class PreviousSearchResponseModel implements ResponseModel {
-    private List<SearchSnippet> videoSearches;
-    private List<SearchSnippet> tvSeriesSearches;
-    private List<SearchSnippet> movieSearches;
-    private List<SearchSnippet> writtenSearches;
-    private List<SearchSnippet> eventSearches;
-    private List<SearchSnippet> audioSearches;
+    private List<String> videoSearches;
+    private List<String> tvSeriesSearches;
+    private List<String> movieSearches;
+    private List<String> writtenSearches;
+    private List<String> eventSearches;
+    private List<String> audioSearches;
 }

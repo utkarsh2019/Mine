@@ -19,7 +19,7 @@ public class TrendingSearchController {
         ContainerResponseModel response = new ContainerResponseModel();
 
         response.setVerb("GET");
-        response.setEndpoint("/user/me/search/previous");
+        response.setEndpoint("/search/trending");
 
         response.setStatus("SUCCESS");
         response.setResponseObject(new DummySearchResponseModel());
