@@ -15,5 +15,5 @@ import java.util.Optional;
  */
 public interface SearchRepository extends JpaRepository<SearchEntity, Long> {
     Optional<SearchEntity> findSearchEntityByUserAndQuery(UserEntity userEntity, String query);
-    Optional<List<SearchEntity>> findSearchEntitiesByUserAndCategory(UserEntity user, Category category);
+    Optional<List<SearchEntity>> findSearchEntitiesByUserAndCategoryOrderByLastModifiedDesc(UserEntity user, Category category);
 }

@@ -30,7 +30,7 @@ public class PreviousSearchService {
         }
 
         List<SearchEntity> previousSearches = searchRepository
-                .findSearchEntitiesByUserAndCategory(userByUserId.get(), category)
+                .findSearchEntitiesByUserAndCategoryOrderByLastModifiedDesc(userByUserId.get(), category)
                 .get();
 
         return previousSearches.stream()
