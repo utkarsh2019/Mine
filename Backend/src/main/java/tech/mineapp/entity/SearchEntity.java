@@ -1,6 +1,8 @@
 package tech.mineapp.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,6 +32,13 @@ public class SearchEntity implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Category category;
 
+	@NotNull
+	@Column(nullable = false)
+	private Timestamp lastModified;
+
+	@NotNull
+	@Column(nullable = false)
+	private int numOfSearches;
 	
 	@OneToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false, referencedColumnName = "userId")

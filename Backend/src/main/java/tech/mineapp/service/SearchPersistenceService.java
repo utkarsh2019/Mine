@@ -10,6 +10,7 @@ import tech.mineapp.repository.UserRepository;
 import tech.mineapp.util.RandomLongGeneratorUtil;
 
 import java.sql.SQLException;
+
 import java.util.Optional;
 
 
@@ -28,15 +29,29 @@ public class SearchPersistenceService {
             throw new SQLException("No user found with the specified userId");
         }
 
+        UserEntity user = userByUserId.get();
 
+        searchRepository.findSearchEntityByUserAndQuery(user, query).ifPresentOrElse(
+                this::updateSearchEntity,
+                () -> this.createNewSearchEntity(user, category, query));
+    }
+
+    private void createNewSearchEntity(UserEntity user, Category category, String query) {
         SearchEntity searchEntity = new SearchEntity();
 
         searchEntity.setSearchId(RandomLongGeneratorUtil.generateRandomLong());
         searchEntity.setCategory(category);
         searchEntity.setQuery(query);
-        searchEntity.setUser(userByUserId.get());
+        searchEntity.setLastModified(new java.sql.Timestamp(new java.util.Date().getTime()));
+        searchEntity.setNumOfSearches(1);
+        searchEntity.setUser(user);
 
         searchRepository.save(searchEntity);
     }
 
+    private void updateSearchEntity(SearchEntity searchEntity) {
+        searchEntity.setLastModified(new java.sql.Timestamp(new java.util.Date().getTime()));
+        searchEntity.setNumOfSearches(searchEntity.getNumOfSearches() + 1);
+        searchRepository.save(searchEntity);
+    }
 }
