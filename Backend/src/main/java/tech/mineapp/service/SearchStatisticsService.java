@@ -55,6 +55,15 @@ public class SearchStatisticsService {
                         .map(SearchEntity::getQuery)
                         .collect(Collectors.toList()))
                 .orElseGet(Collections::emptyList);
+    }
 
+    public List<String> getTrendingSearchesForCategory(Category category, int numOfSearches) {
+        return searchRepository
+                .findSearchEntitiesByCategoryOrderByNumOfSearchesDesc(category)
+                .map(searchEntities -> searchEntities.stream()
+                        .limit(numOfSearches)
+                        .map(SearchEntity::getQuery)
+                        .collect(Collectors.toList()))
+                .orElseGet(Collections::emptyList);
     }
 }
