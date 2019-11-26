@@ -15,7 +15,7 @@ import tech.mineapp.model.response.TVSeriesResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.service.SearchPersistenceService;
-import tech.mineapp.service.TVSearchService;
+import tech.mineapp.service.TVSeriesSearchService;
 import tech.mineapp.service.UserService;
 
 /**
@@ -30,7 +30,7 @@ public class TVSeriesSearchController {
     private UserService userService;
 
     @Autowired
-    private TVSearchService TVSearchService;
+    private TVSeriesSearchService TVSearchService;
 
     @Autowired
     private SearchPersistenceService searchPersistenceService;

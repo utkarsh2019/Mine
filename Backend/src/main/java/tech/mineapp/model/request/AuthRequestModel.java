@@ -15,9 +15,9 @@ import lombok.Data;
  */
 @Data
 public class AuthRequestModel {
-	@NotBlank
+	@NotBlank(message = "Email is missing")
 	@Email
 	private String email;
-	@NotBlank
+	@NotBlank(message = "Password is missing")
 	private String password;
 }
