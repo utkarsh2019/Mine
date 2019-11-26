@@ -1,6 +1,8 @@
 package tech.mineapp.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,8 +11,9 @@ import lombok.Data;
 import tech.mineapp.constants.Category;
 
 /**
- * @author utkarsh
+ * Entity for storing user's searches
  *
+ * @author utkarsh, amolmoses
  */
 @SuppressWarnings("serial")
 @Data
@@ -19,8 +22,8 @@ import tech.mineapp.constants.Category;
 public class SearchEntity implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Column(nullable = false, unique = true)
+	private Long searchId;
 	
 	@Column(nullable = false)
 	private String query;
@@ -28,8 +31,16 @@ public class SearchEntity implements Serializable {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Category category;
+
+	@NotNull
+	@Column(nullable = false)
+	private Timestamp lastModified;
+
+	@NotNull
+	@Column(nullable = false)
+	private int numOfSearches;
 	
-	@ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "userId")
+	@OneToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false, referencedColumnName = "userId")
     private UserEntity user;
 }
