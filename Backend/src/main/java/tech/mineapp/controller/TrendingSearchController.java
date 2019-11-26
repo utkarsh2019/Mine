@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.mineapp.constants.Category;
 import tech.mineapp.model.response.ContainerResponseModel;
-import tech.mineapp.model.response.DummySearchResponseModel;
 import tech.mineapp.model.response.SearchStatisticsResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;

@@ -14,7 +14,6 @@ import tech.mineapp.entity.UserEntity;
  */
 @SuppressWarnings("serial")
 @Data
-@EqualsAndHashCode(callSuper = false)
 public class OnVerificationCompleteEvent extends ApplicationEvent {
 	private UserEntity user;
 	private Locale locale;
