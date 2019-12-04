@@ -18,6 +18,7 @@ public class ApiPropertiesConfig {
 	private final RedditApi reddit = new RedditApi();
 	private final SeatgeekApi seatgeek = new SeatgeekApi();
 	private final NewsApi newsapi = new NewsApi();
+	private final LastfmApi lastfm = new LastfmApi();
 	
 	@Data
 	public static class GoogleApi {
@@ -57,5 +58,10 @@ public class ApiPropertiesConfig {
 	@Data
 	public static class NewsApi {
 		private String apikey;
+	}
+	
+	@Data
+	public static class LastfmApi {
+		private String apiKey;
 	}
 }
