@@ -40,6 +40,11 @@
     .list-arrows button {
         margin-bottom: 20px;
     }
+
+    .error {
+        border:1px solid red;
+    }
+    
     
     .editcancelbutton{
         margin-left:1%;

@@ -13,28 +13,101 @@ export default class VerifyPassword extends Component {
   }
 
   checkEnterUpdate = (evt) => {
-    if(evt.keyCode === 13) {
+    if (evt.keyCode === 13) {
       evt.preventDefault();
       this.update();
     }
   };
 
   update() {
-    let token = getUrlParameter("token", this.props.location.search);
-    let pass = document.getElementById("passwordinput").value;
-    axios({
-      method: "post",
-      url: API_BASE_URL + "/verify/password?token=" + token,
-      data: {
-        password: pass
-      }
-    })
-      .then(function(response) {
-        window.location.replace("/login");
+
+
+    let element = !!document.getElementById("errorDetected");
+    let errorElement = !!document.getElementById("errorFound");
+    let error = !!document.getElementById("error");
+
+    if (error) {
+      document.getElementById("signupMain").removeChild(document.getElementById("error"));
+    }
+    if (element) {
+      document.getElementById("confirmPasswordForm").removeChild(document.getElementById("errorDetected"));
+    }
+    if (errorElement) {
+      document.getElementById("passwordForm").removeChild(document.getElementById("errorFound"));
+    }
+    if (document.getElementById("passwordinput").classList.contains("error")) {
+      document.getElementById("passwordinput").className = document.getElementById("passwordinput").className.replace(" error", "");
+      document.getElementById("passwordForm").removeChild(document.getElementById("passwordError"));
+    }
+    if (document.getElementById("confirmpasswordinput").classList.contains("error")) {
+      document.getElementById("confirmpasswordinput").className = document.getElementById("confirmpasswordinput").className.replace(" error", "");
+      document.getElementById("confirmPasswordForm").removeChild(document.getElementById("confirmPasswordError"));
+    }
+
+    let password = document.getElementById("passwordinput").value;
+    let confirmpassword = document.getElementById("confirmpasswordinput").value;
+
+    if (password === "") {
+      document.getElementById("passwordinput").className = document.getElementById("passwordinput").className + " error";
+      let al = document.createElement("p");
+      al.style.color = "Red";
+      al.innerHTML = "Please Enter your Password";
+      al.id = "passwordError";
+      document.getElementById("passwordForm").appendChild(al);
+    }
+    if (confirmpassword === "") {
+      document.getElementById("confirmpasswordinput").className = document.getElementById("confirmpasswordinput").className + " error";
+      let al = document.createElement("p");
+      al.style.color = "Red";
+      al.innerHTML = "Please Confirm your Password";
+      al.id = "confirmPasswordError";
+      document.getElementById("confirmPasswordForm").appendChild(al);
+    }
+
+    if (password != "" && !(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(password))) {
+      let al = document.createElement("p");
+      al.style.color = "Red";
+      al.innerHTML = "Your Password should contain:<br>-At least 8 Characters<br>-At least 1 lowercase Character<br>-At least 1 uppercase character<br>-At least 1 numeric character<br>-At least 1 special character";
+      al.id = "errorFound";
+      document.getElementById("passwordForm").appendChild(al);
+    }
+
+
+    if (password != "" && confirmpassword != "" && password !== confirmpassword) {
+      let al = document.createElement("p");
+      al.style.color = "Red";
+      al.innerHTML = "Password and Confirm Password don't Match";
+      al.id = "errorDetected";
+      document.getElementById("confirmPasswordForm").appendChild(al);
+    }
+
+    let errorMatch = !!document.getElementById("errorDetected");
+    let errorPassword = !!document.getElementById("errorFound");
+
+
+    if (!errorMatch && !errorPassword && password !== "" && confirmpassword !== "") {
+
+      let token = getUrlParameter("token", this.props.location.search);
+      let pass = document.getElementById("passwordinput").value;
+      axios({
+        method: "post",
+        url: API_BASE_URL + "/verify/password?token=" + token,
+        data: {
+          password: pass
+        }
       })
-      .catch(function(error) {
-        alert(error);
-      });
+        .then(function (response) {
+          window.location.replace("/login");
+        })
+        .catch(function (error) {
+          let al = document.createElement("p");
+          al.style.color = "Red";
+          al.innerHTML = error.response.data.errorMessage;
+          al.id = "error";
+          document.getElementById("main").appendChild(al);
+        });
+
+    }
   }
 
   render() {
@@ -55,7 +128,9 @@ export default class VerifyPassword extends Component {
                   <h2>Forgot Password</h2>
                   <hr></hr>
 
-                  <div class="form-group">
+                  <div id="main"></div>
+
+                  <div class="form-group" id="passwordForm">
                     <label for="passwordinput">New Password</label>
                     <input
                       type="password"
@@ -65,7 +140,7 @@ export default class VerifyPassword extends Component {
                       onKeyUp={this.checkEnterUpdate}
                     ></input>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="confirmPasswordForm">
                     <label for="confirmpasswordinput">
                       Confirm New Password
                     </label>
