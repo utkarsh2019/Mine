@@ -20,7 +20,6 @@ export default class StatisticList extends Component {
         return (
             
             <div id="displayStyle">
-            <div id="catdisplay">{statisticCat}</div>
                 {items}
             </div>
         );

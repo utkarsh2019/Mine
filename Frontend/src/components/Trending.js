@@ -123,6 +123,8 @@ export default class Trending extends Component {
 
             <div class="text-center">
               <div class="container-fluid dashboardresults">
+              <br></br>
+              <br></br>
                 <div class="text-center"> 
                   {this.state.statisticResult}
                 </div>
@@ -130,13 +132,13 @@ export default class Trending extends Component {
             </div>
           
           <footer>
-            <div class="text-center" id="trendingfooter">
-              <p>
-                Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
-                Tewari
-              </p>
-            </div>
-          </footer>
+          <div class="editfooter text-center">
+            <p>
+              Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
+              Tewari
+          </p>
+          </div>
+        </footer>
       </div>
     );
   }
