@@ -8,6 +8,8 @@ import { getCurrentUserField, setSearchCategory, getByValue } from "../utils/Use
 import SearchList from "./SearchList";
 import { API_BASE_URL, API_IMAGES, CATEGORY_TYPES } from "../constants/Constants";
 import axios from "axios";
+import { getSearchField/*, clearSearchCurrentInput*/ } from "../utils/DTSUtil";
+
 
 export default class Search extends Component {
 
@@ -17,6 +19,8 @@ export default class Search extends Component {
       searchResult: []
     };
     this.searchQuery = this.searchQuery.bind(this);
+    this.externalSearchQuery = this.externalSearchQuery.bind(this);
+    this.pageonload = this.pageonload.bind(this);
     this.setSearchResult = this.setSearchResult.bind(this);
     this.setSearchApi = this.setSearchApi.bind(this);
     this.setCategory = this.setCategory.bind(this);
@@ -29,16 +33,45 @@ export default class Search extends Component {
       this.searchQuery(evt);
     }
   };
+  externalSearchQuery = (input, categ) => {
+   // evt.preventDefault();
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
 
+    let searchQuery = "friends";
+    //let category = categ.toString();
+    //let category = getByValue(CATEGORY_TYPES,categ.toString());
+    let category = "video";
+    alert("This is what is going into " + category);
+    axios({
+      method: "post",
+      url: API_BASE_URL + "/search/" + category,
+      headers: {
+        Authorization: type + " " + token
+      },
+      data: {
+        query: searchQuery
+      }
+    })
+      .then(response => {
+        this.setState({searchResult: []});
+        this.setSearchResult(response.data.responseObject);
+      })
+      .catch(error => {
+        alert(error);
+      });
+  };
   searchQuery = (evt) => {
     evt.preventDefault();
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
 
-    let searchQuery = document.getElementById("searchbar").value;
-    let category = getByValue(CATEGORY_TYPES,getCurrentUserField("searchCategory"));
-    
+   // let searchQuery = document.getElementById("searchbar").value;
+   // let category = getByValue(CATEGORY_TYPES,getCurrentUserField("searchCategory"));
+    let searchQuery = "friends";
+    let category = "video";
     axios({
       method: "post",
       url: API_BASE_URL + "/search/" + category,
@@ -102,8 +135,16 @@ export default class Search extends Component {
     setSearchCategory(document.getElementById(val).innerHTML);
     document.getElementById('categoriesdrop').innerHTML = getCurrentUserField("searchCategory");
   }
-
+  pageonload = () => {
+    /*if (getSearchField("searchInput")!= "" || getSearchField("searchInput")!= null){
+       alert(getSearchField("searchCategory")+ "another input " + getSearchField("searchInput"));
+       this.externalSearchQuery(getSearchField("searchInput"),getSearchField("searchCategory"));
+      // clearSearchCurrentInput();
+     }*/
+     this.searchQuery;
+   }
   componentDidMount() {
+    //this.pageonload();
     //An array of assets
     let scripts = [
       { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
@@ -124,6 +165,7 @@ export default class Search extends Component {
       document.body.appendChild(script);
     });
     this.initializeCategories();
+    
   }
 
   render () {

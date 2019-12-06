@@ -13,12 +13,12 @@ export default class Dashboard extends Component {
     this.state = {
       statisticResult: []
     };
-    this.searchQuery = this.searchQuery.bind(this);
+    this.searchFreqQuery = this.searchFreqQuery.bind(this);
     this.setSearchResult = this.setSearchResult.bind(this);
     this.setSearchApi = this.setSearchApi.bind(this);
     //this.setCategory = this.setCategory.bind(this);
   }
-  searchQuery = (evt) => {
+  /*searchPrevQuery = (evt) => {
     evt.preventDefault();
     let jwt = getJwtToken();
     let type = jwt[0];
@@ -41,7 +41,37 @@ export default class Dashboard extends Component {
         alert(error.response.data.errorMessage);
       });
   };
+*/
+searchPrevQuery = (evt) => {
+  /*evt.preventDefault();
+  let jwt = getJwtToken();
+  let type = jwt[0];
+  let token = jwt[1];
 
+  let searchQuery = document.getElementById("searchbar").value;
+  let category = getCurrentUserField("searchCategory");*/
+  
+  /*axios({
+    method: "post",
+    url: API_BASE_URL + "/search/" + category,
+    headers: {
+      Authorization: type + " " + token
+    },
+    data: {
+      query: searchQuery
+    }
+  })
+.then(response => {*/
+    this.setState({statisticResult: []});
+      this.setSearchResult(
+        {"video": ["friend", "example2", "example3"], 
+      "movies": ["mexample1", "mexample2", "mexample3"]}
+      );
+    /*}})
+    .catch(error => {
+      alert(error);
+    });*/
+};
 
   searchFreqQuery = (evt) => {
     let jwt = getJwtToken();
@@ -75,10 +105,10 @@ export default class Dashboard extends Component {
 
   setSearchApi = (value, key) => {
     let statistics = this.state.statisticResult;
-   
+    
     statistics.push(
       <div>
-        <StatisticList statisticItems={value}/>
+        <StatisticList statisticItems={value} statisticCategory={key}/>
       </div>
     );
     this.setState({statisticResult: statistics});
@@ -143,7 +173,7 @@ export default class Dashboard extends Component {
             <div class="dashboard container-fluid">
               <div class="row">
                 <div class="col-sm" id="dashtabcol">
-                  <button type="button" onClick={this.searchQuery.bind(this)} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
+                  <button type="button" onClick={this.searchPrevQuery.bind(this)} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
                 </div>
                 <div class="col-sm" id="dashtabcol">
                   <button type="button" onClick={this.searchFreqQuery} class="btn btn-info dashtab" id="freqtab">Most Frequent Searches</button>
