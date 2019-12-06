@@ -55,4 +55,7 @@ public class ApiEntity implements Serializable {
     
     @Column(nullable = false)
     private Boolean seatgeek = true;
+    
+    @Column(nullable = false)
+    private Boolean lastfm = true;
 }
