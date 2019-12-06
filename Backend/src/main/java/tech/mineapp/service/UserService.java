@@ -203,16 +203,16 @@ public class UserService implements UserDetailsService {
 	public void updateApis(UserEntity user, String apiList) throws Exception {
 		ApiEntity updatedApis = apiRepository.findByUser(user);
 		ApiProvider[] allApiList = ApiProvider.values();
-		for (int i=0; i <= allApiList.length; i++) {
+		for (int i=0; i < allApiList.length; i++) {
 			String api = allApiList[i].toString();
 			if (apiList.contains(api)) {
 				updatedApis.getClass()
-					.getMethod("set"+api, ApiProvider.class)
+					.getMethod("set"+api, Boolean.class)
 					.invoke(updatedApis, true);
 			}
 			else {
 				updatedApis.getClass()
-				.getMethod("set"+api, ApiProvider.class)
+				.getMethod("set"+api, Boolean.class)
 				.invoke(updatedApis, false);
 			}
 		}
