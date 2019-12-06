@@ -2,6 +2,7 @@ package tech.mineapp.event;
 
 import java.util.Locale;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.context.ApplicationEvent;
 
 import lombok.Data;

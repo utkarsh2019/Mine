@@ -8,12 +8,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import tech.mineapp.constants.Category;
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.MovieSearchResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.service.MovieSearchService;
+import tech.mineapp.service.SearchPersistenceService;
 import tech.mineapp.service.UserService;
 
 /**
@@ -29,6 +31,9 @@ public class MovieSearchController {
 
     @Autowired
     private MovieSearchService movieSearchService;
+
+    @Autowired
+    private SearchPersistenceService searchPersistenceService;
 
     private static final Logger logger = LoggerFactory.getLogger(MovieSearchController.class);
 
@@ -48,6 +53,8 @@ public class MovieSearchController {
             MovieSearchResponseModel moviesResponse = new MovieSearchResponseModel();
             moviesResponse.setTMDb(movieSearchService.searchTMDb(searchRequest.getQuery(),
                     noOfSearches));
+            searchPersistenceService
+                    .persistSearchDetails(userPrincipal.getUserId(), Category.movie, searchRequest.getQuery());
 
             response.setStatus("SUCCESS");
             response.setResponseObject(moviesResponse);
