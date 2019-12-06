@@ -158,8 +158,6 @@ export default class EditPassword extends Component {
           </div>
         </nav>
       </div>
-
-      <body>
       <div>
         <div class="container-fluid">
           <div class="row regcontain" id="regid">
@@ -219,7 +217,6 @@ export default class EditPassword extends Component {
       </div>
         
         
-        </body>
       <footer>
         <div class="editfooter text-center">
           <p>
@@ -233,6 +230,6 @@ export default class EditPassword extends Component {
   }
 
   componentDidMount() {
-    document.body.className = "bodyForgotPassword";
+    document.body.className = "";
   }
 }

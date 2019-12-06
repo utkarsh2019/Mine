@@ -15,7 +15,10 @@
             background-color: white;
         }    
         #trendingfooter {      
-            background-color: black;
-            color: white;
-            padding: 3% 2%;
+            height:auto;
+        padding:2% 2%;
+        width: 100%;
+        background-color: black;
+        color: white;
+        text-align: center; 
         }

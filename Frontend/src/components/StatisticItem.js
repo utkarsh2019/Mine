@@ -20,7 +20,7 @@ export default class StatisticItem extends Component {
 
     render() {
         return (
-            <button onClick={this.redirectSearch}>{this.props.name}</button>
+            <button id="statButton"onClick={this.redirectSearch}>{this.props.name}</button>
         );
     }
 }
