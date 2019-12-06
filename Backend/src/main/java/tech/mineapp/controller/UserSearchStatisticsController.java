@@ -44,17 +44,17 @@ public class UserSearchStatisticsController {
 
             SearchStatisticsResponseModel searchStatisticsResponseModel = new SearchStatisticsResponseModel();
 
-            searchStatisticsResponseModel.setVideoSearches(searchStatisticsService.
+            searchStatisticsResponseModel.setVideo(searchStatisticsService.
                     getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.video, noOfSearches));
-            searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService.
+            searchStatisticsResponseModel.setTvseries(searchStatisticsService.
                     getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.tvseries, noOfSearches));
-            searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
+            searchStatisticsResponseModel.setMovie(searchStatisticsService
                     .getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.movie, noOfSearches));
-            searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService.
+            searchStatisticsResponseModel.setWritten(searchStatisticsService.
                     getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.written, noOfSearches));
-            searchStatisticsResponseModel.setEventSearches(searchStatisticsService.
+            searchStatisticsResponseModel.setEvent(searchStatisticsService.
                     getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.event, noOfSearches));
-            searchStatisticsResponseModel.setAudioSearches(searchStatisticsService.
+            searchStatisticsResponseModel.setAudio(searchStatisticsService.
                     getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.audio, noOfSearches));
 
             response.setStatus("SUCCESS");
@@ -85,17 +85,17 @@ public class UserSearchStatisticsController {
 
             SearchStatisticsResponseModel searchStatisticsResponseModel = new SearchStatisticsResponseModel();
 
-            searchStatisticsResponseModel.setVideoSearches(searchStatisticsService.
+            searchStatisticsResponseModel.setVideo(searchStatisticsService.
                     getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.video, noOfSearches));
-            searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService.
+            searchStatisticsResponseModel.setTvseries(searchStatisticsService.
                     getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.tvseries, noOfSearches));
-            searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
+            searchStatisticsResponseModel.setMovie(searchStatisticsService
                     .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.movie, noOfSearches));
-            searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService
+            searchStatisticsResponseModel.setWritten(searchStatisticsService
                     .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.written, noOfSearches));
-            searchStatisticsResponseModel.setEventSearches(searchStatisticsService
+            searchStatisticsResponseModel.setEvent(searchStatisticsService
                     .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.event, noOfSearches));
-            searchStatisticsResponseModel.setAudioSearches(searchStatisticsService
+            searchStatisticsResponseModel.setAudio(searchStatisticsService
                     .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.audio, noOfSearches));
 
             response.setStatus("SUCCESS");

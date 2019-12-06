@@ -44,17 +44,17 @@ public class TrendingSearchController {
 
             SearchStatisticsResponseModel searchStatisticsResponseModel = new SearchStatisticsResponseModel();
 
-            searchStatisticsResponseModel.setVideoSearches(searchStatisticsService
+            searchStatisticsResponseModel.setVideo(searchStatisticsService
                     .getTrendingSearchesForCategory(Category.video, noOfSearches));
-            searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService
+            searchStatisticsResponseModel.setTvseries(searchStatisticsService
                     .getTrendingSearchesForCategory(Category.tvseries, noOfSearches));
-            searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
+            searchStatisticsResponseModel.setMovie(searchStatisticsService
                     .getTrendingSearchesForCategory(Category.movie, noOfSearches));
-            searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService
+            searchStatisticsResponseModel.setWritten(searchStatisticsService
                     .getTrendingSearchesForCategory(Category.written, noOfSearches));
-            searchStatisticsResponseModel.setEventSearches(searchStatisticsService
+            searchStatisticsResponseModel.setEvent(searchStatisticsService
                     .getTrendingSearchesForCategory(Category.event, noOfSearches));
-            searchStatisticsResponseModel.setAudioSearches(searchStatisticsService
+            searchStatisticsResponseModel.setAudio(searchStatisticsService
                     .getTrendingSearchesForCategory(Category.audio, noOfSearches));
 
             response.setStatus("SUCCESS");
