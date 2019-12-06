@@ -15,6 +15,7 @@ export default class EditProfile extends Component {
     this.select = this.select.bind(this);
     this.deselect = this.deselect.bind(this);
     this.additemsToList = this.additemsToList.bind(this);
+    this.checkCheckboxes = this.checkCheckboxes.bind(this);
   }
 
   additemsToList(li, ulID) {
@@ -101,13 +102,13 @@ export default class EditProfile extends Component {
     }
   }
 
-  checkCheckboxes = () =>{
-    if(document.getElementById("Youtube").checked == false && document.getElementById("Vimeo").checked == false && document.getElementById("Dailymotion") == false ){
+  checkCheckboxes(){
+    if(document.getElementById("Youtube").checked == false && document.getElementById("Vimeo").checked == false && document.getElementById("Dailymotion").checked == false ){
       alert("Please Select at least one Video API");
       return false;
     }
 
-    if(document.getElementById("Googlebooks") == false && document.getElementById("Newsapi") == false){
+    if(document.getElementById("Googlebooks").checked == false && document.getElementById("Newsapi").checked == false){
       alert("Please Select at least one Books/Article API");
       return false;
     }
@@ -210,14 +211,15 @@ export default class EditProfile extends Component {
     }
 
     let apis = "";
-    if(this.checkCheckboxes){
+    if(this.checkCheckboxes()){
       API_LIST.forEach((value) =>{
           let object = document.getElementById(value);
           if(object.checked == true){
             apis += value + ",";
           } 
       });
-  }
+      console.log(apis);
+    
     axios({
       method: "put",
       url: API_BASE_URL + "/user/me",
@@ -239,6 +241,7 @@ export default class EditProfile extends Component {
       .catch(function (error) {
         alert(error);
       });
+    }
   };
 
   render() {
