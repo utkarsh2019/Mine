@@ -2,6 +2,8 @@ package tech.mineapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import tech.mineapp.constants.Category;
 import tech.mineapp.entity.SearchEntity;
 import tech.mineapp.entity.UserEntity;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class SearchPersistenceService {
 
     @Autowired
@@ -42,7 +45,7 @@ public class SearchPersistenceService {
                 () -> this.createNewSearchEntity(user, category, query));
     }
 
-    private void createNewSearchEntity(UserEntity user, Category category, String query) {
+    void createNewSearchEntity(UserEntity user, Category category, String query) {
         SearchEntity searchEntity = new SearchEntity();
 
         searchEntity.setSearchId(RandomLongGeneratorUtil.generateRandomLong());
@@ -55,7 +58,7 @@ public class SearchPersistenceService {
         searchRepository.save(searchEntity);
     }
 
-    private void updateSearchEntity(SearchEntity searchEntity) {
+    void updateSearchEntity(SearchEntity searchEntity) {
         searchEntity.setLastModified(new java.sql.Timestamp(new java.util.Date().getTime()));
         searchEntity.setNumOfSearches(searchEntity.getNumOfSearches() + 1);
         searchRepository.save(searchEntity);
