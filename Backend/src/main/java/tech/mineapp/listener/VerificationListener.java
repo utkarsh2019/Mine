@@ -49,7 +49,7 @@ public class VerificationListener implements
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
-        email.setText(message + " \r\n\r\n" + "http://mineapp.tech" + confirmationUrl);
+        email.setText(message + " \r\n\r\n" + "https://mineapp.tech" + confirmationUrl);
         mailSender.send(email);
     }
 }
