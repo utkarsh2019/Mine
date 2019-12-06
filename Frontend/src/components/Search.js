@@ -54,7 +54,7 @@ export default class Search extends Component {
         this.setSearchResult(response.data.responseObject);
       })
       .catch(error => {
-        alert(error);
+        alert(error.response.data.errorMessage);
       });
   };
   

@@ -22,3 +22,15 @@ export const CATEGORY_TYPES = new Map([
     ["event", "Events"],
     ["audio", "Music"]
 ])
+
+export const API_LIST = [
+    "Youtube",
+    "Vimeo",
+    "Dailymotion",
+    "Tvmaze",
+    "Tmdb",
+    "Seatgeek",
+    "Googlebooks",
+    "Newsapi",
+    "Lastfm"
+]
