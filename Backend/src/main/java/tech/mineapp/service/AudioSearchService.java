@@ -31,7 +31,7 @@ public class AudioSearchService {
     					response.getName(),
     					response.getArtist(),
     					response.getUrl(),
-    					response.getImage()[1].getText(),	// Medium Image Url
+    					null,
     					null,
     					null
     					))

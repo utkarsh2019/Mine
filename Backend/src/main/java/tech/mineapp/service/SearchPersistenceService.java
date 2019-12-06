@@ -42,7 +42,7 @@ public class SearchPersistenceService {
                 () -> this.createNewSearchEntity(user, category, query));
     }
 
-    private void createNewSearchEntity(UserEntity user, Category category, String query) {
+    void createNewSearchEntity(UserEntity user, Category category, String query) {
         SearchEntity searchEntity = new SearchEntity();
 
         searchEntity.setSearchId(RandomLongGeneratorUtil.generateRandomLong());
@@ -55,7 +55,7 @@ public class SearchPersistenceService {
         searchRepository.save(searchEntity);
     }
 
-    private void updateSearchEntity(SearchEntity searchEntity) {
+    void updateSearchEntity(SearchEntity searchEntity) {
         searchEntity.setLastModified(new java.sql.Timestamp(new java.util.Date().getTime()));
         searchEntity.setNumOfSearches(searchEntity.getNumOfSearches() + 1);
         searchRepository.save(searchEntity);
