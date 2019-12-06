@@ -43,7 +43,7 @@ public class ForgotPasswordListener implements
         String recipientAddress = user.getEmail();
         String subject = "Forgot Password";
         String confirmationUrl 
-          = event.getAppUrl() + "/forgotpasswordupdate?token=" + token;
+          = event.getAppUrl() + "/verifypassword?token=" + token;
         String message = messages.getMessage("frgtPass", null, event.getLocale());
          
         SimpleMailMessage email = new SimpleMailMessage();

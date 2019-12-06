@@ -95,7 +95,6 @@ public class UserController {
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			response.setStatus("FAIL");
-			e.printStackTrace();
 			response.setErrorMessage(e.getMessage());
 			logger.error(e.getMessage());
 
