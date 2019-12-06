@@ -1,12 +1,16 @@
 
-  
   .searchclass{
       padding-left: 3%;
       padding-top:2%;
       margin-top:10px;
+      background-color: white;
+  }
+  #searchbarrow{
+      background-color: white;
   }
   #searchbar{
       width:100%;
+      background-color: rgb(212, 212, 212);
   }
   #categoriesdrop{
       width: 100%;
@@ -20,9 +24,9 @@
       padding-top:50px;
     padding-bottom:100px;
       margin-top: 2%;
-      margin-bottom: 7%;
+      
       height: 100%;
-      min-height:700px;
+      min-height:800px;
       color: white;
       background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)),url("https://images.pexels.com/photos/953214/pexels-photo-953214.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940&fbclid=IwAR0R_YxnylxRa0tsBU3uSkZ85NPKdjozVbzi5ne7gvycNdHsl-_KDgw6mHk");
 
@@ -85,16 +89,10 @@
   }
   
   
-  .searchfooter {
-    height:auto;
-    padding:3% 2%;
-        position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100%;
+  #searchfooter {      
       background-color: black;
       color: white;
-      text-align: center;
+      padding: 3% 2%;
   }
   
   

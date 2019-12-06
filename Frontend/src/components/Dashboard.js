@@ -1,10 +1,96 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/dashboard.css";
-import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { checkUserLoggedIn,getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
+import StatisticList from "./StatisticList";
+import axios from "axios";
+import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 
 export default class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      statisticResult: []
+    };
+    this.searchFreqQuery = this.searchFreqQuery.bind(this);
+    this.setSearchResult = this.setSearchResult.bind(this);
+    this.setSearchApi = this.setSearchApi.bind(this);
+    //this.setCategory = this.setCategory.bind(this);
+  }
+  searchPrevQuery = () => {
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+    
+    axios({
+      method: "get",
+      url: API_BASE_URL + "/user/me/search/previous",
+      headers: {
+        Authorization: type + " " + token
+      }
+    })
+      .then(response => {
+      console.log(response);
+      this.setState({statisticResult: []});
+        let search = response.data.responseObject;  
+        this.setSearchResult(search);
+      })
+      .catch(error => {
+        alert(error.response.data.errorMessage);
+      });
+  };
+
+
+  searchFreqQuery = (evt) => {
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+    
+    axios({
+      method: "get",
+      url: API_BASE_URL + "/user/me/search/frequent",
+      headers: {
+        Authorization: type + " " + token
+      }
+    })
+      .then(response => {
+      console.log(response);
+      this.setState({statisticResult: []});
+        let search = response.data.responseObject;  
+        this.setSearchResult(search);
+      })
+      .catch(error => {
+        alert(error);
+      });
+  };
+
+  setSearchResult = (responseObject) => {
+    let responseObjectMap = new Map(Object.entries(responseObject));
+    responseObjectMap.forEach((value, key) => {
+      this.setSearchApi(value, key);
+    });
+  };
+
+  setSearchApi = (value, key) => {
+    let statistics = this.state.statisticResult;
+    if (Array.isArray(value) && value.length > 0) {
+      let statisticsSearchCategory = CATEGORY_TYPES.get(key);
+      
+      statistics.push(
+        <div>
+          <h3>{statisticsSearchCategory}</h3>
+          <StatisticList statisticItems={value} statisticCategory={statisticsSearchCategory}/>
+        </div>
+      );
+      this.setState({statisticResult: statistics});
+    }
+  };
+
+  componentDidMount(){
+    this.searchPrevQuery();
+  };
+
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
@@ -12,7 +98,7 @@ export default class Dashboard extends Component {
 
     return (
       <div>
-        <div>
+        <div className="bodyDashboard">
           <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid fixed-top">
             <a class="navbar-brand" href="#">
               <img
@@ -60,22 +146,35 @@ export default class Dashboard extends Component {
           </nav>
         </div>
 
-        <body className="dashboard">
-          <div class="container-fluid trending">
-            <div class="text-center">
-              <h5>This is the dashboard.</h5>
+        
+            <div class="dashboard container-fluid">
+              <div class="row">
+                <div class="col-sm" id="dashtabcol">
+                  <button type="button" onClick={this.searchPrevQuery.bind(this)} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
+                </div>
+                <div class="col-sm" id="dashtabcol">
+                  <button type="button" onClick={this.searchFreqQuery} class="btn btn-info dashtab" id="freqtab">Most Frequent Searches</button>
+                </div>
+              </div>
+            </div>
+          
+
+        <div class="text-center">
+          <div class="container-fluid dashboardresults">
+            <div class="text-center"> 
+              {this.state.statisticResult}
             </div>
           </div>
-          <footer>
-            <div class="footer text-center">
+        </div>
+        <footer>
+            <div class="dashboardfooter text-center">
               <p>
                 Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
                 Tewari
               </p>
             </div>
-          </footer>
-        </body>
+        </footer>
       </div>
     );
-  }
+  };
 }

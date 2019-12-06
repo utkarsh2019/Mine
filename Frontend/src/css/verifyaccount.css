@@ -29,16 +29,18 @@
   	background-position: center;
   	background-repeat: no-repeat;
   	background-size: cover;
-  
   	padding-top: 5%;
-  	padding-bottom: 5%;
-  	padding-right: 3%;
+	  padding-right: 3%;
+	  padding-bottom: 8%;
+	  height:750px;
  
 }
 
-.footer {
-	height: auto;
-	color:white;
-	vertical-align: middle;
-	padding: 1% 1%;
+.verifyfooter {
+	height:auto;
+    padding:2% 2%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center; 
 }

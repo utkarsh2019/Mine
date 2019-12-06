@@ -3,7 +3,7 @@ import { getJwtToken, setCookies } from "../utils/CookieUtil";
 import { getUrlParameter } from "../utils/UrlUtil"
 import { redirectToDashboard, redirectToLogin } from "../utils/RedirectUtil";
 import axios from "axios";
-import { setCurrentUser } from "../utils/UserStorageUtil";
+import { setCurrentUser } from "../utils/StorageUtil";
 import { API_BASE_URL } from "../constants/Constants";
 
 class OAuth2 extends Component {

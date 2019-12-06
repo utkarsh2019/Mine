@@ -1,4 +1,6 @@
-export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearches, categoryPreferences) {
+import { CATEGORY_TYPES } from "../constants/Constants";
+
+export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearches, categoryPreferences, apiList) {
     localStorage.setItem("name", name);
     localStorage.setItem("email", email);
     if (profilePicUrl != undefined && profilePicUrl != null) {
@@ -9,11 +11,24 @@ export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearche
     }
     localStorage.setItem("provider", provider);
     localStorage.setItem("noOfSearches", noOfSearches);
-    localStorage.setItem("categoryPreferences", categoryPreferences);
+    let categoryPref = categoryPreferences.split(",");
+    let categoryPrefString = "";
+    for(let i=0; i < categoryPref.length; i++){
+        if (i != 0) {
+            categoryPrefString += ",";
+        }
+        categoryPrefString += CATEGORY_TYPES.get(categoryPref[i]);
+    }
+    localStorage.setItem("categoryPreferences", categoryPrefString);
+    localStorage.setItem("apiList", apiList);
 }
 
 export function setSearchCategory(category) {
     localStorage.setItem("searchCategory", category);
+}
+
+export function setSearchQuery(query) {
+    localStorage.setItem("searchQuery", query);
 }
 
 export function getCurrentUser() {
@@ -23,7 +38,8 @@ export function getCurrentUser() {
         "profilePicUrl": localStorage.getItem("profilePicUrl"),
         "provider": localStorage.getItem("provider"),
         "noOfSearches": localStorage.getItem("noOfSearches"),
-        "categoryPreferences": localStorage.getItem("categoryPreferences")
+        "categoryPreferences": localStorage.getItem("categoryPreferences"),
+        "apiList" : localStorage.getItem("apiList")
     }
 }
 
@@ -33,4 +49,12 @@ export function getCurrentUserField(field) {
 
 export function clearCurrentUser() {
     localStorage.clear();
+}
+
+export function getByValue(map, searchValue) {
+    for (let [key, value] of map.entries()) {
+        if (value === searchValue) {
+            return key;
+        }
+    }
 }

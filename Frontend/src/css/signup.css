@@ -13,6 +13,11 @@
 
     
 }
+
+.error {
+    border:1px solid red;
+}
+
 .center-block{
 	display: block;
     margin-left: auto;
@@ -37,11 +42,9 @@
 }
 
 .signupfooter {
-	height:auto;
-padding:2% 2%;
-    position: fixed;
-  left: 0;
-  bottom: 0;
+  height:auto;
+  padding:2% 2%;
+  
   width: 100%;
   background-color: black;
   color: white;

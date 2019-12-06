@@ -5,7 +5,8 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { setCurrentUser, getCurrentUser, clearCurrentUser } from "../utils/UserStorageUtil";
+import { setCurrentUser, getCurrentUser, clearCurrentUser } from "../utils/StorageUtil";
+import Popup from "./Popup";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -13,6 +14,15 @@ export default class Profile extends Component {
 
     this.setUserFields = this.setUserFields.bind(this);
     this.loadUser = this.loadUser.bind(this);
+    this.state = {
+      showPopup: false
+    };
+  }
+
+  togglePopup(){
+    this.setState({
+      showPopup: !this.state.showPopup
+    });
   }
 
   logout = () => {
@@ -63,7 +73,8 @@ export default class Profile extends Component {
           response.data.responseObject.profilePicUrl,
           response.data.responseObject.provider,
           response.data.responseObject.noOfSearches,
-          response.data.responseObject.categoryPreferences
+          response.data.responseObject.categoryPreferences,
+          response.data.responseObject.apiList
         );
         this.setUserFields(getCurrentUser());
       })
@@ -209,17 +220,21 @@ export default class Profile extends Component {
                   <button
                     type="button"
                     class="btn btn-danger"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          "Are you sure you wish to delete this account?"
-                        )
-                      )
-                        this.deleteAccount();
-                    }}
+                    onClick = {this.togglePopup.bind(this)}
                   >
                     Delete
                   </button>
+
+                  {this.state.showPopup ?  
+                    <Popup  
+                          confirm='true'
+                          header="Delete Account"
+                          text='Do you wish to permanently delete your account?' 
+                          action ={this.deleteAccount.bind(this)}
+                          closePopup={this.togglePopup.bind(this)}  
+                    />   
+                    : null  
+                  }
                 </div>
               </div>
               <br></br>

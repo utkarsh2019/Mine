@@ -30,7 +30,7 @@ export default class VerifyAccount extends Component {
   render () {
     return (
       <div>
-        <div class="container-fluid">
+        <div class="bodyVerifyAccount container-fluid">
           <div class="row regcontain" id="regid">
             <div class="col">
               <img
@@ -58,7 +58,7 @@ export default class VerifyAccount extends Component {
           </div>
         </div>
         <footer>
-          <div class="footer text-center">
+          <div class="verifyfooter text-center">
             <p>
               Mine App, 2019. Amol Jha, Shivangi Chand, Utkarsh Agarwal, Pooja
               Tewari
@@ -69,7 +69,4 @@ export default class VerifyAccount extends Component {
     );
   }
 
-  componentDidMount() {
-    document.body.className = "bodyVerifyAccount";
-  }
 }

@@ -16,6 +16,8 @@ export default class SearchList extends Component {
                 <SearchItem 
                     name={item.name} 
                     description={item.description} 
+                    venue={item.venue}
+                    unediteddatetime={item.datetime}
                     url={item.url} 
                     imageUrl={item.imageUrl} 
                     displayImage={(item.imageUrl != null && item.imageUrl != undefined)}/></li>); 
@@ -27,9 +29,6 @@ export default class SearchList extends Component {
                     {items}
                 </ul>
             </div>
-            // <div>
-            //     {items}
-            // </div>
         );
     }
 }

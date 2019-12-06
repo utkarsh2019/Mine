@@ -2,22 +2,23 @@ import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/Edit.css";
 import axios from "axios";
-import { API_BASE_URL } from "../constants/Constants";
+import { API_BASE_URL, CATEGORY_TYPES, API_LIST } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUser, getCurrentUserField} from "../utils/UserStorageUtil";
+import { getCurrentUser, getCurrentUserField, getByValue } from "../utils/StorageUtil";
 
 export default class EditProfile extends Component {
   constructor(props) {
     super(props);
-    
+
     this.setUserFields = this.setUserFields.bind(this);
     this.select = this.select.bind(this);
     this.deselect = this.deselect.bind(this);
     this.additemsToList = this.additemsToList.bind(this);
+    this.checkCheckboxes = this.checkCheckboxes.bind(this);
   }
 
-  additemsToList(li, ulID){
+  additemsToList(li, ulID) {
     let listItem = document.createElement("li");
     listItem.innerHTML = li;
     listItem.className = "list-group-item";
@@ -25,29 +26,29 @@ export default class EditProfile extends Component {
     listItem.addEventListener('click', this.select.bind());
     listItem.addEventListener('dblclick', this.deselect.bind());
     document.getElementById(ulID).appendChild(listItem);
-}
+  }
 
 
   checkEnterLogin = (evt) => {
-    if(evt.keyCode === 13) {
+    if (evt.keyCode === 13) {
       evt.preventDefault();
       this.login();
     }
   };
 
   select(evt) {
-    let i =  evt.target.id;
+    let i = evt.target.id;
     document.getElementById(i).style.backgroundColor = '#5DBCD2';
   }
 
   deselect(evt) {
     let i = evt.target.id;
-    document.getElementById(i).style.backgroundColor ='white';
+    document.getElementById(i).style.backgroundColor = 'white';
   }
 
   moveLeft() {
     let items = document.getElementById("Needed").getElementsByTagName("li");
-    if(items.length == 0){
+    if (items.length == 0) {
       alert('Needed Entertainment List is Empty!');
     }
 
@@ -57,25 +58,25 @@ export default class EditProfile extends Component {
       return hexString.style.backgroundColor
     }
 
-    let move= [];  
+    let move = [];
 
     let i;
-    for(i=0; i<items.length; i++){
-      if(items[i].style.backgroundColor === compareHex("#5DBCD2")){
+    for (i = 0; i < items.length; i++) {
+      if (items[i].style.backgroundColor === compareHex("#5DBCD2")) {
         move.push(items[i].id);
         document.getElementById("Needed").removeChild(items[i]);
       }
     }
 
-    let j; 
-    for(j=0; j<move.length; j++){
+    let j;
+    for (j = 0; j < move.length; j++) {
       this.additemsToList(move[j], "Available");
     }
   }
 
   moveRight() {
     let items = document.getElementById("Available").getElementsByTagName("li");
-    if(items.length == 0){
+    if (items.length == 0) {
       alert('Available Entertainment List is Empty!');
     }
 
@@ -85,20 +86,33 @@ export default class EditProfile extends Component {
       return hexString.style.backgroundColor
     }
 
-    let move= [];  
+    let move = [];
 
     let i;
-    for(i=0; i<items.length; i++){
-      if(items[i].style.backgroundColor === compareHex("#5DBCD2")){
+    for (i = 0; i < items.length; i++) {
+      if (items[i].style.backgroundColor === compareHex("#5DBCD2")) {
         move.push(items[i].id);
         document.getElementById("Available").removeChild(items[i]);
       }
     }
 
-    let j; 
-    for(j=0; j<move.length; j++){
+    let j;
+    for (j = 0; j < move.length; j++) {
       this.additemsToList(move[j], "Needed");
     }
+  }
+
+  checkCheckboxes(){
+    if(document.getElementById("Youtube").checked == false && document.getElementById("Vimeo").checked == false && document.getElementById("Dailymotion").checked == false ){
+      alert("Please Select at least one Video API");
+      return false;
+    }
+
+    if(document.getElementById("Googlebooks").checked == false && document.getElementById("Newsapi").checked == false){
+      alert("Please Select at least one Books/Article API");
+      return false;
+    }
+    return true;
   }
 
   setUserFields = (user) => {
@@ -114,32 +128,41 @@ export default class EditProfile extends Component {
     } else if (user.noOfSearches == 7) {
       document.getElementById("inlineRadio4").checked = true;
     }
-       
-    if(user.profilePicUrl != null){
+
+    if (user.profilePicUrl != null) {
       document.getElementById("profileImage").src = user.profilePicUrl;
     }
 
     let pref = user.categoryPreferences.split(",");
     let len = pref.length;
     let i;
-    for(i=0; i< len; i++){
+
+    for (i = 0; i < len; i++) {
       this.additemsToList(pref[i], "Needed");
     }
-    if(!pref.includes("video")){
-      this.additemsToList("video", "Available");
-    }
-    if(!pref.includes("movie")){
-      this.additemsToList("movie", "Available");
-    }
-    if(!pref.includes("tvseries")){
-      this.additemsToList("tvseries", "Available");
+
+    CATEGORY_TYPES.forEach((value, key) => {
+      if (!pref.includes(value)) {
+        this.additemsToList(value, "Available");
+      }
+    });
+
+    
+    let apis = user.apiList.split(",");
+    let apiLen = apis.length;
+    console.log(apis);
+    let j;
+    for (j =0; j<apiLen; j++){
+      let item = document.getElementById(apis[j]);
+      item.checked = true;
     }
 
-    if(user.provider === 'google' || user.provider === 'facebook'){
+
+    if (user.provider === 'google' || user.provider === 'facebook') {
       document.getElementById("name").disabled = true;
       document.getElementById("email").disabled = true;
-      document.getElementById("changePasswordRedirect").href = "#";
-      document.getElementById("changeImageRedirect").href = "#";
+      document.getElementById("changePasswordRedirect").href = "";
+      document.getElementById("changeImageRedirect").href = "";
     }
 
   };
@@ -148,15 +171,15 @@ export default class EditProfile extends Component {
 
     let provider = getCurrentUserField("provider");
 
-    if(document.getElementById("changePasswordRedirect").href === "#" && document.getElementById("changeImageRedirect").href === "#"){
-      alert("You are logged in through your "+provider+ "account");
+    if (document.getElementById("changePasswordRedirect").href === "" && document.getElementById("changeImageRedirect").href === "") {
+      alert("You are logged in through your " + provider + "account");
     }
   }
 
   cancelEdit = () => {
     window.location.replace("/profile");
   }
-  
+
   updateInfo = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
@@ -166,14 +189,14 @@ export default class EditProfile extends Component {
     let items = document.getElementById("Needed").getElementsByTagName("li");
     let i;
 
-    if(items.length === 0){
-        alert('Please select at least one Category!');
-        return;
+    if (items.length === 0) {
+      alert('Please select at least one Category!');
+      return;
     }
 
     let pref = "";
-    for(i=0; i<items.length; i++){
-      pref += items[i].id + ",";
+    for (i = 0; i < items.length; i++) {
+      pref += getByValue(CATEGORY_TYPES, items[i].id) + ",";
     }
 
     let num;
@@ -187,33 +210,45 @@ export default class EditProfile extends Component {
       num = 7;
     }
 
-      axios({
-        method: "put",
-        url: API_BASE_URL + "/user/me",
-        headers: {
-          Authorization: type + " " + token
-        },
-        data: {
-          email: document.getElementById("email").value,
-          name: document.getElementById("name").value,
-          profilePicUrl: null,
-          categoryPreferences: pref,
-          noOfSearches: num
-        }
+    let apis = "";
+    if(this.checkCheckboxes()){
+      API_LIST.forEach((value) =>{
+          let object = document.getElementById(value);
+          if(object.checked == true){
+            apis += value + ",";
+          } 
+      });
+      console.log(apis);
+    
+    axios({
+      method: "put",
+      url: API_BASE_URL + "/user/me",
+      headers: {
+        Authorization: type + " " + token
+      },
+      data: {
+        email: document.getElementById("email").value,
+        name: document.getElementById("name").value,
+        profilePicUrl: null,
+        categoryPreferences: pref,
+        noOfSearches: num,
+        apiList:apis
+      }
+    })
+      .then(function (response) {
+        window.location.replace("/profile");
       })
-        .then(function(response) {
-          window.location.replace("/profile");
-        })
-        .catch(function(error) {
-          alert(error);
-        });
+      .catch(function (error) {
+        alert(error);
+      });
+    }
   };
 
   render() {
-    if (! checkUserLoggedIn()) {
+    if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
     }
-    
+
     return (
       <div className="Edit">
         <div>
@@ -293,7 +328,7 @@ export default class EditProfile extends Component {
                       height="75"
                       width="75"
                       class="rounded-circle"
-                      id = "profileImage"
+                      id="profileImage"
                     ></img>
                     <a class="align-right" href="/editimage" id="changeImageRedirect" onClick={this.checkRedirect}>
                       Edit
@@ -308,34 +343,93 @@ export default class EditProfile extends Component {
                 </div>
                 <div className="col-sm-8">
                   <p>
-                    <b>Categories:</b> 
+                    <b>Categories:</b>
                   </p>
                   <p>Please arrange in the order of preference needed.</p>
 
                   <div class="row">
 
                     <div class="dual-list list-left col-md-5">
-                        <div class="well text-right">
-                            <p>Available Entertainment</p>
-                            <ul class="list-group" id="Available">
-                            </ul>
-                        </div>
+                      <div class="well text-right">
+                        <p>Available Entertainment</p>
+                        <ul class="list-group" id="Available">
+                        </ul>
+                      </div>
                     </div>
 
                     <div class="list-arrows col-md-1 text-center">
-                        <button class="btn btn-default btn-sm move-right" onClick={()=>{this.moveRight()}}><span>&#62;</span></button>
-                        <button class="btn btn-default btn-sm move-left" onClick={()=>{this.moveLeft()}}><span>&#60;</span></button>
+                      <button class="btn btn-default btn-sm move-right" onClick={() => { this.moveRight() }}><span>&#62;</span></button>
+                      <button class="btn btn-default btn-sm move-left" onClick={() => { this.moveLeft() }}><span>&#60;</span></button>
                     </div>
 
                     <div class="dual-list list-right col-md-5">
-                        <div class="well">
+                      <div class="well">
                         <p>Needed Entertainment</p>
-                            <ul class="list-group" id="Needed">
-                            </ul>
-                        </div>
+                        <ul class="list-group" id="Needed">
+                        </ul>
+                      </div>
                     </div>
 
+                    <div>
+                      <br></br>
+                      <br></br>
+                      <p>
+                      <b>APIs:</b>
+                      </p>
+                      <p>Video APIs:</p>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Youtube" value="option1"></input>
+                        <label class="form-check-label" for="Youtube">Youtube</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Vimeo" value="option2"></input>
+                        <label class="form-check-label" for="Vimeo">Vimeo</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Dailymotion" value="option3"></input>
+                        <label class="form-check-label" for="Dailymotion">Dailymotion</label>
+                      </div>
+                      <br></br>
+                      <br></br>
+                      <p>Music API:</p>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Lastfm" value="option1" disabled></input>
+                        <label class="form-check-label" for="LastFM">Last FM</label>
+                      </div>
+                      <br></br>
+                      <br></br> 
+                      <p>Movies API:</p>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Tmdb" value="option1" disabled></input>
+                        <label class="form-check-label" for="Tmdb">TMDB</label>
+                      </div>
+                      <br></br>
+                      <br></br>
+                      <p>TV Series API:</p>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Tvmaze" value="option1" disabled></input>
+                        <label class="form-check-label" for="Tvmaze">TV Maze</label>
+                      </div>
+                      <br></br>
+                      <br></br> 
+                      <p>Events API:</p>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Seatgeek" value="option1" disabled></input>
+                        <label class="form-check-label" for="Seatgeek">SeatGeek</label>
+                      </div>
+                      <br></br>
+                      <br></br> 
+                      <p>Books/Articles APIs:</p>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Googlebooks" value="option1"></input>
+                        <label class="form-check-label" for="Googlebooks">Google Books</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="Newsapi" value="option2"></input>
+                        <label class="form-check-label" for="Newsapi">News API</label>
+                      </div>
                     </div>
+                  </div>
 
 
                   <hr></hr>
@@ -410,7 +504,7 @@ export default class EditProfile extends Component {
                   Update
                 </button>
                 <button
-                id="editcancelbutton"
+                  id="editcancelbutton"
                   type="button"
                   class="btn btn-danger"
                   onClick={this.cancelEdit}

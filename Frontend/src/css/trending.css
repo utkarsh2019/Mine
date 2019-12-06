@@ -14,3 +14,11 @@
             height:600px;
             background-color: white;
         }    
+        #trendingfooter {      
+            height:auto;
+        padding:2% 2%;
+        width: 100%;
+        background-color: black;
+        color: white;
+        text-align: center; 
+        }
