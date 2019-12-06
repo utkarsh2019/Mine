@@ -118,7 +118,7 @@ export default class Search extends Component {
   pageonload = () => {
      if (getSearchField("searchInput")!= "" || getSearchField("searchInput")!= null){
        alert("current category " + getSearchField("searchCategory")+ "current input " + getSearchField("searchInput"));
-       this.externalSearchQuery(getSearchField("searchInput"),getSearchField("searchCategory"));
+       this.externalSearchQuery(getSearchField("searchInput"));
        
      }
    }

@@ -1,10 +1,70 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/trending.css";
-import { checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
+import { checkUserLoggedIn,getJwtToken } from "../utils/CookieUtil";
+import StatisticList from "./StatisticList";
+import axios from "axios";
+import { API_BASE_URL } from "../constants/Constants";
 
 export default class Trending extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      statisticResult: []
+    };
+  //  this.searchFreqQuery = this.searchFreqQuery.bind(this);
+    this.setSearchResult = this.setSearchResult.bind(this);
+    this.setSearchApi = this.setSearchApi.bind(this);
+    //this.setCategory = this.setCategory.bind(this);
+
+  }
+  
+  searchPrevQuery = () => {
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+    
+    axios({
+      method: "get",
+      url: API_BASE_URL + "/user/me/search/previous",
+      headers: {
+        Authorization: type + " " + token
+      }
+    })
+      .then(response => {
+      console.log(response);
+      this.setState({statisticResult: []});
+        let search = response.data.responseObject;  
+        this.setSearchResult(search);
+      })
+      .catch(error => {
+        alert(error.response.data.errorMessage);
+      });
+  };
+
+
+  setSearchResult = (responseObject) => {
+    let responseObjectMap = new Map(Object.entries(responseObject));
+    responseObjectMap.forEach((value, key) => {
+      this.setSearchApi(value, key);
+    });
+  };
+
+  setSearchApi = (value, key) => {
+    let statistics = this.state.statisticResult;
+    
+    statistics.push(
+      <div>
+        <StatisticList statisticItems={value} statisticCategory={key}/>
+      </div>
+    );
+    this.setState({statisticResult: statistics});
+  };
+
+  componentDidMount(){
+    this.searchPrevQuery();
+  }
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
@@ -63,9 +123,14 @@ export default class Trending extends Component {
         <body className="dashboard">
           <div class="container-fluid trending">
             <div class="text-center">
-              <h5>This is the trending page.</h5>
+              <div class="container-fluid dashboardresults">
+                <div class="text-center"> 
+                  {this.state.statisticResult}
+                </div>
+              </div>
+        </div>
             </div>
-          </div>
+          
           <footer>
             <div class="text-center" id="trendingfooter">
               <p>

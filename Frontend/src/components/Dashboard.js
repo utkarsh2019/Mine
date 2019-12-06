@@ -18,8 +18,7 @@ export default class Dashboard extends Component {
     this.setSearchApi = this.setSearchApi.bind(this);
     //this.setCategory = this.setCategory.bind(this);
   }
-  searchPrevQuery = (evt) => {
-    evt.preventDefault();
+  searchPrevQuery = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
@@ -83,7 +82,9 @@ export default class Dashboard extends Component {
     );
     this.setState({statisticResult: statistics});
   };
-
+  componentDidMount(){
+    this.searchPrevQuery();
+  }
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
