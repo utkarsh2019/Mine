@@ -41,3 +41,6 @@ pictures/
 
 ### SSH Key ###
 src/main/resources/mineappcert.p12
+
+### Extra ###
+c:\\response.json
