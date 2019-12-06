@@ -13,21 +13,19 @@ export default class Trending extends Component {
     this.state = {
       statisticResult: []
     };
-  //  this.searchFreqQuery = this.searchFreqQuery.bind(this);
     this.setSearchResult = this.setSearchResult.bind(this);
     this.setSearchApi = this.setSearchApi.bind(this);
-    //this.setCategory = this.setCategory.bind(this);
-
+    this.searchTrendingQuery = this.searchTrendingQuery.bind(this);
   }
   
-  searchPrevQuery = () => {
+  searchTrendingQuery = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
     
     axios({
       method: "get",
-      url: API_BASE_URL + "/user/me/search/previous",
+      url: API_BASE_URL + "/search/trending",
       headers: {
         Authorization: type + " " + token
       }
@@ -63,8 +61,9 @@ export default class Trending extends Component {
   };
 
   componentDidMount(){
-    this.searchPrevQuery();
-  }
+    this.searchTrendingQuery();
+  };
+  
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);

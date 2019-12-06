@@ -4,7 +4,7 @@ import "../css/bootstrap.css";
 import "../css/search.css";
 import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUserField, setSearchCategory, getByValue } from "../utils/StorageUtil";
+import { getCurrentUserField, setSearchCategory, getByValue, setSearchQuery } from "../utils/StorageUtil";
 import SearchList from "./SearchList";
 import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 import axios from "axios";
@@ -33,7 +33,7 @@ export default class Search extends Component {
   };
 
   externalSearchQuery = (input) => {
-    document.getElementById("searchbar").value = input.toString();
+    document.getElementById("searchbar").value = input;
     this.searchQuery();
   };
 
@@ -63,6 +63,7 @@ export default class Search extends Component {
       .then(response => {
         this.setState({searchResult: []});
         this.setSearchResult(response.data.responseObject);
+        setSearchQuery("");
       })
       .catch(error => {
         alert(error);
@@ -115,8 +116,7 @@ export default class Search extends Component {
   }
   
   pageOnLoad = () => {
-     if (getCurrentUserField("searchQuery") != "" || getCurrentUserField("searchQuery") != null){
-      alert("current category " + getCurrentUserField("searchCategory")+ "current input " + getCurrentUserField("searchQuery"));
+     if (getCurrentUserField("searchQuery") != "" && getCurrentUserField("searchQuery") != null){
       this.externalSearchQuery(getCurrentUserField("searchQuery")); 
     }
   }
