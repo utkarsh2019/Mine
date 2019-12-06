@@ -74,15 +74,17 @@ export default class Dashboard extends Component {
 
   setSearchApi = (value, key) => {
     let statistics = this.state.statisticResult;
-    let statisticsSearchCategory = CATEGORY_TYPES.get(key);
-    
-    statistics.push(
-      <div>
-        <h3>{statisticsSearchCategory}</h3>
-        <StatisticList statisticItems={value} statisticCategory={statisticsSearchCategory}/>
-      </div>
-    );
-    this.setState({statisticResult: statistics});
+    if (Array.isArray(value) && value.length > 0) {
+      let statisticsSearchCategory = CATEGORY_TYPES.get(key);
+      
+      statistics.push(
+        <div>
+          <h3>{statisticsSearchCategory}</h3>
+          <StatisticList statisticItems={value} statisticCategory={statisticsSearchCategory}/>
+        </div>
+      );
+      this.setState({statisticResult: statistics});
+    }
   };
 
   componentDidMount(){

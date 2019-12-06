@@ -72,14 +72,15 @@ export default class Search extends Component {
   
   setSearchApi = (value, key) => {
     let searches = this.state.searchResult;
-   
-    searches.push(
-      <div>
-        <img class="apilogo" src={require("./../images/"+key+"logo.png")}></img>
-        <SearchList searchItems={value}/>
-      </div>
-    );
-    this.setState({searchResult: searches});
+    if (Array.isArray(value) && value.length > 0) {
+      searches.push(
+        <div>
+          <img class="apilogo" src={require("./../images/"+key+"logo.png")}></img>
+          <SearchList searchItems={value}/>
+        </div>
+      );
+      this.setState({searchResult: searches});
+    }
   };
 
   setSearchResult = (responseObject) => {
