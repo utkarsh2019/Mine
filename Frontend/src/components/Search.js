@@ -4,9 +4,9 @@ import "../css/bootstrap.css";
 import "../css/search.css";
 import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUserField, setSearchCategory, getByValue } from "../utils/UserStorageUtil";
+import { getCurrentUserField, setSearchCategory, getByValue, setSearchQuery } from "../utils/StorageUtil";
 import SearchList from "./SearchList";
-import { API_BASE_URL, API_IMAGES, CATEGORY_TYPES } from "../constants/Constants";
+import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 import axios from "axios";
 
 export default class Search extends Component {
@@ -17,6 +17,8 @@ export default class Search extends Component {
       searchResult: []
     };
     this.searchQuery = this.searchQuery.bind(this);
+    this.externalSearchQuery = this.externalSearchQuery.bind(this);
+    this.pageOnLoad = this.pageOnLoad.bind(this);
     this.setSearchResult = this.setSearchResult.bind(this);
     this.setSearchApi = this.setSearchApi.bind(this);
     this.setCategory = this.setCategory.bind(this);
@@ -25,20 +27,29 @@ export default class Search extends Component {
 
   checkEnterSearch = (evt) => {
     if (evt.keyCode === 13) {
-      // evt.preventDefault();
-      this.searchQuery(evt);
+      evt.preventDefault();
+      this.searchQuery();
     }
   };
 
-  searchQuery = (evt) => {
+  externalSearchQuery = (input) => {
+    document.getElementById("searchbar").value = input;
+    this.searchQuery();
+  };
+
+  searchQueryEvent = (evt) => {
     evt.preventDefault();
+    this.searchQuery();
+  }
+
+  searchQuery = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
 
     let searchQuery = document.getElementById("searchbar").value;
     let category = getByValue(CATEGORY_TYPES,getCurrentUserField("searchCategory"));
-    
+
     axios({
       method: "post",
       url: API_BASE_URL + "/search/" + category,
@@ -52,6 +63,7 @@ export default class Search extends Component {
       .then(response => {
         this.setState({searchResult: []});
         this.setSearchResult(response.data.responseObject);
+        setSearchQuery("");
       })
       .catch(error => {
         alert(error);
@@ -102,6 +114,12 @@ export default class Search extends Component {
     setSearchCategory(document.getElementById(val).innerHTML);
     document.getElementById('categoriesdrop').innerHTML = getCurrentUserField("searchCategory");
   }
+  
+  pageOnLoad = () => {
+     if (getCurrentUserField("searchQuery") != "" && getCurrentUserField("searchQuery") != null){
+      this.externalSearchQuery(getCurrentUserField("searchQuery")); 
+    }
+  }
 
   componentDidMount() {
     //An array of assets
@@ -124,6 +142,7 @@ export default class Search extends Component {
       document.body.appendChild(script);
     });
     this.initializeCategories();
+    this.pageOnLoad();  
   }
 
   render () {
@@ -231,7 +250,7 @@ export default class Search extends Component {
               <form class="form-inline">
                 <button
                   class="btn btn-outline-success my-2 my-sm-0"
-                  onClick={this.searchQuery}
+                  onClick={this.searchQueryEvent}
                 >
                   Search
                 </button>
