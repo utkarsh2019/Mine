@@ -223,10 +223,10 @@ public class UserService implements UserDetailsService {
 		String apiList = "";
 		ApiEntity apis = apiRepository.findByUser(user);
 		ApiProvider[] allApiList = ApiProvider.values();
-		for (int i=1; i <= allApiList.length; i++) {
+		for (int i=0; i < allApiList.length; i++) {
 			String api = allApiList[i].toString();
-			if((Boolean) apis.getClass().getMethod("get"+api).invoke(user)) {
-				if (i != 1) {
+			if((Boolean) apis.getClass().getMethod("get"+api).invoke(apis)) {
+				if (i != 0) {
 					apiList += ",";
 				}
 				apiList += api;
