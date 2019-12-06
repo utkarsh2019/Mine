@@ -6,7 +6,7 @@ import Popup from "./Popup";
 import { getJwtToken, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import { API_BASE_URL } from "../constants/Constants";
-import { getCurrentUserField, setCurrentUser } from "../utils/UserStorageUtil";
+import { getCurrentUserField, setCurrentUser } from "../utils/StorageUtil";
 
 export default class EditImage extends Component {
 

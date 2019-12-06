@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { setCurrentUser, getCurrentUser, clearCurrentUser } from "../utils/UserStorageUtil";
+import { setCurrentUser, getCurrentUser, clearCurrentUser } from "../utils/StorageUtil";
 import Popup from "./Popup";
 
 export default class Profile extends Component {

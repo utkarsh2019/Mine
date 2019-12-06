@@ -5,7 +5,7 @@ import { checkUserLoggedIn,getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import StatisticList from "./StatisticList";
 import axios from "axios";
-import { API_BASE_URL } from "../constants/Constants";
+import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -74,17 +74,20 @@ export default class Dashboard extends Component {
 
   setSearchApi = (value, key) => {
     let statistics = this.state.statisticResult;
+    let statisticsSearchCategory = CATEGORY_TYPES.get(key);
     
     statistics.push(
       <div>
-        <StatisticList statisticItems={value} statisticCategory={key}/>
+        <StatisticList statisticItems={value} statisticCategory={statisticsSearchCategory}/>
       </div>
     );
     this.setState({statisticResult: statistics});
   };
+
   componentDidMount(){
     this.searchPrevQuery();
-  }
+  };
+
   render() {
     if (!checkUserLoggedIn()) {
       return redirectToHome(this.props.location);
@@ -170,5 +173,5 @@ export default class Dashboard extends Component {
         </footer>
       </div>
     );
-  }
+  };
 }

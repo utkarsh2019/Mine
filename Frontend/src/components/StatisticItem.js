@@ -1,42 +1,24 @@
-/*import React, { Component } from "react";
-import "../css/bootstrap.css"
-import "../css/SearchItem.css"
-
-export default class StatisticItem extends Component {
-
-    constructor(props) {
-        super(props);
-    };
-
-    render() {
-        
-        return (
-            <p>{this.props.name}</p>
-        );
-    }
-}*/
 import React, { Component } from "react";
 import "../css/bootstrap.css"
 import "../css/SearchItem.css"
-import {setSearchInput } from "../utils/DTSUtil";
+import { setSearchCategory, setSearchQuery } from "../utils/StorageUtil";
 
 export default class StatisticItem extends Component {
 
     constructor(props) {
         super(props);
     };
-    clickforfun = () => {
-        setSearchInput(
-            this.props.name,
-            this.props.category
-        );
+    
+    redirectSearch = () => {
+        setSearchCategory(this.props.category);
+        setSearchQuery(this.props.name);
         alert(this.props.category);
         window.location.replace("/search");
     };
 
     render() {
         return (
-         <button onClick={this.clickforfun}>{this.props.name}</button>
+            <button onClick={this.redirectSearch}>{this.props.name}</button>
         );
     }
 }

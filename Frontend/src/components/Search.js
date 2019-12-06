@@ -4,12 +4,10 @@ import "../css/bootstrap.css";
 import "../css/search.css";
 import { checkUserLoggedIn, getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUserField, setSearchCategory, getByValue } from "../utils/UserStorageUtil";
+import { getCurrentUserField, setSearchCategory, getByValue } from "../utils/StorageUtil";
 import SearchList from "./SearchList";
-import { API_BASE_URL, API_IMAGES, CATEGORY_TYPES } from "../constants/Constants";
+import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 import axios from "axios";
-import { getSearchField , setSearchInput } from "../utils/DTSUtil";
-
 
 export default class Search extends Component {
 
@@ -20,7 +18,7 @@ export default class Search extends Component {
     };
     this.searchQuery = this.searchQuery.bind(this);
     this.externalSearchQuery = this.externalSearchQuery.bind(this);
-    this.pageonload = this.pageonload.bind(this);
+    this.pageOnLoad = this.pageOnLoad.bind(this);
     this.setSearchResult = this.setSearchResult.bind(this);
     this.setSearchApi = this.setSearchApi.bind(this);
     this.setCategory = this.setCategory.bind(this);
@@ -29,13 +27,13 @@ export default class Search extends Component {
 
   checkEnterSearch = (evt) => {
     if (evt.keyCode === 13) {
-      // evt.preventDefault();
-      this.searchQueryEvent(evt);
+      evt.preventDefault();
+      this.searchQuery();
     }
   };
-  externalSearchQuery = (input, categ) => {
-   // evt.preventDefault();
-   document.getElementById("searchbar").value = input.toString();
+
+  externalSearchQuery = (input) => {
+    document.getElementById("searchbar").value = input.toString();
     this.searchQuery();
   };
 
@@ -115,13 +113,14 @@ export default class Search extends Component {
     setSearchCategory(document.getElementById(val).innerHTML);
     document.getElementById('categoriesdrop').innerHTML = getCurrentUserField("searchCategory");
   }
-  pageonload = () => {
-     if (getSearchField("searchInput")!= "" || getSearchField("searchInput")!= null){
-       alert("current category " + getSearchField("searchCategory")+ "current input " + getSearchField("searchInput"));
-       this.externalSearchQuery(getSearchField("searchInput"));
-       
-     }
-   }
+  
+  pageOnLoad = () => {
+     if (getCurrentUserField("searchQuery") != "" || getCurrentUserField("searchQuery") != null){
+      alert("current category " + getCurrentUserField("searchCategory")+ "current input " + getCurrentUserField("searchQuery"));
+      this.externalSearchQuery(getCurrentUserField("searchQuery")); 
+    }
+  }
+
   componentDidMount() {
     //An array of assets
     let scripts = [
@@ -143,8 +142,7 @@ export default class Search extends Component {
       document.body.appendChild(script);
     });
     this.initializeCategories();
-    this.pageonload();
-    
+    this.pageOnLoad();  
   }
 
   render () {

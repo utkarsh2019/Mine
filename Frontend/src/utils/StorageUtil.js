@@ -26,6 +26,10 @@ export function setSearchCategory(category) {
     localStorage.setItem("searchCategory", category);
 }
 
+export function setSearchQuery(query) {
+    localStorage.setItem("searchQuery", query);
+}
+
 export function getCurrentUser() {
     return {
         "name": localStorage.getItem("name"),

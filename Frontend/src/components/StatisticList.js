@@ -28,7 +28,6 @@ import React, { Component } from "react";
 import "../css/bootstrap.css"
 import StatisticItem from "./StatisticItem";
 import "../css/dashboard.css";
-//import uniqueid from 'uniqueid';
 
 export default class StatisticList extends Component {
     render() {

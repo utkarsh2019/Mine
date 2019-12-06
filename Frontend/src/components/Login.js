@@ -4,7 +4,7 @@ import "../css/bootstrap.css";
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, API_BASE_URL } from "../constants/Constants";
 import axios from "axios";
 import { getJwtToken, setCookies } from "../utils/CookieUtil";
-import { setCurrentUser } from "../utils/UserStorageUtil";
+import { setCurrentUser } from "../utils/StorageUtil";
 
 export default class Login extends Component {
   constructor(props) {
