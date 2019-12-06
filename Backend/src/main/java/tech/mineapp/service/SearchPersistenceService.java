@@ -2,6 +2,8 @@ package tech.mineapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import tech.mineapp.constants.Category;
 import tech.mineapp.entity.SearchEntity;
 import tech.mineapp.entity.UserEntity;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class SearchPersistenceService {
 
     @Autowired
