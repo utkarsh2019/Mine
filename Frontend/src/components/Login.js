@@ -9,9 +9,7 @@ import { setCurrentUser } from "../utils/StorageUtil";
 export default class Login extends Component {
   constructor(props) {
     super(props);
-
     this.setUser = this.setUser.bind(this);
-
   }
 
   checkEnterLogin = (evt) => {
@@ -42,6 +40,7 @@ export default class Login extends Component {
           response.data.responseObject.noOfSearches,
           response.data.responseObject.categoryPreferences
         );
+        window.location.replace("/dashboard");
       })
       .catch(function (error) {
         alert(error);
@@ -124,7 +123,6 @@ export default class Login extends Component {
         .then(response => {
           setCookies(response.data.responseObject.accessToken, response.data.responseObject.tokenType);
           this.setUser();
-          window.location.replace("/dashboard");
         })
         .catch(error => {
           let al = document.createElement("p");
