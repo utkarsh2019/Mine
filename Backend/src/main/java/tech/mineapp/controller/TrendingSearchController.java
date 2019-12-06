@@ -48,34 +48,34 @@ public class TrendingSearchController {
             String categoryPreferences = userCategoryPreferences.toLowerCase();
             
             if (categoryPreferences.contains("video")) {
-            	searchStatisticsResponseModel.setVideoSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setVideo(searchStatisticsService
                         .getTrendingSearchesForCategory(Category.video, noOfSearches));
             }
             
             if (categoryPreferences.contains("tvseries")) {
-            	searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setTvseries(searchStatisticsService
                         .getTrendingSearchesForCategory(Category.tvseries, noOfSearches));
             }
             
             if (categoryPreferences.contains("movie")) {
-            	searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setMovie(searchStatisticsService
                         .getTrendingSearchesForCategory(Category.movie, noOfSearches));
             }
             
             
             if (categoryPreferences.contains("written")) {
-            	searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setWritten(searchStatisticsService
                         .getTrendingSearchesForCategory(Category.written, noOfSearches));
             }
             
             if (categoryPreferences.contains("event")) {
-            	searchStatisticsResponseModel.setEventSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setEvent(searchStatisticsService
                         .getTrendingSearchesForCategory(Category.event, noOfSearches));
             }
             
             
             if (categoryPreferences.contains("audio")) {
-            	searchStatisticsResponseModel.setAudioSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setAudio(searchStatisticsService
                         .getTrendingSearchesForCategory(Category.audio, noOfSearches));
             }
 
