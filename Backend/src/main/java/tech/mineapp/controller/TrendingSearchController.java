@@ -43,7 +43,6 @@ public class TrendingSearchController {
             int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
 
             SearchStatisticsResponseModel searchStatisticsResponseModel = new SearchStatisticsResponseModel();
-
             
             String userCategoryPreferences = userService.convertToCategoryPreferences(userService.findUserById(userPrincipal.getUserId())); 
             String categoryPreferences = userCategoryPreferences.toLowerCase();
@@ -79,7 +78,6 @@ public class TrendingSearchController {
             	searchStatisticsResponseModel.setAudioSearches(searchStatisticsService
                         .getTrendingSearchesForCategory(Category.audio, noOfSearches));
             }
-            
 
             response.setStatus("SUCCESS");
             response.setResponseObject(searchStatisticsResponseModel);

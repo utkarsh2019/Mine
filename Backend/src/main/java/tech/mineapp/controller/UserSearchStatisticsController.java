@@ -76,7 +76,7 @@ public class UserSearchStatisticsController {
             if (categoryPreferences.contains("audio")) {
             	searchStatisticsResponseModel.setAudioSearches(searchStatisticsService.
                         getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.audio, noOfSearches));
-            }  
+            }
 
             response.setStatus("SUCCESS");
             response.setResponseObject(searchStatisticsResponseModel);
@@ -147,7 +147,7 @@ public class UserSearchStatisticsController {
         } catch (Exception e) {
 
             response.setStatus("FAIL");
-            response.setErrorMessage(e.getMessage());
+			response.setErrorMessage(e.getMessage());
 
             logger.error(e.getMessage());
 
