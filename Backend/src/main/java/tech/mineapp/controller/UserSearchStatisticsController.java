@@ -48,33 +48,33 @@ public class UserSearchStatisticsController {
             String categoryPreferences = userCategoryPreferences.toLowerCase();
             
             if (categoryPreferences.contains("video")) {
-            	searchStatisticsResponseModel.setVideoSearches(searchStatisticsService.
+            	searchStatisticsResponseModel.setVideo(searchStatisticsService.
                         getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.video, noOfSearches));
             }
             
             if (categoryPreferences.contains("tvseries")) {
-            	searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService.
+            	searchStatisticsResponseModel.setTvseries(searchStatisticsService.
                         getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.tvseries, noOfSearches));
             }
             
             if (categoryPreferences.contains("movie")) {
-            	searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setMovie(searchStatisticsService
                         .getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.movie, noOfSearches));
             }
             
             
             if (categoryPreferences.contains("written")) {
-            	searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService.
+            	searchStatisticsResponseModel.setWritten(searchStatisticsService.
                         getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.written, noOfSearches));
             }
             
             if (categoryPreferences.contains("event")) {
-            	searchStatisticsResponseModel.setEventSearches(searchStatisticsService.
+            	searchStatisticsResponseModel.setEvent(searchStatisticsService.
                         getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.event, noOfSearches));
             }
             
             if (categoryPreferences.contains("audio")) {
-            	searchStatisticsResponseModel.setAudioSearches(searchStatisticsService.
+            	searchStatisticsResponseModel.setAudio(searchStatisticsService.
                         getPreviousSearchesForUserAndCategory(userPrincipal.getUserId(), Category.audio, noOfSearches));
             }
 
@@ -110,33 +110,33 @@ public class UserSearchStatisticsController {
             SearchStatisticsResponseModel searchStatisticsResponseModel = new SearchStatisticsResponseModel();
 
             if (categoryPreferences.contains("video")) {
-            	searchStatisticsResponseModel.setVideoSearches(searchStatisticsService.
+            	searchStatisticsResponseModel.setVideo(searchStatisticsService.
             			getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.video, noOfSearches));
             }
             
             if (categoryPreferences.contains("tvseries")) {
-            	searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService.
+            	searchStatisticsResponseModel.setTvseries(searchStatisticsService.
                         getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.tvseries, noOfSearches));
             }
             
             if (categoryPreferences.contains("movies")) {
-            	searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setMovie(searchStatisticsService
                         .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.movie, noOfSearches));
             }
             
             if (categoryPreferences.contains("written")) {
-            	 searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService
+            	 searchStatisticsResponseModel.setWritten(searchStatisticsService
                          .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.written, noOfSearches));
             }
 
             if (categoryPreferences.contains("event")) {
-            	searchStatisticsResponseModel.setEventSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setEvent(searchStatisticsService
                         .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.event, noOfSearches));
             }
            
             
             if (categoryPreferences.contains("audio")) {
-            	searchStatisticsResponseModel.setAudioSearches(searchStatisticsService
+            	searchStatisticsResponseModel.setAudio(searchStatisticsService
                         .getFrequentSearchesForUserAndCategory(userPrincipal.getUserId(), Category.audio, noOfSearches));
             }
 
