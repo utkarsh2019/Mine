@@ -154,6 +154,10 @@ public class UserService implements UserDetailsService {
 		return findUserById(userId).getNoOfSearches();
 	}
 	
+	public int getNoOfSearches(UserEntity user) {
+		return user.getNoOfSearches();
+	}
+	
 	public void initializePreferences(UserEntity user) {
 		user.setPreference1(Category.video);
 		user.setPreference2(Category.movie);
@@ -233,5 +237,9 @@ public class UserService implements UserDetailsService {
 			}
 		}
 		return apiList;
+	}
+	
+	public ApiEntity getApiList(UserEntity user) {
+		return apiRepository.findByUser(user);
 	}
 }

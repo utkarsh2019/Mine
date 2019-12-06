@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import tech.mineapp.constants.Category;
+import tech.mineapp.entity.ApiEntity;
+import tech.mineapp.entity.UserEntity;
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.VideoSearchResponseModel;
@@ -48,15 +50,23 @@ public class VideoSearchController {
 		response.setEndpoint("/search/video");
 		
 		try {
-			int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			int noOfSearches = userService.getNoOfSearches(user);
+			ApiEntity apiList = userService.getApiList(user);
 			
 			VideoSearchResponseModel videoSearchResponse = new VideoSearchResponseModel();
-			videoSearchResponse.setYoutube(videoSearchService.searchYoutube(searchRequest.getQuery(), noOfSearches));
-			videoSearchResponse.setVimeo(videoSearchService.searchVimeo(searchRequest.getQuery(), noOfSearches));
-			videoSearchResponse.setDailymotion(videoSearchService.searchDailyMotion(searchRequest.getQuery(), noOfSearches));
+			if (apiList.getYoutube()) {
+				videoSearchResponse.setYoutube(videoSearchService.searchYoutube(searchRequest.getQuery(), noOfSearches));
+			}
+			if (apiList.getVimeo()) {
+				videoSearchResponse.setVimeo(videoSearchService.searchVimeo(searchRequest.getQuery(), noOfSearches));
+			}
+			if (apiList.getDailymotion()) {
+				videoSearchResponse.setDailymotion(videoSearchService.searchDailyMotion(searchRequest.getQuery(), noOfSearches));
+			}
 
 			searchPersistenceService
-					.persistSearchDetails(userPrincipal.getUserId(), Category.video, searchRequest.getQuery());
+					.persistSearchDetails(user, Category.video, searchRequest.getQuery());
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(videoSearchResponse);
