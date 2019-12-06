@@ -12,7 +12,6 @@ export default class StatisticItem extends Component {
     redirectSearch = () => {
         setSearchCategory(this.props.category);
         setSearchQuery(this.props.name);
-        alert(this.props.category);
         setSearchCategory(this.props.category);
         
         window.location.replace("/search");
