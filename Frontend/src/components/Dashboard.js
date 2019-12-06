@@ -78,6 +78,7 @@ export default class Dashboard extends Component {
     
     statistics.push(
       <div>
+        <h3>{statisticsSearchCategory}</h3>
         <StatisticList statisticItems={value} statisticCategory={statisticsSearchCategory}/>
       </div>
     );
