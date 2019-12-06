@@ -18,7 +18,7 @@ export default class Dashboard extends Component {
     this.setSearchApi = this.setSearchApi.bind(this);
     //this.setCategory = this.setCategory.bind(this);
   }
-  /*searchPrevQuery = (evt) => {
+  searchPrevQuery = (evt) => {
     evt.preventDefault();
     let jwt = getJwtToken();
     let type = jwt[0];
@@ -41,37 +41,7 @@ export default class Dashboard extends Component {
         alert(error.response.data.errorMessage);
       });
   };
-*/
-searchPrevQuery = (evt) => {
-  /*evt.preventDefault();
-  let jwt = getJwtToken();
-  let type = jwt[0];
-  let token = jwt[1];
 
-  let searchQuery = document.getElementById("searchbar").value;
-  let category = getCurrentUserField("searchCategory");*/
-  
-  /*axios({
-    method: "post",
-    url: API_BASE_URL + "/search/" + category,
-    headers: {
-      Authorization: type + " " + token
-    },
-    data: {
-      query: searchQuery
-    }
-  })
-.then(response => {*/
-    this.setState({statisticResult: []});
-      this.setSearchResult(
-        {"video": ["friend", "example2", "example3"], 
-      "movies": ["mexample1", "mexample2", "mexample3"]}
-      );
-    /*}})
-    .catch(error => {
-      alert(error);
-    });*/
-};
 
   searchFreqQuery = (evt) => {
     let jwt = getJwtToken();

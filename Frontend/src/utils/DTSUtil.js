@@ -12,6 +12,3 @@ export function getSearchInput() {
 export function getSearchField(field) {
     return localStorage.getItem(field);
 }
-export function clearSearchCurrentInput() {
-    localStorage.clear();
-}

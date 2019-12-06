@@ -8,7 +8,7 @@ import { getCurrentUserField, setSearchCategory, getByValue } from "../utils/Use
 import SearchList from "./SearchList";
 import { API_BASE_URL, API_IMAGES, CATEGORY_TYPES } from "../constants/Constants";
 import axios from "axios";
-import { getSearchField/*, clearSearchCurrentInput*/ } from "../utils/DTSUtil";
+import { getSearchField , setSearchInput } from "../utils/DTSUtil";
 
 
 export default class Search extends Component {
@@ -30,48 +30,28 @@ export default class Search extends Component {
   checkEnterSearch = (evt) => {
     if (evt.keyCode === 13) {
       // evt.preventDefault();
-      this.searchQuery(evt);
+      this.searchQueryEvent(evt);
     }
   };
   externalSearchQuery = (input, categ) => {
    // evt.preventDefault();
-    let jwt = getJwtToken();
-    let type = jwt[0];
-    let token = jwt[1];
-
-    let searchQuery = "friends";
-    //let category = categ.toString();
-    //let category = getByValue(CATEGORY_TYPES,categ.toString());
-    let category = "video";
-    alert("This is what is going into " + category);
-    axios({
-      method: "post",
-      url: API_BASE_URL + "/search/" + category,
-      headers: {
-        Authorization: type + " " + token
-      },
-      data: {
-        query: searchQuery
-      }
-    })
-      .then(response => {
-        this.setState({searchResult: []});
-        this.setSearchResult(response.data.responseObject);
-      })
-      .catch(error => {
-        alert(error);
-      });
+   document.getElementById("searchbar").value = input.toString();
+    this.searchQuery();
   };
-  searchQuery = (evt) => {
+
+  searchQueryEvent = (evt) => {
     evt.preventDefault();
+    this.searchQuery();
+  }
+
+  searchQuery = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
 
-   // let searchQuery = document.getElementById("searchbar").value;
-   // let category = getByValue(CATEGORY_TYPES,getCurrentUserField("searchCategory"));
-    let searchQuery = "friends";
-    let category = "video";
+    let searchQuery = document.getElementById("searchbar").value;
+    let category = getByValue(CATEGORY_TYPES,getCurrentUserField("searchCategory"));
+
     axios({
       method: "post",
       url: API_BASE_URL + "/search/" + category,
@@ -136,15 +116,13 @@ export default class Search extends Component {
     document.getElementById('categoriesdrop').innerHTML = getCurrentUserField("searchCategory");
   }
   pageonload = () => {
-    /*if (getSearchField("searchInput")!= "" || getSearchField("searchInput")!= null){
-       alert(getSearchField("searchCategory")+ "another input " + getSearchField("searchInput"));
+     if (getSearchField("searchInput")!= "" || getSearchField("searchInput")!= null){
+       alert("current category " + getSearchField("searchCategory")+ "current input " + getSearchField("searchInput"));
        this.externalSearchQuery(getSearchField("searchInput"),getSearchField("searchCategory"));
-      // clearSearchCurrentInput();
-     }*/
-     this.searchQuery;
+       
+     }
    }
   componentDidMount() {
-    //this.pageonload();
     //An array of assets
     let scripts = [
       { src: "https://code.jquery.com/jquery-3.3.1.slim.min.js" },
@@ -165,6 +143,7 @@ export default class Search extends Component {
       document.body.appendChild(script);
     });
     this.initializeCategories();
+    this.pageonload();
     
   }
 
@@ -273,7 +252,7 @@ export default class Search extends Component {
               <form class="form-inline">
                 <button
                   class="btn btn-outline-success my-2 my-sm-0"
-                  onClick={this.searchQuery}
+                  onClick={this.searchQueryEvent}
                 >
                   Search
                 </button>
