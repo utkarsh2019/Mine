@@ -64,6 +64,7 @@ public class UserController {
 			response.setStatus("FAIL");
 			response.setErrorMessage(e.getMessage());
 			logger.error(e.getMessage());
+			e.printStackTrace();
 			
 			return ResponseEntity.badRequest().body(response);
 		}
