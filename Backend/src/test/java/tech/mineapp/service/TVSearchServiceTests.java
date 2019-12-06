@@ -31,7 +31,7 @@ public class TVSearchServiceTests {
     }
 
     @InjectMocks
-    TVSearchService tvSearchService;
+    TVSeriesSearchService tvSearchService;
 
     @Mock
     TVMazeController tvMazeController;

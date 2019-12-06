@@ -7,11 +7,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tech.mineapp.constants.ApiProvider;
 import tech.mineapp.constants.AuthProvider;
 import tech.mineapp.constants.Category;
+import tech.mineapp.entity.ApiEntity;
 import tech.mineapp.entity.UserEntity;
 import tech.mineapp.exception.ResourceNotFoundException;
 import tech.mineapp.model.request.UserRequestModel;
+import tech.mineapp.repository.ApiRepository;
 import tech.mineapp.repository.UserRepository;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.util.RandomLongGeneratorUtil;
@@ -26,6 +29,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private ApiRepository apiRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
@@ -81,7 +87,9 @@ public class UserService implements UserDetailsService {
 	     user.setProvider(AuthProvider.local);
 	     user.setNoOfSearches(3);	
 	     initializePreferences(user);
-	     return userRepository.save(user);
+	     UserEntity savedUser = userRepository.save(user);
+	     initializeApis(savedUser);
+	     return savedUser;
     }
     
     public UserEntity createOauthUser(String name, String email, AuthProvider provider, String providerId, String profilePicUrl) {
@@ -95,7 +103,9 @@ public class UserService implements UserDetailsService {
 	    user.setNoOfSearches(3);	
 	    initializePreferences(user);
 	    user.setIsVerified(true);	     
-	    return userRepository.save(user);
+	    UserEntity savedUser = userRepository.save(user);
+	    initializeApis(savedUser);
+	    return savedUser;
     }
     
     public void updateUserPassword(UserEntity user, String password) {
@@ -108,8 +118,9 @@ public class UserService implements UserDetailsService {
     	userRepository.save(user);
     }
     
-    public void deleteUser(Long userId) {
-    	userRepository.deleteByUserId(userId);
+    public void deleteUser(UserEntity user) {
+    	apiRepository.deleteByUser(user);
+    	userRepository.delete(user);
     }
     
     public UserEntity updateUser(Long userId, UserRequestModel userRequest) throws Exception {
@@ -124,6 +135,7 @@ public class UserService implements UserDetailsService {
 			BeanUtils.copyProperties(userRequest, user, ignoreProperties);
 		}
 		updatePreferences(user, userRequest.getCategoryPreferences());
+		updateApis(user, userRequest.getApiList());
 		return userRepository.save(user);
     }
     
@@ -140,6 +152,10 @@ public class UserService implements UserDetailsService {
 	
 	public int getNoOfSearches(Long userId) {
 		return findUserById(userId).getNoOfSearches();
+	}
+	
+	public int getNoOfSearches(UserEntity user) {
+		return user.getNoOfSearches();
 	}
 	
 	public void initializePreferences(UserEntity user) {
@@ -159,7 +175,7 @@ public class UserService implements UserDetailsService {
 				.getMethod("setPreference"+i, Category.class)
 				.invoke(user, Category.valueOf(preferences[i-1].trim()));
 		}
-		for(; i <= 3; i++) {
+		for(; i <= Category.values().length; i++) {
 			user.getClass()
 			.getMethod("setPreference"+i, Category.class)
 			.invoke(user, new Object[] {null});
@@ -168,7 +184,7 @@ public class UserService implements UserDetailsService {
 	
 	public String convertToCategoryPreferences(UserEntity user) throws Exception {
 		String categoryPreferences = "";
-		for (int i=1; i <= 6; i++) {
+		for (int i=1; i <= Category.values().length; i++) {
 			Category pref = (Category) user.getClass()
 							  .getMethod("getPreference"+i)
 							  .invoke(user);
@@ -180,5 +196,50 @@ public class UserService implements UserDetailsService {
 			}
 		}
 		return categoryPreferences;
+	}
+	
+	public void initializeApis(UserEntity user) {
+		ApiEntity apiList = new ApiEntity();
+		apiList.setUser(user);
+		apiRepository.save(apiList);
+	}
+	
+	public void updateApis(UserEntity user, String apiList) throws Exception {
+		ApiEntity updatedApis = apiRepository.findByUser(user);
+		ApiProvider[] allApiList = ApiProvider.values();
+		for (int i=0; i < allApiList.length; i++) {
+			String api = allApiList[i].toString();
+			if (apiList.contains(api)) {
+				updatedApis.getClass()
+					.getMethod("set"+api, Boolean.class)
+					.invoke(updatedApis, true);
+			}
+			else {
+				updatedApis.getClass()
+				.getMethod("set"+api, Boolean.class)
+				.invoke(updatedApis, false);
+			}
+		}
+		apiRepository.save(updatedApis);
+	}
+	
+	public String convertToApiList(UserEntity user) throws Exception {
+		String apiList = "";
+		ApiEntity apis = apiRepository.findByUser(user);
+		ApiProvider[] allApiList = ApiProvider.values();
+		for (int i=0; i < allApiList.length; i++) {
+			String api = allApiList[i].toString();
+			if((Boolean) apis.getClass().getMethod("get"+api).invoke(apis)) {
+				if (i != 0) {
+					apiList += ",";
+				}
+				apiList += api;
+			}
+		}
+		return apiList;
+	}
+	
+	public ApiEntity getApiList(UserEntity user) {
+		return apiRepository.findByUser(user);
 	}
 }

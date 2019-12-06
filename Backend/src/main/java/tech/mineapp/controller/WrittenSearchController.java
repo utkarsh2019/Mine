@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import tech.mineapp.constants.Category;
+import tech.mineapp.entity.ApiEntity;
+import tech.mineapp.entity.UserEntity;
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.WrittenSearchResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
+import tech.mineapp.service.SearchPersistenceService;
 import tech.mineapp.service.UserService;
 import tech.mineapp.service.WrittenSearchService;
 
@@ -30,6 +34,9 @@ public class WrittenSearchController {
 	@Autowired
 	private WrittenSearchService writtenSearchService;
 
+	@Autowired
+	private SearchPersistenceService searchPersistenceService;
+
 	private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
 	
 	@PostMapping("/search/written")
@@ -42,11 +49,20 @@ public class WrittenSearchController {
 		response.setEndpoint("/search/written");
 		
 		try {
-			int noOfSearches = userService.getNoOfSearches(userPrincipal.getUserId());
+			UserEntity user = userService.findUserById(userPrincipal.getUserId());
+			int noOfSearches = userService.getNoOfSearches(user);
+			ApiEntity apiList = userService.getApiList(user);
 			
 			WrittenSearchResponseModel writtenSearchResponse = new WrittenSearchResponseModel();
-			writtenSearchResponse.setGooglebooks(writtenSearchService.searchGoogleBooks(searchRequest.getQuery(), noOfSearches));
-			writtenSearchResponse.setNewsapi(writtenSearchService.searchNewsApi(searchRequest.getQuery(), noOfSearches));
+			if (apiList.getGooglebooks()) {
+				writtenSearchResponse.setGooglebooks(writtenSearchService.searchGoogleBooks(searchRequest.getQuery(), noOfSearches));
+			}
+			if (apiList.getNewsapi()) {
+				writtenSearchResponse.setNewsapi(writtenSearchService.searchNewsApi(searchRequest.getQuery(), noOfSearches));
+			}
+
+			searchPersistenceService
+					.persistSearchDetails(user, Category.written, searchRequest.getQuery());
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(writtenSearchResponse);

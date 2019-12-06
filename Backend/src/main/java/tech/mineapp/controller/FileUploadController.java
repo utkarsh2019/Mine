@@ -46,12 +46,6 @@ public class FileUploadController {
 		try {
 			UserEntity user = userService.findUserById(userPrincipal.getUserId());
 			
-			if (!userService.checkVerification(user)) {
-	     		response.setStatus("FAIL");
-	     		response.setErrorMessage("Unverified user.");
-	     		return ResponseEntity.badRequest().body(response);
-	     	}
-			
 			if (!userService.isLocalUser(user)) {
 				response.setStatus("FAIL");
 	     		response.setErrorMessage("Not a local user.");
@@ -81,12 +75,6 @@ public class FileUploadController {
 		
 		try {
 			UserEntity user = userService.findUserById(userPrincipal.getUserId());
-			
-			if (!userService.checkVerification(user)) {
-	     		response.setStatus("FAIL");
-	     		response.setErrorMessage("Unverified user.");
-	     		return ResponseEntity.badRequest().body(response);
-	     	}
 			
 			if (!userService.isLocalUser(user)) {
 				response.setStatus("FAIL");
