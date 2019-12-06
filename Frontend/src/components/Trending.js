@@ -120,15 +120,12 @@ export default class Trending extends Component {
           </nav>
         </div>
 
-        <body className="dashboard">
-          <div class="container-fluid trending">
             <div class="text-center">
               <div class="container-fluid dashboardresults">
                 <div class="text-center"> 
                   {this.state.statisticResult}
                 </div>
               </div>
-        </div>
             </div>
           
           <footer>
@@ -139,7 +136,6 @@ export default class Trending extends Component {
               </p>
             </div>
           </footer>
-        </body>
       </div>
     );
   }
