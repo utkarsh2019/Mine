@@ -12,5 +12,6 @@ public enum ApiProvider {
 	Tmdb,
 	Googlebooks,
 	Newsapi,
-	Seatgeek
+	Seatgeek,
+	Lastfm
 }
