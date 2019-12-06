@@ -35,6 +35,12 @@ public class SearchPersistenceService {
                 this::updateSearchEntity,
                 () -> this.createNewSearchEntity(user, category, query));
     }
+    
+    public void persistSearchDetails(UserEntity user, Category category, String query) throws SQLException {
+    	searchRepository.findSearchEntityByUserAndCategoryAndQuery(user, category, query).ifPresentOrElse(
+                this::updateSearchEntity,
+                () -> this.createNewSearchEntity(user, category, query));
+    }
 
     private void createNewSearchEntity(UserEntity user, Category category, String query) {
         SearchEntity searchEntity = new SearchEntity();
