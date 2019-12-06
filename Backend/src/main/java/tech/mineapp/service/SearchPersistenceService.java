@@ -31,7 +31,7 @@ public class SearchPersistenceService {
 
         UserEntity user = userByUserId.get();
 
-        searchRepository.findSearchEntityByUserAndQuery(user, query).ifPresentOrElse(
+        searchRepository.findSearchEntityByUserAndCategoryAndQuery(user, category, query).ifPresentOrElse(
                 this::updateSearchEntity,
                 () -> this.createNewSearchEntity(user, category, query));
     }
