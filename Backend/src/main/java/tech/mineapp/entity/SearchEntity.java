@@ -1,7 +1,6 @@
 package tech.mineapp.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.*;

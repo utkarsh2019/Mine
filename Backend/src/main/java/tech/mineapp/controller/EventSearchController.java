@@ -31,8 +31,8 @@ public class EventSearchController {
 	
 	@Autowired
 	private EventSearchService eventSearchService;
-
-	@Autowired
+	
+	@Autowired	
 	private SearchPersistenceService searchPersistenceService;
 
 	private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
@@ -51,8 +51,8 @@ public class EventSearchController {
 			
 			EventSearchResponseModel eventSearchResponse = new EventSearchResponseModel();
 			eventSearchResponse.setSeatgeek(eventSearchService.searchSeatgeek(searchRequest.getQuery(), noOfSearches));
-			searchPersistenceService
-					.persistSearchDetails(userPrincipal.getUserId(), Category.event, searchRequest.getQuery());
+			searchPersistenceService	
+			.persistSearchDetails(userPrincipal.getUserId(), Category.event, searchRequest.getQuery());
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(eventSearchResponse);

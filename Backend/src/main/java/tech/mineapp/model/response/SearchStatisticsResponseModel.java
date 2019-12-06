@@ -12,10 +12,10 @@ import java.util.List;
  */
 @Data
 public class SearchStatisticsResponseModel implements ResponseModel {
-    private List<String> videoSearches;
-    private List<String> tvSeriesSearches;
-    private List<String> movieSearches;
-    private List<String> writtenSearches;
-    private List<String> eventSearches;
-    private List<String> audioSearches;
+    private List<String> video;
+    private List<String> tvseries;
+    private List<String> movie;
+    private List<String> written;
+    private List<String> event;
+    private List<String> audio;
 }
