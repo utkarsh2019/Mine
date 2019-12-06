@@ -105,7 +105,7 @@ public class UserSearchStatisticsController {
         } catch (Exception e) {
 
             response.setStatus("FAIL");
-            response.setErrorMessage(e.getMessage());
+			response.setErrorMessage(e.getMessage());
 
             logger.error(e.getMessage());
 

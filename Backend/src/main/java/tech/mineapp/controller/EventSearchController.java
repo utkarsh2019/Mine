@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import tech.mineapp.constants.Category;
 import tech.mineapp.model.request.SearchRequestModel;
 import tech.mineapp.model.response.ContainerResponseModel;
 import tech.mineapp.model.response.EventSearchResponseModel;
 import tech.mineapp.security.CurrentUser;
 import tech.mineapp.security.UserPrincipal;
 import tech.mineapp.service.EventSearchService;
-import tech.mineapp.service.SearchPersistenceService;
 import tech.mineapp.service.UserService;
 
 /**
@@ -31,9 +29,6 @@ public class EventSearchController {
 	
 	@Autowired
 	private EventSearchService eventSearchService;
-
-	@Autowired
-	private SearchPersistenceService searchPersistenceService;
 
 	private static final Logger logger = LoggerFactory.getLogger(VideoSearchController.class);
 	
@@ -51,8 +46,6 @@ public class EventSearchController {
 			
 			EventSearchResponseModel eventSearchResponse = new EventSearchResponseModel();
 			eventSearchResponse.setSeatgeek(eventSearchService.searchSeatgeek(searchRequest.getQuery(), noOfSearches));
-			searchPersistenceService
-					.persistSearchDetails(userPrincipal.getUserId(), Category.event, searchRequest.getQuery());
 			
 			response.setStatus("SUCCESS");
 			response.setResponseObject(eventSearchResponse);
