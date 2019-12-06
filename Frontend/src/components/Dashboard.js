@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import "../css/bootstrap.css";
 import "../css/dashboard.css";
-import { checkUserLoggedIn } from "../utils/CookieUtil";
+import { checkUserLoggedIn,getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import StatisticList from "./StatisticList";
+import axios from "axios";
+import { API_BASE_URL } from "../constants/Constants";
+
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -15,66 +18,54 @@ export default class Dashboard extends Component {
     this.setSearchApi = this.setSearchApi.bind(this);
     //this.setCategory = this.setCategory.bind(this);
   }
-  searchFreqQuery = (evt) => {
-    /*evt.preventDefault();
-    let jwt = getJwtToken();
-    let type = jwt[0];
-    let token = jwt[1];
-
-    let searchQuery = document.getElementById("searchbar").value;
-    let category = getCurrentUserField("searchCategory");*/
-    
-    /*axios({
-      method: "post",
-      url: API_BASE_URL + "/search/" + category,
-      headers: {
-        Authorization: type + " " + token
-      },
-      data: {
-        query: searchQuery
-      }
-    })
-  .then(response => {*/
-      this.setState({statisticResult: []});
-        this.setSearchResult(
-          {"video": ["ex1", "ex2", "ex3"], 
-        "movies": ["mexample1", "mexample2", "mexample3"]}
-        );
-      /*}})
-      .catch(error => {
-        alert(error);
-      });*/
-  };
   searchQuery = (evt) => {
-    /*evt.preventDefault();
+    evt.preventDefault();
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
-
-    let searchQuery = document.getElementById("searchbar").value;
-    let category = getCurrentUserField("searchCategory");*/
     
-    /*axios({
-      method: "post",
-      url: API_BASE_URL + "/search/" + category,
+    axios({
+      method: "get",
+      url: API_BASE_URL + "/user/me/search/previous",
       headers: {
         Authorization: type + " " + token
-      },
-      data: {
-        query: searchQuery
       }
     })
-  .then(response => {*/
+      .then(response => {
+      console.log(response);
       this.setState({statisticResult: []});
-        this.setSearchResult(
-          {"video": ["example1", "example2", "example3"], 
-        "movies": ["mexample1", "mexample2", "mexample3"]}
-        );
-      /*}})
+        let search = response.data.responseObject;  
+        this.setSearchResult(search);
+      })
+      .catch(error => {
+        alert(error.response.data.errorMessage);
+      });
+  };
+
+
+  searchFreqQuery = (evt) => {
+    let jwt = getJwtToken();
+    let type = jwt[0];
+    let token = jwt[1];
+    
+    axios({
+      method: "get",
+      url: API_BASE_URL + "/user/me/search/frequent",
+      headers: {
+        Authorization: type + " " + token
+      }
+    })
+      .then(response => {
+      console.log(response);
+      this.setState({statisticResult: []});
+        let search = response.data.responseObject;  
+        this.setSearchResult(search);
+      })
       .catch(error => {
         alert(error);
-      });*/
+      });
   };
+
   setSearchResult = (responseObject) => {
     let responseObjectMap = new Map(Object.entries(responseObject));
     responseObjectMap.forEach((value, key) => {
@@ -152,7 +143,7 @@ export default class Dashboard extends Component {
             <div class="dashboard container-fluid">
               <div class="row">
                 <div class="col-sm" id="dashtabcol">
-                  <button type="button" onClick={this.searchQuery} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
+                  <button type="button" onClick={this.searchQuery.bind(this)} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
                 </div>
                 <div class="col-sm" id="dashtabcol">
                   <button type="button" onClick={this.searchFreqQuery} class="btn btn-info dashtab" id="freqtab">Most Frequent Searches</button>
