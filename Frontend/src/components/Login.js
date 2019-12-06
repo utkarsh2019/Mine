@@ -38,7 +38,8 @@ export default class Login extends Component {
           response.data.responseObject.profilePicUrl,
           response.data.responseObject.provider,
           response.data.responseObject.noOfSearches,
-          response.data.responseObject.categoryPreferences
+          response.data.responseObject.categoryPreferences,
+          response.data.responseObject.apiList
         );
         window.location.replace("/dashboard");
       })

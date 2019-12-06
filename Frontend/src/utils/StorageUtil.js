@@ -1,6 +1,6 @@
 import { CATEGORY_TYPES } from "../constants/Constants";
 
-export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearches, categoryPreferences) {
+export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearches, categoryPreferences, apiList) {
     localStorage.setItem("name", name);
     localStorage.setItem("email", email);
     if (profilePicUrl != undefined && profilePicUrl != null) {
@@ -20,6 +20,7 @@ export function setCurrentUser(name, email, profilePicUrl, provider, noOfSearche
         categoryPrefString += CATEGORY_TYPES.get(categoryPref[i]);
     }
     localStorage.setItem("categoryPreferences", categoryPrefString);
+    localStorage.setItem("apiList", apiList);
 }
 
 export function setSearchCategory(category) {
@@ -37,7 +38,8 @@ export function getCurrentUser() {
         "profilePicUrl": localStorage.getItem("profilePicUrl"),
         "provider": localStorage.getItem("provider"),
         "noOfSearches": localStorage.getItem("noOfSearches"),
-        "categoryPreferences": localStorage.getItem("categoryPreferences")
+        "categoryPreferences": localStorage.getItem("categoryPreferences"),
+        "apiList" : localStorage.getItem("apiList")
     }
 }
 

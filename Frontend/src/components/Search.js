@@ -66,7 +66,7 @@ export default class Search extends Component {
         setSearchQuery("");
       })
       .catch(error => {
-        alert(error);
+        alert(error.response.data.errorMessage);
       });
   };
   
