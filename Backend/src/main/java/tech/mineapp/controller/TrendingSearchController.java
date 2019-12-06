@@ -44,18 +44,42 @@ public class TrendingSearchController {
 
             SearchStatisticsResponseModel searchStatisticsResponseModel = new SearchStatisticsResponseModel();
 
-            searchStatisticsResponseModel.setVideoSearches(searchStatisticsService
-                    .getTrendingSearchesForCategory(Category.video, noOfSearches));
-            searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService
-                    .getTrendingSearchesForCategory(Category.tvseries, noOfSearches));
-            searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
-                    .getTrendingSearchesForCategory(Category.movie, noOfSearches));
-            searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService
-                    .getTrendingSearchesForCategory(Category.written, noOfSearches));
-            searchStatisticsResponseModel.setEventSearches(searchStatisticsService
-                    .getTrendingSearchesForCategory(Category.event, noOfSearches));
-            searchStatisticsResponseModel.setAudioSearches(searchStatisticsService
-                    .getTrendingSearchesForCategory(Category.audio, noOfSearches));
+            
+            String userCategoryPreferences = userService.convertToCategoryPreferences(userService.findUserById(userPrincipal.getUserId())); 
+            String categoryPreferences = userCategoryPreferences.toLowerCase();
+            
+            if (categoryPreferences.contains("video")) {
+            	searchStatisticsResponseModel.setVideoSearches(searchStatisticsService
+                        .getTrendingSearchesForCategory(Category.video, noOfSearches));
+            }
+            
+            if (categoryPreferences.contains("tvseries")) {
+            	searchStatisticsResponseModel.setTvSeriesSearches(searchStatisticsService
+                        .getTrendingSearchesForCategory(Category.tvseries, noOfSearches));
+            }
+            
+            if (categoryPreferences.contains("movie")) {
+            	searchStatisticsResponseModel.setMovieSearches(searchStatisticsService
+                        .getTrendingSearchesForCategory(Category.movie, noOfSearches));
+            }
+            
+            
+            if (categoryPreferences.contains("written")) {
+            	searchStatisticsResponseModel.setWrittenSearches(searchStatisticsService
+                        .getTrendingSearchesForCategory(Category.written, noOfSearches));
+            }
+            
+            if (categoryPreferences.contains("event")) {
+            	searchStatisticsResponseModel.setEventSearches(searchStatisticsService
+                        .getTrendingSearchesForCategory(Category.event, noOfSearches));
+            }
+            
+            
+            if (categoryPreferences.contains("audio")) {
+            	searchStatisticsResponseModel.setAudioSearches(searchStatisticsService
+                        .getTrendingSearchesForCategory(Category.audio, noOfSearches));
+            }
+            
 
             response.setStatus("SUCCESS");
             response.setResponseObject(searchStatisticsResponseModel);
