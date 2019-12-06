@@ -5,7 +5,7 @@ import { checkUserLoggedIn,getJwtToken } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
 import StatisticList from "./StatisticList";
 import axios from "axios";
-import { API_BASE_URL } from "../constants/Constants";
+import { API_BASE_URL, CATEGORY_TYPES } from "../constants/Constants";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -13,13 +13,12 @@ export default class Dashboard extends Component {
     this.state = {
       statisticResult: []
     };
-    this.searchQuery = this.searchQuery.bind(this);
+    this.searchFreqQuery = this.searchFreqQuery.bind(this);
     this.setSearchResult = this.setSearchResult.bind(this);
     this.setSearchApi = this.setSearchApi.bind(this);
     //this.setCategory = this.setCategory.bind(this);
   }
-  searchQuery = (evt) => {
-    evt.preventDefault();
+  searchPrevQuery = () => {
     let jwt = getJwtToken();
     let type = jwt[0];
     let token = jwt[1];
@@ -75,13 +74,21 @@ export default class Dashboard extends Component {
 
   setSearchApi = (value, key) => {
     let statistics = this.state.statisticResult;
-   
-    statistics.push(
-      <div>
-        <StatisticList statisticItems={value}/>
-      </div>
-    );
-    this.setState({statisticResult: statistics});
+    if (Array.isArray(value) && value.length > 0) {
+      let statisticsSearchCategory = CATEGORY_TYPES.get(key);
+      
+      statistics.push(
+        <div>
+          <h3>{statisticsSearchCategory}</h3>
+          <StatisticList statisticItems={value} statisticCategory={statisticsSearchCategory}/>
+        </div>
+      );
+      this.setState({statisticResult: statistics});
+    }
+  };
+
+  componentDidMount(){
+    this.searchPrevQuery();
   };
 
   render() {
@@ -143,7 +150,7 @@ export default class Dashboard extends Component {
             <div class="dashboard container-fluid">
               <div class="row">
                 <div class="col-sm" id="dashtabcol">
-                  <button type="button" onClick={this.searchQuery.bind(this)} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
+                  <button type="button" onClick={this.searchPrevQuery.bind(this)} class="btn btn-info dashtab" id="prevtab">Previous Searches</button>
                 </div>
                 <div class="col-sm" id="dashtabcol">
                   <button type="button" onClick={this.searchFreqQuery} class="btn btn-info dashtab" id="freqtab">Most Frequent Searches</button>
@@ -169,5 +176,5 @@ export default class Dashboard extends Component {
         </footer>
       </div>
     );
-  }
+  };
 }

@@ -5,7 +5,7 @@ import axios from "axios";
 import { API_BASE_URL, CATEGORY_TYPES, API_LIST } from "../constants/Constants";
 import { getJwtToken, deleteCookies, checkUserLoggedIn } from "../utils/CookieUtil";
 import { redirectToHome } from "../utils/RedirectUtil";
-import { getCurrentUser, getCurrentUserField, getByValue } from "../utils/UserStorageUtil";
+import { getCurrentUser, getCurrentUserField, getByValue } from "../utils/StorageUtil";
 
 export default class EditProfile extends Component {
   constructor(props) {
